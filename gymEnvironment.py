@@ -1,65 +1,3 @@
-# import gym
-# env = gym.make("LunarLander-v2")
-# observation, info = env.reset(seed=42, return_info=True)
-# for _ in range(1000):
-#    env.render()
-#    action = policy(observation)  # User-defined policy function
-#    observation, reward, done, info = env.step(action)
-
-#    if done:
-#       observation, info = env.reset(return_info=True)
-# env.close()
-
-
-
-
-# import gym
-# envs = gym.envs.registry.all()
-# print(envs)
-# print('Total envs available:', len(envs))
-
-# import gym
-# env = gym.make('MountainCar-v0')
-# # Uncomment following line to save video of our Agent interacting in this environment
-# # This can be used for debugging and studying how our agent is performing
-# # env = gym.wrappers.Monitor(env, './video/', force = True)
-# t = 0
-# while True:
-#    t += 1
-#    env.render()
-#    observation = env.reset()
-#    print(observation)
-#    action = env.action_space.sample()
-#    observation, reward, done, info = env.step(action)
-#    if done:
-#       print("Episode finished after {} timesteps".format(t+1))
-#    break
-# env.close()
-
-# $ pip install procgen # install
-# $ python -m procgen.interactive --env-name starpilot # human
-# $ python <<EOF # random AI agent
-
-
-from gym3 import types_np
-from procgen import ProcgenGym3Env
-import numpy as np
-num=100
-env = ProcgenGym3Env(num=num, env_name="coinrun")
-step = 0
-reward=np.zeros(num)
-for i in range(1000):
-    env.act(types_np.sample(env.ac_space, bshape=(env.num,)))
-    rew, obs, first = env.observe()
-    reward=reward+rew
-    #print(f"step {step} reward {rew} first {first}")
-    step += 1
-print(reward)
-print(reward.sum()/num)
-
-"""
-Example random agent script using the gym3 API to demonstrate that procgen works
-"""
 # import numpy as np
 # from gym3 import types_np
 # from procgen import ProcgenGym3Env
@@ -87,3 +25,52 @@ Example random agent script using the gym3 API to demonstrate that procgen works
 #     averageReward+=totalReward
 # averageReward/=nOfPlays
 # print(averageReward)
+# $ pip install procgen # install
+# $ python -m procgen.interactive --env-name starpilot # human
+# $ python <<EOF # random AI agent
+
+"""
+Example random agent script using the gym3 API to demonstrate that procgen works
+"""
+from gym3 import types_np
+from procgen import ProcgenGym3Env
+import numpy as np
+
+class Gymenv():
+    def __init__(self,gameName="coinrun",num=1,maxsteps=1000,agent=None):
+        self.num=num
+        self.maxsteps=maxsteps
+        self.gameName=gameName
+        self.agent=agent
+        self.env=ProcgenGym3Env(num=num, env_name=gameName)
+        
+    def play(self):
+        reward=np.zeros(self.num)
+        step=0
+        for i in range(self.maxsteps):
+            self.env.act(types_np.sample(self.env.ac_space, bshape=(self.num,)))
+            rew, obs, first = self.env.observe()
+            reward=reward+rew
+            step += 1
+        averageReward=reward.sum()/self.num
+        self.env.close()
+        return averageReward
+
+gymEnv=Gymenv(num=50,maxsteps=1000)
+print(gymEnv.play())
+
+# num=10
+# env = ProcgenGym3Env(num=num, env_name="coinrun")
+# step = 0
+# maxsteps=1000
+# reward=np.zeros(num)
+# for i in range(maxsteps):
+#     env.act(types_np.sample(env.ac_space, bshape=(env.num,)))
+#     rew, obs, first = env.observe()
+#     reward=reward+rew
+#     step += 1
+# print(reward)
+# print(reward.sum()/num)
+# env.close()
+
+
