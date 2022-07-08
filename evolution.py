@@ -19,11 +19,11 @@ from gymEnvironment import Gymenv
 parameters=AgentNetwork().getParameters()
 variance=1
 es=cma.CMAEvolutionStrategy(parameters,variance)
+j=0
 while not es.stop():
     generatedParameters=es.ask()
     agents=[]
     fitness=[]
-
     for i in generatedParameters:
         agent=AgentNetwork()
         agent.loadParameters(i)
@@ -32,4 +32,8 @@ while not es.stop():
         fitness.append(env.play())
     es.tell(generatedParameters,fitness)
     es.disp()
+    if j%500==0:
+        agent=AgentNetwork()
+        agent.loadParameters(es.result.xbest)
+    j+=1
 print(es.result.xbest)
