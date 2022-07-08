@@ -47,6 +47,7 @@ class AgentNetwork(torch.nn):
     def getOutput(self,input):
         patches=AgentNetwork.getPatches(input,self.stride)
         attention=self.attention(patches)
+        bestPatches=AgentNetwork.getBestPatches(attention)
         actions=self.controller(attention)
         output=torch.argmax(actions)
         return output
@@ -57,7 +58,8 @@ class AgentNetwork(torch.nn):
         pass
     def featuresDimension():
         pass
-
+    def getBestPatches(attention):
+        pass
     def getParameters(self):
         pass
     
