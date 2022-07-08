@@ -48,7 +48,11 @@ class Gymenv():
         reward=np.zeros(self.num)
         step=0
         for i in range(self.maxsteps):
-            self.env.act(types_np.sample(self.env.ac_space, bshape=(self.num,)))
+            if self.agent is not None:
+                action=self.agent.getOutput(obs)
+                self.env.act(action)
+            else:
+                self.env.act(types_np.sample(self.env.ac_space, bshape=(self.num,)))
             rew, obs, first = self.env.observe()
             reward=reward+rew
             step += 1

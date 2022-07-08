@@ -1,5 +1,11 @@
 import torch
 
+def center():
+    pass
+def getPatches():
+    pass
+
+
 class SelfAttention(torch.nn):
     def __init__(self, inputDimension,qDimension,kDimension):
         super(SelfAttention, self).__init__()
@@ -22,6 +28,22 @@ class AgentNetwork(torch.nn):
         self.slide = slide
         self.controller=torch.nn.LSTM()
         self.attention=SelfAttention()
+        self.f=center()
 
     def forward(self):
+        pass
+
+    def getOutput(self,input):
+        patches=getPatches(input,self.stride)
+        attention=self.attention(patches)
+        actions=self.controller(attention)
+        output=torch.argmax(actions)
+        return output
+
+    def getParameters(self):
+        pass
+    
+    def loadparameters(self):
+        pass
+    def saveparameters(self):
         pass
