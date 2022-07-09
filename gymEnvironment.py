@@ -108,7 +108,7 @@ class Gymenv1player():
 #agent=AgentNetwork()
 agent=None
 #agent=AgentNetwork()
-gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=10,agent=agent)
+gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=100,agent=agent)
 #gymEnv=Gymenv1player(maxsteps=10000)
 print(gymEnv.play())
 

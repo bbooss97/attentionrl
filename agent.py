@@ -1,5 +1,6 @@
 import torch
-
+from sklearn.feature_extraction import image
+import numpy as np
 
 
 class SelfAttention(torch.nn.Module):
@@ -33,7 +34,7 @@ class AgentNetwork(torch.nn.Module):
     patches=0
     stride=0
     layers=[]
-    def __init__(self,imageDimension=(64,64,3),slide=4):
+    def __init__(self,imageDimension=(64,64,3),slide=4,qDimension=32,kDimension=32):
         super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.slide = slide
@@ -47,22 +48,24 @@ class AgentNetwork(torch.nn.Module):
         pass
 
     def getOutput(self,input):
-
-        patches=AgentNetwork.getPatches(input,self.stride)
+        patches=self.getPatches(input,self.stride)
         attention=self.attention(patches)
-        bestPatches=AgentNetwork.getBestPatches(attention)
+        bestPatches=self.getBestPatches(attention)
         actions=self.controller(bestPatches)
-        output=torch.argmax(actions)
+        output=self.selectAction(actions)
         return output
 
     def center():
         pass
-    def getPatches():
-        pass
+    def getPatches(self,obs,stride):
+        patches = image.extract_patches_2d(obs, (stride,stride))
+        return patches
     def featuresDimension(self):
         return int(2*(64/(self.slide))**2)
+    def selectAction(self,actions):
+        return torch.argmax(actions)
 
-    def getBestPatches(attention):
+    def getBestPatches(self,attention):
         pass
     def getParameters(self):
         pass
