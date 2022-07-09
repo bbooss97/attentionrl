@@ -2,7 +2,7 @@ import torch
 
 
 
-class SelfAttention(torch.nn):
+class SelfAttention(torch.nn.Module):
     def __init__(self, inputDimension,qDimension,kDimension):
         super(SelfAttention, self).__init__()
         self.qDimension = qDimension
@@ -17,27 +17,29 @@ class SelfAttention(torch.nn):
         attention=torch.softmax(attention,dim=1)
         return attention
 
-class Controller():
+class Controller(torch.nn.Module):
     def __init__(self,input,output):
+        super(Controller,self).__init__()
         self.controller=torch.nn.LSTM(input,output)
-        self.hidden=torch.zeros(1,1,1)
+        self.hidden=torch.zeros(15)
     def forward(self,input):
         output,self.hidden=self.controller(input,self.hidden)
         return output
 
-class AgentNetwork(torch.nn):
+class AgentNetwork(torch.nn.Module):
     inputDimension=0
     qDimension=0
     kDimension=0
     patches=0
     stride=0
     layers=[]
-    def __init__(self,imageDimension,slide):
+    def __init__(self,imageDimension=(64,64,3),slide=4):
+        super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.slide = slide
-        self.controller=Controller(AgentNetwork.featuresDimension(),15)
+        self.controller=Controller(self.featuresDimension(),15)
         self.attention=SelfAttention(self.inputDimension,self.qDimension, self.kDimension)
-        self.layers.append(self.selfattention)
+        self.layers.append(self.attention)
         self.layers.append(self.controller)
         self.f=AgentNetwork.center
 
@@ -45,10 +47,11 @@ class AgentNetwork(torch.nn):
         pass
 
     def getOutput(self,input):
+
         patches=AgentNetwork.getPatches(input,self.stride)
         attention=self.attention(patches)
         bestPatches=AgentNetwork.getBestPatches(attention)
-        actions=self.controller(attention)
+        actions=self.controller(bestPatches)
         output=torch.argmax(actions)
         return output
 
@@ -56,8 +59,9 @@ class AgentNetwork(torch.nn):
         pass
     def getPatches():
         pass
-    def featuresDimension():
-        pass
+    def featuresDimension(self):
+        return int(2*(64/(self.slide))**2)
+
     def getBestPatches(attention):
         pass
     def getParameters(self):
@@ -67,3 +71,6 @@ class AgentNetwork(torch.nn):
         pass
     def saveparameters(self):
         pass
+
+
+agent=AgentNetwork()

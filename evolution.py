@@ -27,13 +27,15 @@ while not es.stop():
     for i in generatedParameters:
         agent=AgentNetwork()
         agent.loadParameters(i)
-        agents.append(AgentNetwork(i))
+        agents.append(agent)
         env=Gymenv(agent=agent)
         fitness.append(env.play())
     es.tell(generatedParameters,fitness)
     es.disp()
-    if j%500==0:
+    if j%1000==999:
         agent=AgentNetwork()
         agent.loadParameters(es.result.xbest)
+        agent.saveparameters()
+        print(Gymenv(agent=agent).play())
     j+=1
 print(es.result.xbest)
