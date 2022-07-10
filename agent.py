@@ -12,6 +12,8 @@ class SelfAttention(torch.nn.Module):
         self.q = torch.nn.Linear(inputDimension, qDimension)
         self.k = torch.nn.Linear(inputDimension, kDimension)
         self.inputDimension = inputDimension
+        torch.nn.init.xavier_uniform(self.q.weight)
+        torch.nn.init.xavier_uniform(self.k.weight)
     def forward(self, input):
         q=self.q(input)
         k=self.k(input)
@@ -24,6 +26,7 @@ class Controller(torch.nn.Module):
         super(Controller,self).__init__()
         self.controller=torch.nn.LSTM(input_size=input,hidden_size=15,num_layers=1)
         self.hidden=torch.zeros(15)
+        
     def forward(self,input):
         output,self.hidden=self.controller(input,self.hidden)
         return output
@@ -65,8 +68,8 @@ class AgentNetwork(torch.nn.Module):
         self.patches=self.getPatches(input,self.stride)
         self.patches=torch.reshape(self.patches,[self.nOfPatches,-1])
         attention=self.attention(self.patches)
-        print(attention.shape)
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
+        print(bestPatches,indices,patchesAttention,sep="\n\n\n")
         features=self.getFeatures(bestPatches,indices,patchesAttention)
         actions=self.controller(features)
         output=self.selectAction(actions)
@@ -100,8 +103,8 @@ class AgentNetwork(torch.nn.Module):
         #attention nof patches**2
         patchesAttention=attention.sum(dim=0)
         sorted,indices=patchesAttention.sort(descending=True)
-        bests=sorted[:self.bests]
-        indices=indices[:self.bests]
+        bests=sorted[0:self.firstBests]
+        indices=indices[0:self.firstBests]
         return bests,indices,patchesAttention
 
     def getParameters(self):
