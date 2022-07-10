@@ -1,7 +1,7 @@
 import torch
 from sklearn.feature_extraction import image
 import numpy as np
-
+from torchsummary import summary
 
 class SelfAttention(torch.nn.Module):
     def __init__(self, inputDimension,qDimension,kDimension):
@@ -46,7 +46,7 @@ class AgentNetwork(torch.nn.Module):
         self.firstBests = firstBests
         self.qDimension = qDimension
         self.kDimension = kDimension
-        self.nOfPatches = (self.imageDimension[0]/self.stride)**2
+        self.nOfPatches = int((self.imageDimension[0]/self.stride)**2)
         self.patchesDim = self.stride**2
         self.controller=Controller(self.featuresDimension(),15)
         self.attention=SelfAttention(self.patchesDim*self.imageDimension[2],self.qDimension, self.kDimension)
@@ -61,8 +61,12 @@ class AgentNetwork(torch.nn.Module):
 
     def getOutput(self,input):
         #n s s c
+        print(input.shape)
         self.patches=self.getPatches(input,self.stride)
-        attention=self.attention(self.patches.view(self.nOfPatches,-1))
+        print(self.patches.shape)
+        print(self.nOfPatches)
+        torch.reshape(self.patches,[self.nOfPatches,-1])
+        attention=self.attention(self.patches)
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
         features=self.getFeatures(bestPatches,indices,patchesAttention)
         actions=self.controller(features)
@@ -81,6 +85,7 @@ class AgentNetwork(torch.nn.Module):
 
     def getPatches(self,obs,stride):
         patches = image.extract_patches_2d(obs, (stride,stride))
+        patches=torch.tensor(patches)
         return patches
     def featuresDimension(self):
         return int(2*(64/(self.stride))**2)
@@ -105,3 +110,6 @@ class AgentNetwork(torch.nn.Module):
 
 
 agent=AgentNetwork()
+summary(agent)
+print(agent)
+agent.getOutput(agent.obsExample)
