@@ -81,6 +81,7 @@ class Gymenv1player():
         reward=0
         step=0
         gamesPlayed=0
+        print("inizio il game")
         while True:
             if self.agent is not None:
                 if step==0:
@@ -112,7 +113,7 @@ class Gymenv1player():
 #agent=AgentNetwork()
 if __name__ == "__main__":
     agent=AgentNetwork(qDimension=10,kDimension=10)
-    gymEnv=Gymenv1player(num=1,maxsteps=250,nOfGames=5,agent=None)
+    gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=5,agent=agent)
 #gymEnv=Gymenv1player(maxsteps=10000)
     print(gymEnv.play())
 

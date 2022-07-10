@@ -66,6 +66,7 @@ class AgentNetwork(torch.nn.Module):
         self.layers.append(self.controller)
         self.f=f
         self.obsExample=np.load("observation.npy")
+        self.removeGrad()
         
 
     def forward(self):
@@ -120,16 +121,38 @@ class AgentNetwork(torch.nn.Module):
         return bests,indices,patchesAttention
 
     def getParameters(self):
+        for params in agent.parameters():
+            params.requires_grad=False
+        
+        print(params)
         pass
     
+    def saveparameters(self,parameters):
+        pass
     def loadparameters(self):
         pass
-    def saveparameters(self):
-        pass
+    def saveModel(self):
+        #torch.save(self, "./parameters.pt")
+        torch.save(self.state_dict(), "./parameters.pt")
+    def loadModel(self):
+        # self=torch.load("./parameters.pt")
+        # self.eval()
+        model = AgentNetwork(kDimension=10,qDimension=10)
+        model.load_state_dict(torch.load("./parameters.pt"))
+        model.eval()
+    def removeGrad(self):
+        for params in self.parameters():
+            params.requires_grad=False
 
 if __name__ == '__main__':
     agent=AgentNetwork(kDimension=10,qDimension=10)
     summary(agent)
     print(agent)
+    i=0
+    for params in agent.parameters():
+        params.requires_grad=False
+        
+        print(params)
+        
     
-    agent.getOutput(agent.obsExample)
+    #agent.getOutput(agent.obsExample)
