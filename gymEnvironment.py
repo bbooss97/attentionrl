@@ -69,19 +69,21 @@ from agent import Controller
 
 
 class Gymenv1player():
-    def __init__(self,gameName="coinrun",num=1,maxsteps=1000,nOfGames=1,agent=None):
+    def __init__(self,gameName="coinrun",num=1,maxsteps=1000,nOfGames=1,agent=None,verbose=False):
         self.num=num
         self.maxsteps=maxsteps
         self.gameName=gameName
         self.agent=agent
         self.nOfGames=nOfGames
+        self.verbose=verbose
         self.env=ProcgenGym3Env(num=num, env_name=gameName)
         
     def play(self):
         reward=0
         step=0
         gamesPlayed=0
-        print("inizio il game")
+        if self.verbose:
+            print("inizio il game")
         while True:
             if self.agent is not None:
                 if step==0:
@@ -100,7 +102,8 @@ class Gymenv1player():
                 gamesPlayed+=1
             if gamesPlayed>=self.nOfGames:
                 break
-        print("finito game")
+        if self.verbose:
+            print("finito game")
         self.env.close()
         return reward[0]
     def transformObs(obs):
