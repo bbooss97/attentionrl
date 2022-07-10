@@ -42,7 +42,7 @@ class AgentNetwork(torch.nn.Module):
 
     def center(x,y,stride):
         move=stride/2
-        return torch.tensor([x+move,y+move])
+        return [x+move,y+move]
 
     def __init__(self,imageDimension=(64,64,3),qDimension=32,kDimension=32,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center):
         super(AgentNetwork,self).__init__()
@@ -67,8 +67,8 @@ class AgentNetwork(torch.nn.Module):
 
     def getOutput(self,input):
         self.patches=self.getPatches(input,self.stride)
-        self.patches=torch.reshape(self.patches,[self.nOfPatches,-1])
-        attention=self.attention(self.patches)
+        reshapedPatches=torch.reshape(self.patches,[self.nOfPatches,-1])
+        attention=self.attention(reshapedPatches)
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
         print(bestPatches,indices,patchesAttention,sep="\n\n\n")
         features=self.getFeatures(bestPatches,indices,patchesAttention)
@@ -78,15 +78,14 @@ class AgentNetwork(torch.nn.Module):
 
     def getFeatures(self,bestPatches,indices,patchesAttention):
         positions=[]
-        print("ciao")
         indices=indices.tolist()
         for i in indices:
-            row=i%self.xPatches
-            column=i-row*self.stride
+            row=int(i/self.xPatches)
+            column=i%self.xPatches
             positions.append((row,column))
-        print(positions)
-        #features=torch.tensor([self.f(row,column,self.stride) for row,column in positions])
-        return features
+        features=[self.f(row,column,self.stride) for row,column in positions]
+        features=torch.tensor(features)
+        return features.reshape(-1)
 
 
     def getPatches(self,obs,stride):
