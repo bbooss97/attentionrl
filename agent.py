@@ -1,7 +1,8 @@
 import torch
-from sklearn.feature_extraction import image
+from skimage.util import view_as_windows
 import numpy as np
 from torchsummary import summary
+
 
 class SelfAttention(torch.nn.Module):
     def __init__(self, inputDimension,qDimension,kDimension):
@@ -21,7 +22,7 @@ class SelfAttention(torch.nn.Module):
 class Controller(torch.nn.Module):
     def __init__(self,input,output):
         super(Controller,self).__init__()
-        self.controller=torch.nn.LSTM(input,output)
+        self.controller=torch.nn.LSTM(input_size=input,hidden_size=15,num_layers=1)
         self.hidden=torch.zeros(15)
     def forward(self,input):
         output,self.hidden=self.controller(input,self.hidden)
@@ -46,6 +47,7 @@ class AgentNetwork(torch.nn.Module):
         self.firstBests = firstBests
         self.qDimension = qDimension
         self.kDimension = kDimension
+        self.xPatches=int(self.imageDimension[0]/self.stride)
         self.nOfPatches = int((self.imageDimension[0]/self.stride)**2)
         self.patchesDim = self.stride**2
         self.controller=Controller(self.featuresDimension(),15)
@@ -62,10 +64,12 @@ class AgentNetwork(torch.nn.Module):
     def getOutput(self,input):
         #n s s c
         print(input.shape)
+        print(self.stride)
         self.patches=self.getPatches(input,self.stride)
         print(self.patches.shape)
         print(self.nOfPatches)
-        torch.reshape(self.patches,[self.nOfPatches,-1])
+        self.patches=torch.reshape(self.patches,[self.nOfPatches,-1])
+        print(self.patches.shape)
         attention=self.attention(self.patches)
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
         features=self.getFeatures(bestPatches,indices,patchesAttention)
@@ -84,11 +88,16 @@ class AgentNetwork(torch.nn.Module):
 
 
     def getPatches(self,obs,stride):
-        patches = image.extract_patches_2d(obs, (stride,stride))
-        patches=torch.tensor(patches)
-        return patches
+        lists=[]
+        for i in range(0,64,stride):
+            for j in range(0,64,stride):
+                patc=obs[i:i+stride,j:j+stride,:]
+                lists.append(patc)
+        patches=np.stack(lists)
+        return torch.tensor(patches,dtype=torch.int8)
+
     def featuresDimension(self):
-        return int(2*(64/(self.stride))**2)
+        return int(2*self.firstBests)
     def selectAction(self,actions):
         return torch.argmax(actions)
 
