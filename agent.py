@@ -78,11 +78,14 @@ class AgentNetwork(torch.nn.Module):
 
     def getFeatures(self,bestPatches,indices,patchesAttention):
         positions=[]
+        print("ciao")
+        indices=indices.tolist()
         for i in indices:
-            row=i%self.stride
+            row=i%self.xPatches
             column=i-row*self.stride
             positions.append((row,column))
-        features=torch.tensor([self.f(row,column,self.stride) for row,column in positions])
+        print(positions)
+        #features=torch.tensor([self.f(row,column,self.stride) for row,column in positions])
         return features
 
 
