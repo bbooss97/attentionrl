@@ -16,7 +16,7 @@ from gymEnvironment import Gymenv
 # ...    es.tell(X, [cma.ff.elli(x) for x in X])
 # ...    es.disp()  # doctest: +ELLIPSIS
 
-parameters=AgentNetwork().getParameters()
+parameters=AgentNetwork().getparameters()
 variance=1
 es=cma.CMAEvolutionStrategy(parameters,variance)
 j=0

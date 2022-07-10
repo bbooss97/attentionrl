@@ -127,9 +127,10 @@ class AgentNetwork(torch.nn.Module):
         print(params)
         pass
     
-    def saveparameters(self,parameters):
-        pass
+
     def loadparameters(self):
+        pass
+    def getparameters(self):
         pass
     def saveModel(self):
         #torch.save(self, "./parameters.pt")
@@ -150,7 +151,7 @@ if __name__ == '__main__':
     print(agent)
     i=0
     for params in agent.parameters():
-        params.requires_grad=False
+        
         
         print(params)
         
