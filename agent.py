@@ -62,15 +62,10 @@ class AgentNetwork(torch.nn.Module):
         pass
 
     def getOutput(self,input):
-        #n s s c
-        print(input.shape)
-        print(self.stride)
         self.patches=self.getPatches(input,self.stride)
-        print(self.patches.shape)
-        print(self.nOfPatches)
         self.patches=torch.reshape(self.patches,[self.nOfPatches,-1])
-        print(self.patches.shape)
         attention=self.attention(self.patches)
+        print(attention.shape)
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
         features=self.getFeatures(bestPatches,indices,patchesAttention)
         actions=self.controller(features)
@@ -94,7 +89,7 @@ class AgentNetwork(torch.nn.Module):
                 patc=obs[i:i+stride,j:j+stride,:]
                 lists.append(patc)
         patches=np.stack(lists)
-        return torch.tensor(patches,dtype=torch.int8)
+        return torch.tensor(patches,dtype=torch.float)
 
     def featuresDimension(self):
         return int(2*self.firstBests)
