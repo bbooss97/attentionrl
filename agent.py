@@ -40,8 +40,9 @@ class AgentNetwork(torch.nn.Module):
     patchesDim=0
     layers=[]
 
-    def center():
-        pass
+    def center(x,y,stride):
+        move=stride/2
+        return torch.tensor([x+move,y+move])
 
     def __init__(self,imageDimension=(64,64,3),qDimension=32,kDimension=32,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center):
         super(AgentNetwork,self).__init__()
@@ -81,7 +82,7 @@ class AgentNetwork(torch.nn.Module):
             row=i%self.stride
             column=i-row*self.stride
             positions.append((row,column))
-        features=torch.tensor([self.f(i) for i in positions])
+        features=torch.tensor([self.f(row,column,self.stride) for row,column in positions])
         return features
 
 
