@@ -85,7 +85,7 @@ class Gymenv1player():
             if self.agent is not None:
                 if step==0:
                     action=[]
-                else:    
+                else:
                     observation=Gymenv1player.transformObs(obs)
                     action=self.agent.getOutput(observation)
                     self.env.act(action)
@@ -106,9 +106,9 @@ class Gymenv1player():
 
 
 #agent=AgentNetwork()
-agent=None
+agent=5
 #agent=AgentNetwork()
-gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=100,agent=agent)
+gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=10,agent=agent)
 #gymEnv=Gymenv1player(maxsteps=10000)
 print(gymEnv.play())
 

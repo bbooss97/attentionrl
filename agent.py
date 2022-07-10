@@ -53,6 +53,8 @@ class AgentNetwork(torch.nn.Module):
         self.layers.append(self.attention)
         self.layers.append(self.controller)
         self.f=f
+        self.obsExample=np.load("observation.npy")
+        
 
     def forward(self):
         pass
