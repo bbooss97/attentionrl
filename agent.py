@@ -39,11 +39,10 @@ class AgentNetwork(torch.nn.Module):
     def center():
         pass
 
-    def __init__(self,imageDimension=(64,64,3),qDimension=32,kDimension=32,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,getFeatures=center):
+    def __init__(self,imageDimension=(64,64,3),qDimension=32,kDimension=32,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center):
         super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.stride = stride
-        self.getFeatures = getFeatures
         self.firstBests = firstBests
         self.qDimension = qDimension
         self.kDimension = kDimension
@@ -53,7 +52,7 @@ class AgentNetwork(torch.nn.Module):
         self.attention=SelfAttention(self.patchesDim*self.imageDimension[2],self.qDimension, self.kDimension)
         self.layers.append(self.attention)
         self.layers.append(self.controller)
-        self.f=AgentNetwork.center
+        self.f=f
 
     def forward(self):
         pass
@@ -62,18 +61,27 @@ class AgentNetwork(torch.nn.Module):
         #n s s c
         self.patches=self.getPatches(input,self.stride)
         attention=self.attention(self.patches.view(self.nOfPatches,-1))
-        bestPatches,indices=self.getBestPatches(attention)
-        features=self.getFeatures(bestPatches,indices)
-        actions=self.controller(bestPatches,self.firstBests)
+        bestPatches,indices,patchesAttention=self.getBestPatches(attention)
+        features=self.getFeatures(bestPatches,indices,patchesAttention)
+        actions=self.controller(features)
         output=self.selectAction(actions)
         return output
 
-    
+    def getFeatures(self,bestPatches,indices,patchesAttention):
+        positions=[]
+        for i in indices:
+            row=i%self.stride
+            column=i-row*self.stride
+            positions.append((row,column))
+        features=torch.tensor([self.f(i) for i in positions])
+        return features
+
+
     def getPatches(self,obs,stride):
         patches = image.extract_patches_2d(obs, (stride,stride))
         return patches
     def featuresDimension(self):
-        return int(2*(64/(self.slide))**2)
+        return int(2*(64/(self.stride))**2)
     def selectAction(self,actions):
         return torch.argmax(actions)
 
@@ -83,7 +91,7 @@ class AgentNetwork(torch.nn.Module):
         sorted,indices=patchesAttention.sort(descending=True)
         bests=sorted[:self.bests]
         indices=indices[:self.bests]
-        return bests,indices
+        return bests,indices,patchesAttention
 
     def getParameters(self):
         pass
