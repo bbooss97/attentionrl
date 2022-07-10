@@ -127,12 +127,16 @@ class AgentNetwork(torch.nn.Module):
             result.append(a)
         result=torch.concat(result,0).numpy()
         return result
-        
-
-
 
     def loadparameters(self,parameters):
-        pass
+        parameters=torch.tensor(parameters)
+        conta=0
+        for params in self.parameters():
+            shape=params.data.shape
+            avanti=torch.prod(torch.tensor(shape)).numpy()
+            dati=parameters[conta:conta+avanti].reshape(shape)
+            params.data=dati
+            conta+=avanti
 
 
     def saveModel(self):
@@ -153,7 +157,8 @@ if __name__ == '__main__':
     summary(agent)
     print(agent)
     i=0
-    agent.getparameters()
+
+    agent.loadparameters([0 for i in range(3200)])
         
     
     #agent.getOutput(agent.obsExample)

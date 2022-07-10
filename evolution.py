@@ -18,16 +18,16 @@ from gymEnvironment import Gymenv1player
 
 parameters=AgentNetwork().getparameters()
 variance=1
-es=cma.CMAEvolutionStrategy(parameters=parameters,variance)
+es=cma.CMAEvolutionStrategy(parameters,variance)
 j=0
 agent=AgentNetwork()
-while not es.stop():
+while True:
     generatedParameters=es.ask()
     fitness=[]
     for i in generatedParameters:
         agent.loadparameters(i)
         env=Gymenv1player(agent=agent,nOfGames=1,maxsteps=250)
-        fitness.append(100-env.play())
+        fitness.append(1000-env.play())
     es.tell(generatedParameters,fitness)
     es.disp()
     if j%1000==999:
