@@ -1,5 +1,4 @@
 import torch
-from skimage.util import view_as_windows
 import numpy as np
 from torchsummary import summary
 from torch import nn
@@ -14,8 +13,8 @@ class SelfAttention(torch.nn.Module):
         self.q = torch.nn.Linear(inputDimension, qDimension)
         self.k = torch.nn.Linear(inputDimension, kDimension)
         self.inputDimension = inputDimension
-        torch.nn.init.xavier_uniform(self.q.weight)
-        torch.nn.init.xavier_uniform(self.k.weight)
+        # torch.nn.init.xavier_uniform(self.q.weight)
+        # torch.nn.init.xavier_uniform(self.k.weight)
     def forward(self, input):
         q=self.q(input)
         k=self.k(input)
@@ -83,7 +82,7 @@ class AgentNetwork(torch.nn.Module):
         actions=self.controller(features)
         #print(actions)
         output=self.selectAction(actions)
-        print(output)
+        
         return output
 
     def getFeatures(self,bestPatches,indices,patchesAttention):
@@ -132,5 +131,5 @@ if __name__ == '__main__':
     agent=AgentNetwork(kDimension=10,qDimension=10)
     summary(agent)
     print(agent)
-    for i in range(100):
-        agent.getOutput(agent.obsExample)
+    
+    agent.getOutput(agent.obsExample)

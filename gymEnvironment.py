@@ -84,11 +84,11 @@ class Gymenv1player():
         while True:
             if self.agent is not None:
                 if step==0:
-                    action=[]
+                    action=np.array([0])
                 else:
                     observation=Gymenv1player.transformObs(obs)
                     action=self.agent.getOutput(observation)
-                    self.env.act(action)
+                    self.env.act(action.numpy())
             else:
                 action=types_np.sample(self.env.ac_space, bshape=(self.num,))
                 self.env.act(action)
@@ -109,9 +109,11 @@ class Gymenv1player():
 #agent=AgentNetwork()
 # agent=5
 #agent=AgentNetwork()
-gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=10)
+if __name__ == "__main__":
+    agent=AgentNetwork(qDimension=10,kDimension=10)
+    gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=10,agent=agent)
 #gymEnv=Gymenv1player(maxsteps=10000)
-print(gymEnv.play())
+    print(gymEnv.play())
 
 # num=10
 # env = ProcgenGym3Env(num=num, env_name="coinrun")
