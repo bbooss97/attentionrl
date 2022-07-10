@@ -77,11 +77,11 @@ class AgentNetwork(torch.nn.Module):
         reshapedPatches=torch.reshape(self.patches,[self.nOfPatches,-1])
         attention=self.attention(reshapedPatches)
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
-        print(bestPatches,indices,patchesAttention,sep="\n\n\n")
+        #print(bestPatches,indices,patchesAttention,sep="\n\n\n")
         features=self.getFeatures(bestPatches,indices,patchesAttention)
     
         actions=self.controller(features)
-        print(actions)
+        #print(actions)
         output=self.selectAction(actions)
         print(output)
         return output
@@ -128,8 +128,9 @@ class AgentNetwork(torch.nn.Module):
     def saveparameters(self):
         pass
 
-
-agent=AgentNetwork()
-summary(agent)
-print(agent)
-agent.getOutput(agent.obsExample)
+if __name__ == '__main__':
+    agent=AgentNetwork(kDimension=10,qDimension=10)
+    summary(agent)
+    print(agent)
+    for i in range(100):
+        agent.getOutput(agent.obsExample)

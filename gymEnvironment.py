@@ -90,7 +90,8 @@ class Gymenv1player():
                     action=self.agent.getOutput(observation)
                     self.env.act(action)
             else:
-                self.env.act(types_np.sample(self.env.ac_space, bshape=(self.num,)))
+                action=types_np.sample(self.env.ac_space, bshape=(self.num,))
+                self.env.act(action)
             rew, obs, first = self.env.observe()
             reward=reward+rew
             step += 1
@@ -106,9 +107,9 @@ class Gymenv1player():
 
 
 #agent=AgentNetwork()
-agent=5
+# agent=5
 #agent=AgentNetwork()
-gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=10,agent=agent)
+gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=10)
 #gymEnv=Gymenv1player(maxsteps=10000)
 print(gymEnv.play())
 
