@@ -69,7 +69,7 @@ from agent import Controller
 
 
 class Gymenv1player():
-    def __init__(self,gameName="coinrun",num=1,maxsteps=1000,nOfGames=5,agent=None):
+    def __init__(self,gameName="coinrun",num=1,maxsteps=1000,nOfGames=1,agent=None):
         self.num=num
         self.maxsteps=maxsteps
         self.gameName=gameName
@@ -98,7 +98,7 @@ class Gymenv1player():
             step += 1
             if first:
                 gamesPlayed+=1
-            if gamesPlayed==self.nOfGames:
+            if gamesPlayed>=self.nOfGames:
                 break
         print("finito game")
         self.env.close()

@@ -1,7 +1,7 @@
 import cma
 import numpy as np
 from agent import AgentNetwork
-from gymEnvironment import Gymenv
+from gymEnvironment import Gymenv1player
 # optimizer=cma.CMAEvolutionStrategy(x0=[100,100],sigma0=1)
 # def function(x):
 #     return x[0]**2+x[1]**2
@@ -18,24 +18,22 @@ from gymEnvironment import Gymenv
 
 parameters=AgentNetwork().getparameters()
 variance=1
-es=cma.CMAEvolutionStrategy(parameters,variance)
+es=cma.CMAEvolutionStrategy(parameters=parameters,variance)
 j=0
+agent=AgentNetwork()
 while not es.stop():
     generatedParameters=es.ask()
-    agents=[]
     fitness=[]
     for i in generatedParameters:
-        agent=AgentNetwork()
         agent.loadparameters(i)
-        agents.append(agent)
-        env=Gymenv(agent=agent)
-        fitness.append(env.play())
+        env=Gymenv1player(agent=agent,nOfGames=1,maxsteps=250)
+        fitness.append(100-env.play())
     es.tell(generatedParameters,fitness)
     es.disp()
     if j%1000==999:
         agent=AgentNetwork()
         agent.loadparameters(es.result.xbest)
         agent.saveModel()
-        print(Gymenv(agent=agent).play())
+        print(Gymenv1player(agent=agent).play())
     j+=1
 print(es.result.xbest)

@@ -4,7 +4,7 @@ import cma
 from agent import *
 
 def provaEvoluzione():
-    parameters=np.array([1000 for i in range(1000)])
+    parameters=np.array([0 for i in range(1000)])
     def funzione(parameters):
         return (parameters**2).sum()
     variance=1
@@ -23,4 +23,4 @@ def provaEvoluzione():
 def provaAgente():
     agent=AgentNetwork()
 
-provaAgente()
+provaEvoluzione()

@@ -50,7 +50,7 @@ class AgentNetwork(torch.nn.Module):
         move=stride/2
         return [x+move,y+move]
 
-    def __init__(self,imageDimension=(64,64,3),qDimension=32,kDimension=32,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center):
+    def __init__(self,imageDimension=(64,64,3),qDimension=10,kDimension=10,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center):
         super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.stride = stride
@@ -120,18 +120,21 @@ class AgentNetwork(torch.nn.Module):
         indices=indices[0:self.firstBests]
         return bests,indices,patchesAttention
 
-    def getParameters(self):
-        for params in agent.parameters():
-            params.requires_grad=False
-        
-        print(params)
-        pass
-    
-
-    def loadparameters(self):
-        pass
     def getparameters(self):
+        result=[]
+        for params in self.parameters():
+            a=params.data.reshape(-1)
+            result.append(a)
+        result=torch.concat(result,0).numpy()
+        return result
+        
+
+
+
+    def loadparameters(self,parameters):
         pass
+
+
     def saveModel(self):
         #torch.save(self, "./parameters.pt")
         torch.save(self.state_dict(), "./parameters.pt")
@@ -150,10 +153,7 @@ if __name__ == '__main__':
     summary(agent)
     print(agent)
     i=0
-    for params in agent.parameters():
-        
-        
-        print(params)
+    agent.getparameters()
         
     
     #agent.getOutput(agent.obsExample)
