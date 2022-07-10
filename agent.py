@@ -2,6 +2,8 @@ import torch
 from skimage.util import view_as_windows
 import numpy as np
 from torchsummary import summary
+from torch import nn
+
 
 
 class SelfAttention(torch.nn.Module):
@@ -25,11 +27,16 @@ class Controller(torch.nn.Module):
     def __init__(self,input,output):
         super(Controller,self).__init__()
         self.controller=torch.nn.LSTM(input_size=input,hidden_size=15,num_layers=1)
-        self.hidden=torch.zeros(15)
-        
+        self.hidden=(torch.zeros(1,15),torch.zeros(1,15))
+        self.fc=torch.nn.Linear(15,output)
+
     def forward(self,input):
-        output,self.hidden=self.controller(input,self.hidden)
+        #output,self.hidden,self.state=self.controller(input.view(1,-1),self.hidden)
+        output,self.hidden=self.controller(input.view(1,-1),self.hidden)
+        output=self.fc(output).squeeze()
+        output=torch.softmax(output,dim=0)
         return output
+
 
 class AgentNetwork(torch.nn.Module):
     inputDimension=0
@@ -72,8 +79,11 @@ class AgentNetwork(torch.nn.Module):
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
         print(bestPatches,indices,patchesAttention,sep="\n\n\n")
         features=self.getFeatures(bestPatches,indices,patchesAttention)
+    
         actions=self.controller(features)
+        print(actions)
         output=self.selectAction(actions)
+        print(output)
         return output
 
     def getFeatures(self,bestPatches,indices,patchesAttention):
@@ -100,7 +110,7 @@ class AgentNetwork(torch.nn.Module):
     def featuresDimension(self):
         return int(2*self.firstBests)
     def selectAction(self,actions):
-        return torch.argmax(actions)
+        return torch.argmax(actions).reshape(1)
 
     def getBestPatches(self,attention):
         #attention nof patches**2
