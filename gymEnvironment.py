@@ -99,6 +99,7 @@ class Gymenv1player():
                 gamesPlayed+=1
             if gamesPlayed==self.nOfGames:
                 break
+        print("finito game")
         self.env.close()
         return reward[0]
     def transformObs(obs):
@@ -111,7 +112,7 @@ class Gymenv1player():
 #agent=AgentNetwork()
 if __name__ == "__main__":
     agent=AgentNetwork(qDimension=10,kDimension=10)
-    gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=10,agent=agent)
+    gymEnv=Gymenv1player(num=1,maxsteps=250,nOfGames=5,agent=None)
 #gymEnv=Gymenv1player(maxsteps=10000)
     print(gymEnv.play())
 
