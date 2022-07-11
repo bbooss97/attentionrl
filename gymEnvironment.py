@@ -98,6 +98,7 @@ class Gymenv1player():
             rew, obs, first = self.env.observe()
             reward=reward+rew
             step += 1
+            #print(step,gamesPlayed)
             if first:
                 gamesPlayed+=1
             if gamesPlayed>=self.nOfGames:

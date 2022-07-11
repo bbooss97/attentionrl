@@ -24,12 +24,13 @@ es=cma.CMAEvolutionStrategy(parameters,variance)
 j=0
 whenToCopy=100
 agent=AgentNetwork()
+game="starpilot"
 while True:
     generatedParameters=es.ask()
     fitness=[]
     for i in generatedParameters:
         agent.loadparameters(i)
-        env=Gymenv1player(agent=agent,nOfGames=5,maxsteps=1000,verbose=False)
+        env=Gymenv1player(agent=agent,nOfGames=5,maxsteps=1000,verbose=False,gameName=game)
         fitness.append(1000-env.play())
     es.tell(generatedParameters,fitness)
     es.disp()
