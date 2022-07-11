@@ -25,7 +25,7 @@ j=0
 whenToCopy=100
 agent=AgentNetwork()
 game="starpilot"
-while True:
+while not es.stop():
     generatedParameters=es.ask()
     fitness=[]
     for i in generatedParameters:

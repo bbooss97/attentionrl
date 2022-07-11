@@ -31,7 +31,6 @@ class Controller(torch.nn.Module):
         self.fc=torch.nn.Linear(15,output)
 
     def forward(self,input):
-        #output,self.hidden,self.state=self.controller(input.view(1,-1),self.hidden)
         output,self.hidden=self.controller(input.view(1,-1).double(),self.hidden)
         output=self.fc(output).squeeze()
         output=torch.softmax(output,dim=0)
@@ -67,7 +66,7 @@ class AgentNetwork(torch.nn.Module):
         self.layers.append(self.controller)
         self.f=f
         self.obsExample=np.load("observation.npy")
-        self.removeGrad()
+        #self.removeGrad()
         
 
     def forward(self):
