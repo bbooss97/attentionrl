@@ -16,8 +16,8 @@ class SelfAttention(torch.nn.Module):
         # torch.nn.init.xavier_uniform(self.q.weight)
         # torch.nn.init.xavier_uniform(self.k.weight)
     def forward(self, input):
-        q=self.q(input)
-        k=self.k(input)
+        q=self.q(input.double())
+        k=self.k(input.double())
         attention=torch.matmul(q,k.t())
         attention=torch.softmax(attention,dim=1)
         return attention
@@ -26,12 +26,12 @@ class Controller(torch.nn.Module):
     def __init__(self,input,output):
         super(Controller,self).__init__()
         self.controller=torch.nn.LSTM(input_size=input,hidden_size=15,num_layers=1)
-        self.hidden=(torch.zeros(1,15),torch.zeros(1,15))
+        self.hidden=(torch.zeros(1,15).double(),torch.zeros(1,15).double())
         self.fc=torch.nn.Linear(15,output)
 
     def forward(self,input):
         #output,self.hidden,self.state=self.controller(input.view(1,-1),self.hidden)
-        output,self.hidden=self.controller(input.view(1,-1),self.hidden)
+        output,self.hidden=self.controller(input.view(1,-1).double(),self.hidden)
         output=self.fc(output).squeeze()
         output=torch.softmax(output,dim=0)
         return output
@@ -129,7 +129,7 @@ class AgentNetwork(torch.nn.Module):
         return result
 
     def loadparameters(self,parameters):
-        parameters=torch.tensor(parameters)
+        parameters=torch.tensor(parameters).double()
         conta=0
         for params in self.parameters():
             shape=params.data.shape
@@ -137,6 +137,7 @@ class AgentNetwork(torch.nn.Module):
             dati=parameters[conta:conta+avanti].reshape(shape)
             params.data=dati
             conta+=avanti
+        self.double()
 
 
     def saveModel(self):

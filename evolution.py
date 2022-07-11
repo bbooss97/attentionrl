@@ -17,21 +17,23 @@ from gymEnvironment import Gymenv1player
 # ...    es.disp()  # doctest: +ELLIPSIS
 
 parameters=AgentNetwork().getparameters()
+parameters=[float(0) for i in range(3200)]
+
 variance=1
 es=cma.CMAEvolutionStrategy(parameters,variance)
 j=0
+whenToCopy=100
 agent=AgentNetwork()
 while True:
     generatedParameters=es.ask()
     fitness=[]
     for i in generatedParameters:
         agent.loadparameters(i)
-        env=Gymenv1player(agent=agent,nOfGames=1,maxsteps=250)
+        env=Gymenv1player(agent=agent,nOfGames=5,maxsteps=1000,verbose=False)
         fitness.append(1000-env.play())
     es.tell(generatedParameters,fitness)
     es.disp()
-    if j%1000==999:
-        agent=AgentNetwork()
+    if j%whenToCopy==whenToCopy-1:
         agent.loadparameters(es.result.xbest)
         agent.saveModel()
         print(Gymenv1player(agent=agent).play())
