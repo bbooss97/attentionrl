@@ -81,7 +81,7 @@ class Gymenv1player():
     def play(self):
         reward=0
         step=0
-        gamesPlayed=0
+        gamesPlayed=-1
         if self.verbose:
             print("inizio il game")
         while True:
