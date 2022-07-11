@@ -81,43 +81,54 @@ class Gymenv1player():
     def play(self):
         reward=0
         step=0
-        gamesPlayed=-1
+        gamesPlayed=np.array([False for i in range(self.num)])
         if self.verbose:
             print("inizio il game")
         while True:
             if self.agent is not None:
                 if step==0:
-                    action=np.array([0])
+                    action=np.array([0 for i in range(self.num)])
                 else:
-                    observation=Gymenv1player.transformObs(obs)
-                    action=self.agent.getOutput(observation)
-                    self.env.act(action.numpy())
+                    action=[]
+                    for i in range(self.num):
+                        oss=Gymenv1player.transformObs(obs,i)
+                        if gamesPlayed[i]:
+                            a=np.array([0])
+                        else:
+                            a=self.agent.getOutput(oss)
+                        action.append(a.squeeze())
+                    action=np.stack(action)
+                    #print(action)
+                    # observation=Gymenv1player.transformObs(obs)
+                    #action=self.agent.getOutput(observation)
+                self.env.act(action)
             else:
                 action=types_np.sample(self.env.ac_space, bshape=(self.num,))
                 self.env.act(action)
             rew, obs, first = self.env.observe()
+            gamesPlayed=np.logical_or(gamesPlayed,first)
+            # print(gamesPlayed,step)
             reward=reward+rew
+            # print(reward)
             step += 1
+            
             #print(step,gamesPlayed)
-            if first:
-                gamesPlayed+=1
-            if gamesPlayed>=self.nOfGames:
+            #print(gamesPlayed)
+            if  step>0 and gamesPlayed.all():
                 break
         if self.verbose:
             print("finito game")
         self.env.close()
-        return reward[0]
-    def transformObs(obs):
-        transformedObs=np.array(obs["rgb"]).squeeze()
-        return transformedObs
+        return reward.sum()
+    def transformObs(obs,i):
+        transformedObs=np.array(obs["rgb"])
+        return transformedObs[i]
 
 
-#agent=AgentNetwork()
-# agent=5
-#agent=AgentNetwork()
+
 if __name__ == "__main__":
     agent=AgentNetwork(qDimension=10,kDimension=10)
-    gymEnv=Gymenv1player(num=1,maxsteps=500,nOfGames=5,agent=agent)
+    gymEnv=Gymenv1player(num=10,maxsteps=500,nOfGames=1,agent=agent,gameName="starpilot")
 #gymEnv=Gymenv1player(maxsteps=10000)
     print(gymEnv.play())
 

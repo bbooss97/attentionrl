@@ -16,8 +16,9 @@ class SelfAttention(torch.nn.Module):
         # torch.nn.init.xavier_uniform(self.q.weight)
         # torch.nn.init.xavier_uniform(self.k.weight)
     def forward(self, input):
-        q=self.q(input.double())
-        k=self.k(input.double())
+        input=input.double()
+        q=self.q(input)
+        k=self.k(input)
         attention=torch.matmul(q,k.t())
         attention=torch.softmax(attention,dim=1)
         return attention
