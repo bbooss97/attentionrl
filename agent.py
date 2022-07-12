@@ -20,6 +20,7 @@ class SelfAttention(torch.nn.Module):
         q=self.q(input)
         k=self.k(input)
         attention=torch.matmul(q,k.t())
+        attention=attention/((input.shape[1])**0.5)
         attention=torch.softmax(attention,dim=1)
         return attention
 
@@ -46,9 +47,9 @@ class AgentNetwork(torch.nn.Module):
     patchesDim=0
     layers=[]
 
-    def center(x,y,stride):
+    def center(self,x,y,stride):
         move=stride/2
-        return [x+move,y+move]
+        return [(x+move)/self.imageDimension[0],(y+move)/self.imageDimension[1]]
 
     def __init__(self,imageDimension=(64,64,3),qDimension=10,kDimension=10,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center):
         super(AgentNetwork,self).__init__()
@@ -93,7 +94,7 @@ class AgentNetwork(torch.nn.Module):
             row=int(i/self.xPatches)
             column=i%self.xPatches
             positions.append((row,column))
-        features=[self.f(row,column,self.stride) for row,column in positions]
+        features=[self.f(self,row,column,self.stride) for row,column in positions]
         features=torch.tensor(features)
         return features.reshape(-1)
 
@@ -162,4 +163,6 @@ if __name__ == '__main__':
     agent.loadparameters([0 for i in range(3200)])
         
     
-    #agent.getOutput(agent.obsExample)
+    o=agent.getOutput(agent.obsExample)
+    print(o)
+    

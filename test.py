@@ -8,7 +8,7 @@ def provaEvoluzione():
     def funzione(parameters):
         return (parameters**2).sum()
     variance=1
-    es=cma.CMAEvolutionStrategy(parameters,variance)
+    es=cma.CMAEvolutionStrategy(parameters,variance,{'popsize':200})
     j=0
     while not es.stop():
         generatedParameters=np.array(es.ask())
