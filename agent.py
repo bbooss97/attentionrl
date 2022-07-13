@@ -1,8 +1,9 @@
 import torch
 import numpy as np
-from torchsummary import summary
+#from torchsummary import summary
 from torch import nn
-
+torch.set_default_tensor_type(torch.cuda.FloatTensor)
+import random
 
 
 class SelfAttention(torch.nn.Module):
@@ -51,10 +52,11 @@ class AgentNetwork(torch.nn.Module):
         move=stride/2
         return [(x+move)/self.imageDimension[0],(y+move)/self.imageDimension[1]]
 
-    def __init__(self,imageDimension=(64,64,3),qDimension=10,kDimension=10,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center):
+    def __init__(self,imageDimension=(64,64,3),qDimension=10,kDimension=10,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center,threshold=0.333):
         super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.stride = stride
+        self.threshold = threshold
         self.firstBests = firstBests
         self.qDimension = qDimension
         self.kDimension = kDimension
@@ -67,7 +69,7 @@ class AgentNetwork(torch.nn.Module):
         self.layers.append(self.controller)
         self.f=f
         self.obsExample=np.load("observation.npy")
-        #self.removeGrad()
+        self.removeGrad()
         
 
     def forward(self):
@@ -76,13 +78,15 @@ class AgentNetwork(torch.nn.Module):
     def getOutput(self,input):
         self.patches=self.getPatches(input,self.stride)
         reshapedPatches=torch.reshape(self.patches,[self.nOfPatches,-1])
+        
         attention=self.attention(reshapedPatches)
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
         #print(bestPatches,indices,patchesAttention,sep="\n\n\n")
         features=self.getFeatures(bestPatches,indices,patchesAttention)
-    
+        
         actions=self.controller(features)
         #print(actions)
+        
         output=self.selectAction(actions)
         
         return output
@@ -106,12 +110,18 @@ class AgentNetwork(torch.nn.Module):
                 patc=obs[i:i+stride,j:j+stride,:]
                 lists.append(patc)
         patches=np.stack(lists)
-        return torch.tensor(patches,dtype=torch.float)
+        ret=torch.tensor(patches,dtype=torch.float)
+        
+        return ret 
 
     def featuresDimension(self):
         return int(2*self.firstBests)
     def selectAction(self,actions):
-        return torch.argmax(actions).reshape(1)
+        selected=torch.argmax(actions).reshape(1)
+        # if actions[selected]>self.threshold:
+        #     return selected 
+        # return torch.tensor([4])
+        return selected
 
     def getBestPatches(self,attention):
         #attention nof patches**2
@@ -126,15 +136,16 @@ class AgentNetwork(torch.nn.Module):
         for params in self.parameters():
             a=params.data.reshape(-1)
             result.append(a)
-        result=torch.concat(result,0).numpy()
+        result=torch.concat(result,0).to("cpu").numpy()
         return result
 
     def loadparameters(self,parameters):
         parameters=torch.tensor(parameters).double()
+        parameters.cuda()
         conta=0
         for params in self.parameters():
             shape=params.data.shape
-            avanti=torch.prod(torch.tensor(shape)).numpy()
+            avanti=torch.prod(torch.tensor(shape).to("cpu")).numpy()
             dati=parameters[conta:conta+avanti].reshape(shape)
             params.data=dati
             conta+=avanti
@@ -156,11 +167,11 @@ class AgentNetwork(torch.nn.Module):
 
 if __name__ == '__main__':
     agent=AgentNetwork(kDimension=10,qDimension=10)
-    summary(agent)
+    #summary(agent)
     print(agent)
     i=0
 
-    agent.loadparameters([0 for i in range(3200)])
+    agent.loadparameters([random.random() for i in range(3200)])
         
     
     o=agent.getOutput(agent.obsExample)

@@ -35,9 +35,11 @@
 from gym3 import types_np
 from procgen import ProcgenGym3Env
 import numpy as np
+import torch
 from agent import AgentNetwork
 from agent import SelfAttention
 from agent import Controller
+import random
 
 # class Gymenv():
 #     def __init__(self,gameName="coinrun",num=1,maxsteps=1000,agent=None):
@@ -76,50 +78,82 @@ class Gymenv1player():
         self.agent=agent
         self.nOfGames=nOfGames
         self.verbose=verbose
-        self.env=ProcgenGym3Env(num=num, env_name=gameName)
+        self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False)
         
+    # def play(self):
+    #     reward=0
+    #     step=0
+    #     gamesPlayed=np.array([False for i in range(self.num)])
+    #     if self.verbose:
+    #         print("inizio il game")
+    #     while True:
+    #         if self.agent is not None:
+    #             if step==0:
+    #                 action=torch.tensor([4 for i in range(self.num)])
+    #             else:
+    #                 action=[]
+    #                 for i in range(self.num):
+    #                     oss=Gymenv1player.transformObs(obs,i)
+    #                     # print(oss)
+    #                     if gamesPlayed[i]:
+    #                         a=torch.tensor([4])
+    #                     else:
+    #                         a=self.agent.getOutput(oss)
+                        
+    #                     action.append(a.squeeze())
+                    
+    #                 action=torch.stack(action)
+                    
+    #                 #print(action)
+    #                 # observation=Gymenv1player.transformObs(obs)
+    #                 #action=self.agent.getOutput(observation)
+                
+    #             self.env.act(action.to("cpu").numpy())
+    #         else:
+    #             action=types_np.sample(self.env.ac_space, bshape=(self.num,))
+    #             self.env.act(action)
+    #         rew, obs, first = self.env.observe()
+            
+    #         gamesPlayed=np.logical_or(gamesPlayed,first)
+    #         # print(gamesPlayed,step)
+    #         reward=reward+rew
+    #         # print(reward)
+    #         step += 1
+    #         #print(action)
+    #         #print(step,gamesPlayed)
+    #         #print(gamesPlayed)
+    #         if  step>0 and gamesPlayed.all():
+    #             break
+    #     if self.verbose:
+    #         print("finito game")
+    #     self.env.close()
+    #     return reward.sum()
+
     def play(self):
         reward=0
         step=0
         gamesPlayed=np.array([False for i in range(self.num)])
         if self.verbose:
             print("inizio il game")
-        while True:
+        for i in range(self.maxsteps):
             if self.agent is not None:
                 if step==0:
-                    action=np.array([0 for i in range(self.num)])
+                    a=torch.tensor([4])
                 else:
-                    action=[]
-                    for i in range(self.num):
-                        oss=Gymenv1player.transformObs(obs,i)
-                        if gamesPlayed[i]:
-                            a=np.array([0])
-                        else:
-                            a=self.agent.getOutput(oss)
-                        action.append(a.squeeze())
-                    action=np.stack(action)
-                    #print(action)
-                    # observation=Gymenv1player.transformObs(obs)
-                    #action=self.agent.getOutput(observation)
-                self.env.act(action)
+                    oss=Gymenv1player.transformObs(obs,0)
+                    a=self.agent.getOutput(oss)          
+                a=a.to("cpu").numpy()
+                self.env.act(a)
             else:
                 action=types_np.sample(self.env.ac_space, bshape=(self.num,))
                 self.env.act(action)
             rew, obs, first = self.env.observe()
-            gamesPlayed=np.logical_or(gamesPlayed,first)
-            # print(gamesPlayed,step)
             reward=reward+rew
-            # print(reward)
             step += 1
-            
-            #print(step,gamesPlayed)
-            #print(gamesPlayed)
-            if  step>0 and gamesPlayed.all():
-                break
         if self.verbose:
             print("finito game")
         self.env.close()
-        return reward.sum()
+        return reward
     def transformObs(obs,i):
         transformedObs=np.array(obs["rgb"])
         return transformedObs[i]
@@ -128,7 +162,8 @@ class Gymenv1player():
 
 if __name__ == "__main__":
     agent=AgentNetwork(qDimension=10,kDimension=10)
-    gymEnv=Gymenv1player(num=10,maxsteps=500,nOfGames=1,agent=agent,gameName="starpilot")
+    agent.loadparameters([float(random.random()) for i in range(3200)])
+    gymEnv=Gymenv1player(num=1,maxsteps=1000,nOfGames=1,agent=agent,gameName="starpilot")
 #gymEnv=Gymenv1player(maxsteps=10000)
     print(gymEnv.play())
 
