@@ -47,6 +47,7 @@ class AgentNetwork(torch.nn.Module):
     stride=0
     patchesDim=0
     layers=[]
+    
 
     def center(self,x,y,stride):
         move=stride/2
@@ -56,6 +57,7 @@ class AgentNetwork(torch.nn.Module):
         super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.stride = stride
+        self.render=False
         self.threshold = threshold
         self.firstBests = firstBests
         self.qDimension = qDimension
@@ -78,7 +80,6 @@ class AgentNetwork(torch.nn.Module):
     def getOutput(self,input):
         self.patches=self.getPatches(input,self.stride)
         reshapedPatches=torch.reshape(self.patches,[self.nOfPatches,-1])
-        
         attention=self.attention(reshapedPatches)
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
         #print(bestPatches,indices,patchesAttention,sep="\n\n\n")
@@ -88,15 +89,26 @@ class AgentNetwork(torch.nn.Module):
         #print(actions)
         
         output=self.selectAction(actions)
-        
+        if self.render:
+            
+            # print("patches",self.patches)
+            # print("reshapedPatches",reshapedPatches)
+            # print("attention",attention)
+            # print("bestPatches",bestPatches)
+            print("indices",indices)
+            # print("patchesAttention",patchesAttention)
+            print("features",features*self.imageDimension[0])
+            # print("actions",actions)
+            # print("output",output)
+            pass
         return output
 
     def getFeatures(self,bestPatches,indices,patchesAttention):
         positions=[]
         indices=indices.tolist()
         for i in indices:
-            row=int(i/self.xPatches)
-            column=i%self.xPatches
+            row=int(i/self.imageDimension[0])
+            column=i%self.imageDimension[1]
             positions.append((row,column))
         features=[self.f(self,row,column,self.stride) for row,column in positions]
         features=torch.tensor(features)
