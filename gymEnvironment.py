@@ -71,14 +71,18 @@ import random
 
 
 class Gymenv1player():
-    def __init__(self,gameName="coinrun",num=1,maxsteps=1000,nOfGames=1,agent=None,verbose=False):
+    def __init__(self,gameName="coinrun",num=1,maxsteps=1000,nOfGames=1,agent=None,verbose=False,render=False):
         self.num=num
+        self.render=render
         self.maxsteps=maxsteps
         self.gameName=gameName
         self.agent=agent
         self.nOfGames=nOfGames
         self.verbose=verbose
-        self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False)
+        if render:
+            self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False,render_mode="rgb_array")
+        else:
+            self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False)
         
     # def play(self):
     #     reward=0
@@ -150,6 +154,8 @@ class Gymenv1player():
             rew, obs, first = self.env.observe()
             reward=reward+rew
             step += 1
+            if self.render:
+                print(a)
         if self.verbose:
             print("finito game")
         self.env.close()

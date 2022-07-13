@@ -155,12 +155,13 @@ class AgentNetwork(torch.nn.Module):
     def saveModel(self):
         #torch.save(self, "./parameters.pt")
         torch.save(self.state_dict(), "./parameters.pt")
-    def loadModel(self):
+    def loadModel(path):
         # self=torch.load("./parameters.pt")
         # self.eval()
         model = AgentNetwork(kDimension=10,qDimension=10)
-        model.load_state_dict(torch.load("./parameters.pt"))
-        model.eval()
+        model.load_state_dict(torch.load(path))
+       # model.eval()
+        return model
     def removeGrad(self):
         for params in self.parameters():
             params.requires_grad=False
