@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-#from torchsummary import summary
+from torchsummary import summary
 from torch import nn
 torch.set_default_tensor_type(torch.cuda.FloatTensor)
 import random
@@ -53,11 +53,17 @@ class AgentNetwork(torch.nn.Module):
         move=stride/2
         return [(x+move)/self.imageDimension[0],(y+move)/self.imageDimension[1]]
 
-    def __init__(self,imageDimension=(64,64,3),qDimension=10,kDimension=10,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center,threshold=0.333):
+    def positionAndColor(self,x,y,stride,patch):
+        move=stride/2
+        xaxis=(x+move)/self.imageDimension[0]
+        yaxis=(y+move)/self.imageDimension[1]
+
+    def __init__(self,imageDimension=(64,64,3),qDimension=10,kDimension=10,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center,threshold=0.33,color=True):
         super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.stride = stride
         self.render=False
+        self.color=color
         self.threshold = threshold
         self.firstBests = firstBests
         self.qDimension = qDimension
@@ -83,8 +89,11 @@ class AgentNetwork(torch.nn.Module):
         attention=self.attention(reshapedPatches)
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
         #print(bestPatches,indices,patchesAttention,sep="\n\n\n")
-        features=self.getFeatures(bestPatches,indices,patchesAttention)
-        
+        # features=self.getFeatures(bestPatches,indices,patchesAttention)
+        if self.color:
+            features=self.getFeaturesAndColors(bestPatches,indices,patchesAttention)
+        else:
+            features=self.getFeatures(bestPatches,indices,patchesAttention)
         actions=self.controller(features)
         #print(actions)
         
@@ -114,6 +123,17 @@ class AgentNetwork(torch.nn.Module):
         features=torch.tensor(features)
         return features.reshape(-1)
 
+    def getFeaturesAndColors(self,bestPatches,indices,patchesAttention):
+        positions=[]
+        indices=indices.tolist()
+        for i in indices:
+            row=int(i/self.imageDimension[0])
+            column=i%self.imageDimension[1]
+            color=int(self.patches[i].mean()/255)
+            positions.append((row,column,color))
+        features=[[*self.f(self,row,column,self.stride,),color] for row,column,color in positions]
+        features=torch.tensor(features)
+        return features.reshape(-1)
 
     def getPatches(self,obs,stride):
         lists=[]
@@ -127,13 +147,15 @@ class AgentNetwork(torch.nn.Module):
         return ret 
 
     def featuresDimension(self):
+        if self.color:
+            return int(3*self.firstBests)
         return int(2*self.firstBests)
     def selectAction(self,actions):
         selected=torch.argmax(actions).reshape(1)
-        # if actions[selected]>self.threshold:
-        #     return selected 
-        # return torch.tensor([4])
-        return selected
+        if actions[selected]>self.threshold:
+            return selected 
+        return torch.tensor([4])
+        # return selected
 
     def getBestPatches(self,attention):
         #attention nof patches**2
@@ -181,8 +203,8 @@ class AgentNetwork(torch.nn.Module):
 
 if __name__ == '__main__':
     agent=AgentNetwork(kDimension=10,qDimension=10)
-    #summary(agent)
-    print(agent)
+    
+    print(len(agent.getparameters()))
     i=0
 
     agent.loadparameters([random.random() for i in range(3200)])
