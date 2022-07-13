@@ -95,9 +95,9 @@ class AgentNetwork(torch.nn.Module):
             # print("reshapedPatches",reshapedPatches)
             # print("attention",attention)
             # print("bestPatches",bestPatches)
-            print("indices",indices)
+            # print("indices",indices)
             # print("patchesAttention",patchesAttention)
-            print("features",features*self.imageDimension[0])
+            # print("features",features*self.imageDimension[0])
             # print("actions",actions)
             # print("output",output)
             pass
@@ -167,6 +167,7 @@ class AgentNetwork(torch.nn.Module):
     def saveModel(self,val):
         #torch.save(self, "./parameters.pt")
         torch.save(self.state_dict(), "./"+val+".pt")
+        torch.save(self.state_dict(), "./parameters.pt")
     def loadModel(path):
         # self=torch.load("./parameters.pt")
         # self.eval()

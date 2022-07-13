@@ -8,12 +8,12 @@ parameters=AgentNetwork().getparameters()
 parameters=[float(0) for i in range(3200)]
 
 variance=0.1
-es=cma.CMAEvolutionStrategy(parameters,variance,inopts={'popsize':50})
+es=cma.CMAEvolutionStrategy(parameters,variance,inopts={'popsize':128})
 j=0
 whenToCopy=100
 agent=AgentNetwork()
 agent.cuda()
-game="starpilot"
+game="chaser"
 globalBest=0
 # tracker = SummaryTracker()
 while not es.stop():
