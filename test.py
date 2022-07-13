@@ -3,6 +3,14 @@ import numpy as np
 import cma
 from agent import *
 
+
+import multiprocessing as mp
+print("Number of processors: ", mp.cpu_count())
+
+pool = mp.Pool(mp.cpu_count())
+
+
+
 def provaEvoluzione():
     parameters=np.array([0 for i in range(1000)])
     def funzione(parameters):
@@ -23,4 +31,4 @@ def provaEvoluzione():
 def provaAgente():
     agent=AgentNetwork()
 
-provaEvoluzione()
+#provaEvoluzione()
