@@ -31,7 +31,7 @@ while not es.stop():
     if currentBest>globalBest:
         print("saving current best")
         globalBest=currentBest
-        agent.saveModel()
+        agent.saveModel(str(globalBest))
     es.disp()
     
     # tracker.print_diff()

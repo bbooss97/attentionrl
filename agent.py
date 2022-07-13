@@ -164,9 +164,9 @@ class AgentNetwork(torch.nn.Module):
         self.double()
 
 
-    def saveModel(self):
+    def saveModel(self,val):
         #torch.save(self, "./parameters.pt")
-        torch.save(self.state_dict(), "./parameters.pt")
+        torch.save(self.state_dict(), "./"+val+".pt")
     def loadModel(path):
         # self=torch.load("./parameters.pt")
         # self.eval()
