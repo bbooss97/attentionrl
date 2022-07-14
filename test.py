@@ -4,11 +4,9 @@ import cma
 from agent import *
 
 
-import multiprocessing as mp
-print("Number of processors: ", mp.cpu_count())
-
-pool = mp.Pool(mp.cpu_count())
-
+def prova():
+    agent=AgentNetwork()
+    print(agent.getPatches(agent.obsExample,agent.stride)[0].reshape(16,-1).mean(axis=0))
 
 
 def provaEvoluzione():
@@ -31,4 +29,4 @@ def provaEvoluzione():
 def provaAgente():
     agent=AgentNetwork()
 
-#provaEvoluzione()
+prova()
