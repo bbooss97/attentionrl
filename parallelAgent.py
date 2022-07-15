@@ -4,6 +4,7 @@ from torchsummary import summary
 from torch import nn
 torch.set_default_tensor_type(torch.cuda.FloatTensor)
 import random
+import time
 
 
 class SelfAttention(torch.nn.Module):
@@ -11,6 +12,7 @@ class SelfAttention(torch.nn.Module):
         super(SelfAttention, self).__init__()
         self.qDimension = qDimension
         self.kDimension = kDimension
+        
         self.q = torch.nn.Linear(inputDimension, qDimension)
         self.k = torch.nn.Linear(inputDimension, kDimension)
         self.inputDimension = inputDimension
@@ -20,7 +22,7 @@ class SelfAttention(torch.nn.Module):
         input=input.double()
         q=self.q(input)
         k=self.k(input)
-        attention=torch.einsum('bij,bjk->bik', q, k.reshape(5,3,256))
+        attention=torch.einsum('bij,bjk->bik', q, k.reshape(input.shape[0],self.kDimension,256))
         attention=attention/((input.shape[2])**0.5)
         attention=torch.softmax(attention,dim=2)
         return attention
@@ -89,7 +91,7 @@ class AgentNetwork(torch.nn.Module):
         self.layers.append(self.attention)
         self.layers.append(self.controller)
         self.f=f
-        self.obsExample=np.load("parallelObs.npy")
+        self.obsExample=torch.tensor(np.load("parallelObs.npy"))
         self.removeGrad()
         
 
@@ -97,49 +99,37 @@ class AgentNetwork(torch.nn.Module):
         pass
 
     def getOutput(self,input):
+
         self.patches=self.getPatches(input,self.stride)
 
         reshapedPatches=torch.reshape(self.patches,[self.num,self.nOfPatches,-1])
-       
+
         attention=self.attention(reshapedPatches)
-        
+
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
-        
-        #print(bestPatches,indices,patchesAttention,sep="\n\n\n")
-        # features=self.getFeatures(bestPatches,indices,patchesAttention)
+
         if self.color:
             features=self.getFeaturesAndColors(bestPatches,indices,patchesAttention)
         else:
             features=self.getFeatures(bestPatches,indices,patchesAttention)
-    
+
         actions=self.controller(features)
 
         
         output=self.selectAction(actions)
+
+
         if self.render:
             
-            # print("patches",self.patches)
-            # print("reshapedPatches",reshapedPatches)
-            # print("attention",attention)
-            # print("bestPatches",bestPatches)
-            # print("indices",indices)
-            # print("patchesAttention",patchesAttention)
-            # print("features",features*self.imageDimension[0])
-            # print("actions",actions)
-            # print("output",output)
+
             pass
         return output
 
     def getFeatures(self,bestPatches,indices,patchesAttention):
-        positions=[]
-        indices=indices.tolist()
-        for i in indices:
-            row=int(i/self.imageDimension[0])
-            column=i%self.imageDimension[1]
-            positions.append((row,column))
-        features=[self.f(self,row,column,self.stride) for row,column in positions]
-        features=torch.tensor(features)
-        return features.reshape(-1)
+        col=(indices%self.xPatches).int()
+        row=(indices/self.xPatches).int()
+        features=torch.cat((row,col),1)/15
+        return features
 
     def getFeaturesAndColors(self,bestPatches,indices,patchesAttention):
         indices=indices.tolist()
@@ -157,35 +147,43 @@ class AgentNetwork(torch.nn.Module):
         res=torch.tensor(res).reshape(self.num,-1)
         return res
 
+    # def getPatches(self,obs,stride):
+    #     tot=[]
+    #     for k in range(self.num):
+    #         lists=[]
+    #         for i in range(0,64,stride):
+    #             for j in range(0,64,stride):
+    #                 patc=obs[k,i:i+stride,j:j+stride,:]
+    #                 lists.append(patc)
+    #         patches=torch.stack(lists)
+    #         tot.append(patches)
+    #     tot=torch.stack(tot)
+    #     ret=torch.tensor(tot,dtype=torch.float)
+    #     return ret
     def getPatches(self,obs,stride):
-        tot=[]
-        for k in range(self.num):
-            lists=[]
-            for i in range(0,64,stride):
-                for j in range(0,64,stride):
-                    patc=obs[k,i:i+stride,j:j+stride,:]
-                    lists.append(patc)
-            patches=np.stack(lists)
-            tot.append(patches)
-        tot=np.stack(tot)
-        ret=torch.tensor(tot,dtype=torch.float)
-        return ret 
+        # r=torch.range(0,self.imageDimension[0]-1,self.stride)        
+        # indexes=torch.cartesian_prod(r,r)
+        obs=obs.reshape(100,-1,3)
+        # obs=obs.transpose(1,2)
+        
+        patches=obs.unfold(step=self.stride**2,dimension=1,size=self.stride**2).transpose(2,3).reshape(self.num,-1,self.stride,self.stride,self.imageDimension[2])
+        return patches
+
+
+
+
+
+
+
 
     def featuresDimension(self):
         if self.color:
             return int(5*self.firstBests)
         return int(2*self.firstBests)
     def selectAction(self,actions):
-        selected=list(torch.argmax(actions,axis=1).reshape(-1))
-        res=[]
-        for i in selected:
-            if i >self.threshold:
-                res.append(i)
-            else:
-                res.append(4)
-        res=torch.tensor(res)
-        return res
-        # return selected
+        selected=torch.argmax(actions,axis=1).reshape(-1)
+        return selected
+
 
     def getBestPatches(self,attention):
         #attention nof patches**2
@@ -205,7 +203,6 @@ class AgentNetwork(torch.nn.Module):
 
     def loadparameters(self,parameters):
         parameters=torch.tensor(parameters).double()
-        parameters.cuda()
         conta=0
         for params in self.parameters():
             shape=params.data.shape
@@ -232,12 +229,12 @@ class AgentNetwork(torch.nn.Module):
             params.requires_grad=False
 
 if __name__ == '__main__':
-    agent=AgentNetwork(num=5)
+    agent=AgentNetwork(num=100,color=False)
     
     print(len(agent.getparameters()))
     i=0
 
-    agent.loadparameters([float(1) for i in range(645)])
+    agent.loadparameters([float(1) for i in range(501)])
         
     
     o=agent.getOutput(agent.obsExample)

@@ -3,7 +3,7 @@ from gymEnvironment import Gymenv1player
 import gym3
 
 
-nameOfParameters="./parameters.pt"
+nameOfParameters="./current.pt"
 gameName="starpilot"
 def testAgent():
     agent=AgentNetwork.loadModel(nameOfParameters)

@@ -136,7 +136,7 @@ class Gymenv1player():
     def play(self):
         reward=0
         step=0
-        gamesPlayed=np.array([False for i in range(self.num)])
+        gamesPlayed=0
         if self.verbose:
             print("inizio il game")
         for i in range(self.maxsteps):
@@ -153,13 +153,16 @@ class Gymenv1player():
                 self.env.act(action)
             rew, obs, first = self.env.observe()
             reward=reward+rew
+            if step>0 and first:
+                gamesPlayed+=1
             step += 1
+            
             if self.render:
                 print(a)
         if self.verbose:
             print("finito game")
         self.env.close()
-        return reward
+        return reward/gamesPlayed
     def transformObs(obs,i):
         transformedObs=np.array(obs["rgb"])
         return transformedObs[i]

@@ -24,7 +24,16 @@ class SelfAttention(torch.nn.Module):
         attention=attention/((input.shape[1])**0.5)
         attention=torch.softmax(attention,dim=1)
         return attention
+class MLPController(torch.nn.Module):
+    def __init__(self,input,output):
+        super(MLPController,self).__init__()
+        self.fc=torch.nn.Linear(input,output)
+        
+    def forward(self,input):
 
+        output=self.fc(input.double())
+        output=torch.softmax(output,dim=0)
+        return output
 class Controller(torch.nn.Module):
     def __init__(self,input,output):
         super(Controller,self).__init__()
@@ -58,7 +67,7 @@ class AgentNetwork(torch.nn.Module):
         xaxis=(x+move)/self.imageDimension[0]
         yaxis=(y+move)/self.imageDimension[1]
 
-    def __init__(self,imageDimension=(64,64,3),qDimension=10,kDimension=10,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center,threshold=0.33,color=True):
+    def __init__(self,imageDimension=(64,64,3),qDimension=1,kDimension=1,nOfPatches=16,stride=4,patchesDim=16,firstBests=10,f=center,threshold=0.3,color=True):
         super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.stride = stride
@@ -71,7 +80,7 @@ class AgentNetwork(torch.nn.Module):
         self.xPatches=int(self.imageDimension[0]/self.stride)
         self.nOfPatches = int((self.imageDimension[0]/self.stride)**2)
         self.patchesDim = self.stride**2
-        self.controller=Controller(self.featuresDimension(),15)
+        self.controller=MLPController(self.featuresDimension(),15)
         self.attention=SelfAttention(self.patchesDim*self.imageDimension[2],self.qDimension, self.kDimension)
         self.layers.append(self.attention)
         self.layers.append(self.controller)
@@ -116,11 +125,11 @@ class AgentNetwork(torch.nn.Module):
         positions=[]
         indices=indices.tolist()
         for i in indices:
-            row=int(i/self.imageDimension[0])
-            column=i%self.imageDimension[1]
+            row=int(i/self.xPatches)
+            column=i%self.xPatches
             positions.append((row,column))
-        features=[self.f(self,row,column,self.stride) for row,column in positions]
-        features=torch.tensor(features)
+        features=torch.tensor(positions)/16
+        
         return features.reshape(-1)
 
     def getFeaturesAndColors(self,bestPatches,indices,patchesAttention):
@@ -193,7 +202,7 @@ class AgentNetwork(torch.nn.Module):
     def loadModel(path):
         # self=torch.load("./parameters.pt")
         # self.eval()
-        model = AgentNetwork(kDimension=10,qDimension=10)
+        model = AgentNetwork(kDimension=1,qDimension=1,color=False,firstBests=10)
         model.load_state_dict(torch.load(path))
        # model.eval()
         return model
@@ -202,7 +211,7 @@ class AgentNetwork(torch.nn.Module):
             params.requires_grad=False
 
 if __name__ == '__main__':
-    agent=AgentNetwork(kDimension=10,qDimension=10)
+    agent=AgentNetwork(kDimension=1,qDimension=1,color=False)
     
     print(len(agent.getparameters()))
     i=0

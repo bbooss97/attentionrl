@@ -36,9 +36,9 @@ from gym3 import types_np
 from procgen import ProcgenGym3Env
 import numpy as np
 import torch
-from agent import AgentNetwork
-from agent import SelfAttention
-from agent import Controller
+torch.set_default_tensor_type(torch.cuda.FloatTensor)
+from parallelAgent import AgentNetwork
+
 import random
 
 # class Gymenv():
@@ -87,9 +87,9 @@ class Gymenv1player():
 
 
     def play(self):
-        reward=[0 for i in range(self.num)]
+        reward=np.array([0 for i in range(self.num)])
         step=0
-        gamesPlayed=[0 for i in range(self.num)]
+        gamesPlayed=np.array([1 for i in range(self.num)])
         if self.verbose:
             print("inizio il game")
         for i in range(self.maxsteps):
@@ -98,6 +98,7 @@ class Gymenv1player():
                     a=torch.tensor([4 for i in range(self.num)])
                 else:
                     oss=Gymenv1player.transformObs(obs)
+                    oss=torch.tensor(oss).cuda()
                     a=self.agent.getOutput(oss)          
                 a=a.to("cpu").numpy()
                 self.env.act(a)
@@ -105,8 +106,8 @@ class Gymenv1player():
                 action=types_np.sample(self.env.ac_space, bshape=(self.num,))
                 self.env.act(action)
             rew, obs, first = self.env.observe()
-            reward=reward+rew
-            gamesPlayed+=first
+            reward=reward+np.array(rew)
+            gamesPlayed+=np.array(first).astype(np.int32)
             step += 1
             if self.render:
                 print(a)
@@ -128,10 +129,10 @@ class Gymenv1player():
         return transformedObs
 
 if __name__ == "__main__":
-    agent=AgentNetwork(num=5)
+    agent=AgentNetwork(num=100,color=False)
     agent.loadparameters([float(i) for i in agent.getparameters()])
 
-    gymEnv=Gymenv1player(num=5,maxsteps=1000,nOfGames=1,agent=agent,gameName="starpilot")
+    gymEnv=Gymenv1player(num=100,maxsteps=500,nOfGames=1,agent=agent,gameName="starpilot")
 #gymEnv=Gymenv1player(maxsteps=10000)
     print(gymEnv.play())
 
