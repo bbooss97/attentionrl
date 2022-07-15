@@ -163,7 +163,7 @@ class AgentNetwork(torch.nn.Module):
     def getPatches(self,obs,stride):
         # r=torch.range(0,self.imageDimension[0]-1,self.stride)        
         # indexes=torch.cartesian_prod(r,r)
-        obs=obs.reshape(100,-1,3)
+        obs=obs.reshape(self.num,-1,3)
         # obs=obs.transpose(1,2)
         
         patches=obs.unfold(step=self.stride**2,dimension=1,size=self.stride**2).transpose(2,3).reshape(self.num,-1,self.stride,self.stride,self.imageDimension[2])

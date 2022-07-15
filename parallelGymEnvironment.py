@@ -129,10 +129,10 @@ class Gymenv1player():
         return transformedObs
 
 if __name__ == "__main__":
-    agent=AgentNetwork(num=100,color=False)
+    agent=AgentNetwork(num=2,color=False)
     agent.loadparameters([float(i) for i in agent.getparameters()])
 
-    gymEnv=Gymenv1player(num=100,maxsteps=500,nOfGames=1,agent=agent,gameName="starpilot")
+    gymEnv=Gymenv1player(num=2,maxsteps=500,nOfGames=1,agent=agent,gameName="starpilot")
 #gymEnv=Gymenv1player(maxsteps=10000)
     print(gymEnv.play())
 
