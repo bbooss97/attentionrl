@@ -199,10 +199,10 @@ class AgentNetwork(torch.nn.Module):
         #torch.save(self, "./parameters.pt")
         torch.save(self.state_dict(), "./"+val+".pt")
         torch.save(self.state_dict(), "./parameters.pt")
-    def loadModel(path):
+    def loadModel(self,path,agent):
         # self=torch.load("./parameters.pt")
         # self.eval()
-        model = AgentNetwork(kDimension=1,qDimension=1,color=False,firstBests=10)
+        model = agent
         model.load_state_dict(torch.load(path))
        # model.eval()
         return model

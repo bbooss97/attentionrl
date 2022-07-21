@@ -72,11 +72,11 @@ class AgentNetwork(torch.nn.Module):
         xaxis=(x+move)/self.imageDimension[0]
         yaxis=(y+move)/self.imageDimension[1]
 
-    def __init__(self,imageDimension=(64,64,3),qDimension=3,kDimension=3,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center,threshold=0.33,color=True,num=1):
+    def __init__(self,imageDimension=(64,64,3),qDimension=3,kDimension=3,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center,threshold=0.33,color=True,num=1,render=False):
         super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.stride = stride
-        self.render=False
+        self.render=render
         self.num=num
         self.color=color
         self.threshold = threshold
@@ -217,13 +217,12 @@ class AgentNetwork(torch.nn.Module):
         #torch.save(self, "./parameters.pt")
         torch.save(self.state_dict(), "./"+val+".pt")
         torch.save(self.state_dict(), "./parameters.pt")
-    def loadModel(path):
+    def loadModel(self,path):
         # self=torch.load("./parameters.pt")
         # self.eval()
-        model = AgentNetwork()
-        model.load_state_dict(torch.load(path))
+        self.load_state_dict(torch.load(path))
        # model.eval()
-        return model
+        return self
     def removeGrad(self):
         for params in self.parameters():
             params.requires_grad=False
