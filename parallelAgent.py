@@ -22,7 +22,7 @@ class SelfAttention(torch.nn.Module):
         input=input.double()
         q=self.q(input)
         k=self.k(input)
-        attention=torch.einsum('bij,bjk->bik', q, k.reshape(input.shape[0],self.kDimension,256))
+        attention=torch.einsum('bij,bjk->bik', q, k.reshape(input.shape[0],self.kDimension,225))
         attention=attention/((input.shape[2])**0.5)
         attention=torch.softmax(attention,dim=2)
         return attention
@@ -88,7 +88,7 @@ class AgentNetwork(torch.nn.Module):
         self.nOfPatches = int((self.imageDimension[0]/self.stride)**2)
         self.patchesDim = self.stride**2
         self.controller=MLPController(self.featuresDimension(),15)
-        self.attention=SelfAttention(self.patchesDim*self.imageDimension[2],self.qDimension, self.kDimension)
+        self.attention=SelfAttention(147,self.qDimension, self.kDimension)
         self.layers.append(self.attention)
         self.layers.append(self.controller)
         self.f=f
@@ -103,9 +103,7 @@ class AgentNetwork(torch.nn.Module):
         input=input/255
         self.patches=self.getPatches(input,self.stride)
 
-        reshapedPatches=torch.reshape(self.patches,[self.num,self.nOfPatches,-1])
-
-        attention=self.attention(reshapedPatches)
+        attention=self.attention(self.patches)
 
         bestPatches,indices,patchesAttention=self.getBestPatches(attention)
 
@@ -127,9 +125,9 @@ class AgentNetwork(torch.nn.Module):
         return output
 
     def getFeatures(self,bestPatches,indices,patchesAttention):
-        col=(indices%self.xPatches).int()
-        row=(indices/self.xPatches).int()
-        features=torch.cat((row,col),1)/15
+        col=(indices%25).int()
+        row=(indices/25).int()
+        features=torch.cat((row*25+4,col*25+4),1)/64
         return features
 
     def getFeaturesAndColors(self,bestPatches,indices,patchesAttention):
@@ -148,27 +146,14 @@ class AgentNetwork(torch.nn.Module):
         res=torch.tensor(res).reshape(self.num,-1)
         return res
 
-    # def getPatches(self,obs,stride):
-    #     tot=[]
-    #     for k in range(self.num):
-    #         lists=[]
-    #         for i in range(0,64,stride):
-    #             for j in range(0,64,stride):
-    #                 patc=obs[k,i:i+stride,j:j+stride,:]
-    #                 lists.append(patc)
-    #         patches=torch.stack(lists)
-    #         tot.append(patches)
-    #     tot=torch.stack(tot)
-    #     ret=torch.tensor(tot,dtype=torch.float)
-    #     return ret
+
     def getPatches(self,obs,stride):
-        # r=torch.range(0,self.imageDimension[0]-1,self.stride)        
-        # indexes=torch.cartesian_prod(r,r)
-        obs=obs.reshape(self.num,-1,3)
-        # obs=obs.transpose(1,2)
-        
-        patches=obs.unfold(step=self.stride**2,dimension=1,size=self.stride**2).transpose(2,3).reshape(self.num,-1,self.stride,self.stride,self.imageDimension[2])
-        return patches
+        obs=torch.einsum("abcd->adbc",obs)
+        unfold=nn.Unfold(kernel_size=(7,7),stride=4)
+        obs=unfold(obs)
+        obs=obs.transpose(1,2)
+        # print(obs.shape)
+        return obs
 
 
     def featuresDimension(self):
@@ -228,7 +213,7 @@ if __name__ == '__main__':
     print(len(agent.getparameters()))
     i=0
 
-    agent.loadparameters([float(1) for i in range(1369)])
+    agent.loadparameters([float(1) for i in range(1543)])
         
     
     o=agent.getOutput(agent.obsExample)

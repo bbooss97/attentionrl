@@ -10,7 +10,7 @@ def regularization(params,coeff):
     p=np.array(params)
     regularization= coeff*float(((p**2).sum())**0.5)
     return regularization
-num=10
+num=5
 parameters=AgentNetwork().getparameters()
 
 
