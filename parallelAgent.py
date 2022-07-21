@@ -43,13 +43,13 @@ class MLPController(torch.nn.Module):
     def __init__(self,input,output):
         super(MLPController,self).__init__()
         self.fc=torch.nn.Linear(input,20)
-        self.fc1=torch.nn.Linear(20,20)
-        self.fc2=torch.nn.Linear(20,output)
+        self.fc1=torch.nn.Linear(20,output)
+
     def forward(self,input):
         #print(self.fc(input.double()))
         output=nn.Sigmoid()(self.fc(input.double()))
-        output=nn.Sigmoid()(self.fc1(output))
-        output=self.fc2(output)
+        output=self.fc1(output)
+  
     
         output=torch.softmax(output,dim=1)
         return output

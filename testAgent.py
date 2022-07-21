@@ -3,10 +3,10 @@ from parallelGymEnvironment import Gymenv1player
 import gym3
 
 
-nameOfParameters="./current.pt"
+nameOfParameters="./parameters.pt"
 gameName="starpilot"
 def testAgent():
-    agent=AgentNetwork(color=False,qDimension=1,kDimension=1,firstBests=10)
+    agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10)
     agent=agent.loadModel(nameOfParameters)
     agent.render=True
     agent.loadparameters(agent.getparameters())

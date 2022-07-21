@@ -19,7 +19,7 @@ es=cma.CMAEvolutionStrategy(parameters,variance)
 j=0
 whenToCopy=100
 
-agent=AgentNetwork(color=False,qDimension=1,kDimension=1,firstBests=10,num=num)
+agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10,num=num)
 agent.cuda()
 game="starpilot"
 globalBest=0
