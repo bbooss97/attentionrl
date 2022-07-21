@@ -171,12 +171,6 @@ class AgentNetwork(torch.nn.Module):
         return patches
 
 
-
-
-
-
-
-
     def featuresDimension(self):
         if self.color:
             return int(5*self.firstBests)
