@@ -42,13 +42,14 @@ class Controller(torch.nn.Module):
 class MLPController(torch.nn.Module):
     def __init__(self,input,output):
         super(MLPController,self).__init__()
-        self.fc=torch.nn.Linear(input,6)
-        self.fc1=torch.nn.Linear(6,output)
+        self.fc=torch.nn.Linear(input,20)
+        self.fc1=torch.nn.Linear(20,20)
+        self.fc2=torch.nn.Linear(20,output)
     def forward(self,input):
-
-        output=self.fc(input.double())
-
-        output=self.fc1(output)
+        #print(self.fc(input.double()))
+        output=nn.Sigmoid()(self.fc(input.double()))
+        output=nn.Sigmoid()(self.fc1(output))
+        output=self.fc2(output)
     
         output=torch.softmax(output,dim=1)
         return output
@@ -99,7 +100,7 @@ class AgentNetwork(torch.nn.Module):
         pass
 
     def getOutput(self,input):
-
+        input=input/255
         self.patches=self.getPatches(input,self.stride)
 
         reshapedPatches=torch.reshape(self.patches,[self.num,self.nOfPatches,-1])
@@ -233,7 +234,7 @@ if __name__ == '__main__':
     print(len(agent.getparameters()))
     i=0
 
-    agent.loadparameters([float(1) for i in range(501)])
+    agent.loadparameters([float(1) for i in range(1369)])
         
     
     o=agent.getOutput(agent.obsExample)
