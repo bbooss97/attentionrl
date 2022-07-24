@@ -11,7 +11,10 @@ def regularization(params,coeff):
     regularization= coeff*float(((p**2).sum())**0.5)
     return regularization
 num=5
-parameters=AgentNetwork().getparameters()
+agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10,num=num)
+parameters=len(agent.getparameters())
+
+parameters=[float(0)for i in range(parameters)]
 
 
 variance=1
@@ -19,10 +22,9 @@ es=cma.CMAEvolutionStrategy(parameters,variance)
 j=0
 whenToCopy=100
 
-agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10,num=num)
 agent.cuda()
-game="starpilot"
-globalBest=0
+game="heist"
+globalBest=-1000
 # tracker = SummaryTracker()
 with tf.device('/GPU:0'):
     while True:

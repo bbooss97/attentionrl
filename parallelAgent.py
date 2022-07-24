@@ -6,6 +6,18 @@ torch.set_default_tensor_type(torch.cuda.FloatTensor)
 import random
 import time
 
+class FeatureExtractor(torch.nn.Module):
+    def __init__(self,x,y):
+        super(FeatureExtractor, self).__init__()
+        self.fc1=torch.nn.Linear(x,5)
+        self.relu=torch.nn.ReLU()
+        self.fc2=torch.nn.Linear(5,y)
+    def forward(self,x):
+        x=x.double()
+        x=self.fc1(x)
+        x=self.relu(x)
+        x=self.fc2(x)
+        return x
 
 class SelfAttention(torch.nn.Module):
     def __init__(self, inputDimension,qDimension,kDimension):
@@ -44,13 +56,13 @@ class MLPController(torch.nn.Module):
         super(MLPController,self).__init__()
         self.fc=torch.nn.Linear(input,20)
         self.fc1=torch.nn.Linear(20,output)
+        self.fc2=torch.nn.Linear(output,output)
 
     def forward(self,input):
         #print(self.fc(input.double()))
         output=nn.Sigmoid()(self.fc(input.double()))
-        output=self.fc1(output)
-  
-    
+        output=nn.Sigmoid()(self.fc1(output))
+        output=self.fc2(output)
         output=torch.softmax(output,dim=1)
         return output
 
@@ -94,6 +106,7 @@ class AgentNetwork(torch.nn.Module):
         self.f=f
         self.obsExample=torch.tensor(np.load("parallelObs.npy"))
         self.removeGrad()
+        self.featureExtractor=FeatureExtractor(49*3,3)
         
 
     def forward(self):
@@ -110,16 +123,14 @@ class AgentNetwork(torch.nn.Module):
         if self.color:
             features=self.getFeaturesAndColors(bestPatches,indices,patchesAttention)
         else:
-            features=self.getFeatures(bestPatches,indices,patchesAttention)
-
+            #features=self.getFeatures(bestPatches,indices,patchesAttention)
+            features=self.getFeautresFromExtractor(bestPatches,indices,patchesAttention)
         actions=self.controller(features)
-
         
         output=self.selectAction(actions)
-
-
         if self.render:
-            
+            print(indices)
+            print(features)
 
             pass
         return output
@@ -127,7 +138,29 @@ class AgentNetwork(torch.nn.Module):
     def getFeatures(self,bestPatches,indices,patchesAttention):
         col=(indices%25).int()
         row=(indices/25).int()
-        features=torch.cat((row*25+4,col*25+4),1)/64
+        if self.render:
+            print(row,col)
+        features=torch.cat((row*4+4,col*4+4),1)/64
+        return features
+    
+    def getFeautresFromExtractor(self,bestPatches,indices,patchesAttention):
+        col=(indices%25).int()
+        row=(indices/25).int()
+        
+        a=torch.outer(torch.arange(0,self.num),torch.ones(self.firstBests)).reshape(-1).long()
+        b=indices.reshape(-1).long()
+        
+        
+        
+        selected=self.patches[a,b].reshape(self.num,self.firstBests,-1)
+        
+        extracted=self.featureExtractor(selected).reshape(self.num,-1)
+        
+        if self.render:
+            print(row,col)
+        features=torch.cat((row*4+4,col*4+4),1)/64
+        features=torch.cat((features,extracted),1)
+        
         return features
 
     def getFeaturesAndColors(self,bestPatches,indices,patchesAttention):
@@ -159,7 +192,7 @@ class AgentNetwork(torch.nn.Module):
     def featuresDimension(self):
         if self.color:
             return int(5*self.firstBests)
-        return int(2*self.firstBests)
+        return int(2*self.firstBests+self.firstBests*3)
     def selectAction(self,actions):
         selected=torch.argmax(actions,axis=1).reshape(-1)
         return selected
@@ -213,7 +246,7 @@ if __name__ == '__main__':
     print(len(agent.getparameters()))
     i=0
 
-    agent.loadparameters([float(1) for i in range(1543)])
+    agent.loadparameters([float(1) for i in range(3021)])
         
     
     o=agent.getOutput(agent.obsExample)
