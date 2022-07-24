@@ -23,7 +23,7 @@ j=0
 whenToCopy=100
 
 agent.cuda()
-game="heist"
+game="starpilot"
 globalBest=-1000
 # tracker = SummaryTracker()
 with tf.device('/GPU:0'):

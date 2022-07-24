@@ -16,7 +16,7 @@ class FeatureExtractor(torch.nn.Module):
         x=x.double()
         x=self.fc1(x)
         x=self.relu(x)
-        x=self.fc2(x)
+        x=torch.nn.Sigmoid()(self.fc2(x))
         return x
 
 class SelfAttention(torch.nn.Module):
@@ -129,7 +129,8 @@ class AgentNetwork(torch.nn.Module):
         
         output=self.selectAction(actions)
         if self.render:
-            print(indices)
+            print("dati")
+            
             print(features)
 
             pass
@@ -157,8 +158,12 @@ class AgentNetwork(torch.nn.Module):
         extracted=self.featureExtractor(selected).reshape(self.num,-1)
         
         if self.render:
+            print("row,col")
             print(row,col)
-        features=torch.cat((row*4+4,col*4+4),1)/64
+        #features=torch.cat((row*4+4,col*4+4),1)/64
+        features=torch.cat((row/24,col/24),1)
+        if self.render:
+            print("feaatures: ",features)
         features=torch.cat((features,extracted),1)
         
         return features
