@@ -11,7 +11,7 @@ def regularization(params,coeff):
     regularization= coeff*float(((p**2).sum())**0.5)
     return regularization
 num=10
-startagain=True
+startagain=False
 agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10,num=num)
 
 
@@ -30,7 +30,7 @@ j=0
 whenToCopy=100
 
 agent.cuda()
-game="coinrun"
+game="starpilot"
 globalBest=-1000
 # tracker = SummaryTracker()
 with tf.device('/GPU:0'):

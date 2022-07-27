@@ -165,7 +165,7 @@ class AgentNetwork(torch.nn.Module):
             print(indices)
             print(row,col)
         #features=torch.cat((row*4+4,col*4+4),1)/64
-        features=torch.cat((row/15,col/15),1)
+        features=torch.cat((row/14,col/14),1)
         if self.render:
             print("feaatures: ",features)
         features=torch.cat((features,extracted),1)
