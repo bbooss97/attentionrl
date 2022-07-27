@@ -10,14 +10,21 @@ def regularization(params,coeff):
     p=np.array(params)
     regularization= coeff*float(((p**2).sum())**0.5)
     return regularization
-num=5
+num=40
+startagain=True
 agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10,num=num)
-parameters=len(agent.getparameters())
-
-parameters=[float(0)for i in range(parameters)]
 
 
-variance=1
+if startagain:  
+    agent=agent.loadModel("./parameters.pt")
+    parameters=agent.getparameters()
+    parameters=[float(i) for i in parameters]
+else:
+    parameters=len(agent.getparameters())
+    parameters=[float(0)for i in range(parameters)]
+
+
+variance=0.1
 es=cma.CMAEvolutionStrategy(parameters,variance)
 j=0
 whenToCopy=100
@@ -32,7 +39,7 @@ with tf.device('/GPU:0'):
         fitness=[]
         for i in generatedParameters:
             agent.loadparameters(i)
-            env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num)
+            env=Gymenv1player(agent=agent,maxsteps=250,verbose=False,gameName=game,num=num)
             fitness.append(100-env.play())
         es.tell(generatedParameters,fitness)
         agent.loadparameters(es.result.xbest)

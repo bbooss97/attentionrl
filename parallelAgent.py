@@ -128,9 +128,10 @@ class AgentNetwork(torch.nn.Module):
         actions=self.controller(features)
         
         output=self.selectAction(actions)
+        
         if self.render:
             print("dati")
-            
+          
             print(features)
 
             pass
@@ -199,7 +200,14 @@ class AgentNetwork(torch.nn.Module):
             return int(5*self.firstBests)
         return int(2*self.firstBests+self.firstBests*3)
     def selectAction(self,actions):
+
         selected=torch.argmax(actions,axis=1).reshape(-1)
+        if self.threshold>0:
+            for i in range(selected.shape[0]):
+                if actions[i][selected[i]]<self.threshold:
+                    selected[i]=4
+
+        
         return selected
 
 
