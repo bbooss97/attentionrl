@@ -138,16 +138,17 @@ class AgentNetwork(torch.nn.Module):
         return output
 
     def getFeatures(self,bestPatches,indices,patchesAttention):
-        col=(indices%25).int()
-        row=(indices/25).int()
+        col=(indices%15).int()
+        row=(indices/15).int()
         if self.render:
             print(row,col)
         features=torch.cat((row*4+4,col*4+4),1)/64
         return features
     
     def getFeautresFromExtractor(self,bestPatches,indices,patchesAttention):
-        col=(indices%25).int()
-        row=(indices/25).int()
+        
+        col=(indices%15).int()
+        row=(indices/15).int()
         
         a=torch.outer(torch.arange(0,self.num),torch.ones(self.firstBests)).reshape(-1).long()
         b=indices.reshape(-1).long()
@@ -159,10 +160,12 @@ class AgentNetwork(torch.nn.Module):
         extracted=self.featureExtractor(selected).reshape(self.num,-1)
         
         if self.render:
+
             print("row,col")
+            print(indices)
             print(row,col)
         #features=torch.cat((row*4+4,col*4+4),1)/64
-        features=torch.cat((row/24,col/24),1)
+        features=torch.cat((row/15,col/15),1)
         if self.render:
             print("feaatures: ",features)
         features=torch.cat((features,extracted),1)

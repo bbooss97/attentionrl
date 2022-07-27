@@ -4,7 +4,7 @@ import gym3
 
 
 nameOfParameters="./parameters.pt"
-gameName="starpilot"
+gameName="coinrun"
 def testAgent():
     agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10)
     agent=agent.loadModel(nameOfParameters)
