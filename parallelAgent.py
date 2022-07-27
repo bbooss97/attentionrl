@@ -51,6 +51,7 @@ class Controller(torch.nn.Module):
         output=self.fc(output).squeeze()
         output=torch.softmax(output,dim=0)
         return output
+        
 class MLPController(torch.nn.Module):
     def __init__(self,input,output):
         super(MLPController,self).__init__()
