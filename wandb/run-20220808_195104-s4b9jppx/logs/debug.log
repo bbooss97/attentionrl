@@ -13,3 +13,13 @@ config: {}
 2022-08-08 19:51:04,475 INFO    MainThread:13184 [backend.py:_multiprocessing_setup():97] multiprocessing start_methods=spawn, using: spawn
 2022-08-08 19:51:04,489 INFO    MainThread:13184 [wandb_init.py:init():558] backend started and connected
 2022-08-08 19:51:04,494 INFO    MainThread:13184 [wandb_init.py:init():636] updated telemetry
+2022-08-08 19:51:04,662 INFO    MainThread:13184 [wandb_init.py:init():667] communicating run to backend with 30 second timeout
+2022-08-08 19:51:05,273 INFO    MainThread:13184 [wandb_run.py:_on_init():1982] communicating current version
+2022-08-08 19:51:05,532 INFO    MainThread:13184 [wandb_run.py:_on_init():1986] got version response 
+2022-08-08 19:51:05,532 INFO    MainThread:13184 [wandb_init.py:init():700] starting run threads in backend
+2022-08-08 19:51:05,728 INFO    MainThread:13184 [wandb_run.py:_console_start():1962] atexit reg
+2022-08-08 19:51:05,728 INFO    MainThread:13184 [wandb_run.py:_redirect():1820] redirect: SettingsConsole.WRAP_RAW
+2022-08-08 19:51:05,728 INFO    MainThread:13184 [wandb_run.py:_redirect():1885] Wrapping output streams.
+2022-08-08 19:51:05,728 INFO    MainThread:13184 [wandb_run.py:_redirect():1907] Redirects installed.
+2022-08-08 19:51:05,729 INFO    MainThread:13184 [wandb_init.py:init():732] run started, returning control to user process
+2022-08-08 19:51:05,729 INFO    MainThread:13184 [wandb_watch.py:watch():47] Watching
