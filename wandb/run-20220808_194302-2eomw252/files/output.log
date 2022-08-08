@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "c:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelEvolution.py", line 20, in <module>
+    time.sleep(5)
+NameError: name 'time' is not defined

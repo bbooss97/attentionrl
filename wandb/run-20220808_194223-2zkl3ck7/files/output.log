@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "c:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelEvolution.py", line 16, in <module>
+    wandb.watch(agent)
+NameError: name 'agent' is not defined
