@@ -13,8 +13,8 @@ import wandb
 # artifact_dir = artifact.download()
 
 # wandb.join()
-num=5
-startagain=False
+num=10
+startagain=True
 agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10,num=num)
 name="starpilot lstm"
 run=wandb.init(project='attentionAgent', entity='bbooss97',name=name)

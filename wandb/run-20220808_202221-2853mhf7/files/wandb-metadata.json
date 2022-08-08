@@ -1,0 +1,24 @@
+{
+    "os": "Windows-10-10.0.19041-SP0",
+    "python": "3.9.2",
+    "heartbeatAt": "2022-08-08T18:22:22.251202",
+    "startedAt": "2022-08-08T18:22:21.159623",
+    "docker": null,
+    "gpu": "NVIDIA GeForce GTX 1060 3GB",
+    "gpu_count": 1,
+    "cpu_count": 12,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "c:\\Users\\Andrea\\Desktop\\attentionrl\\attentionrl\\parallelEvolution.py",
+    "codePath": "parallelEvolution.py",
+    "git": {
+        "remote": "https://github.com/bbooss97/attentionrl.git",
+        "commit": "01c997d0735a8e7fa751664b6d329087ebd93d08"
+    },
+    "email": "bbooss97@gmail.com",
+    "root": "C:/Users/Andrea/Desktop/attentionrl/attentionrl",
+    "host": "DESKTOP-HGU69RO",
+    "username": "Andrea",
+    "executable": "C:\\Users\\Andrea\\AppData\\Local\\Programs\\Python\\Python39\\python.exe"
+}
