@@ -5,7 +5,7 @@ from torch import nn
 torch.set_default_tensor_type(torch.cuda.FloatTensor)
 import random
 import time
-
+NUM=1
 class FeatureExtractor(torch.nn.Module):
     def __init__(self,x,y):
         super(FeatureExtractor, self).__init__()
@@ -24,12 +24,10 @@ class SelfAttention(torch.nn.Module):
         super(SelfAttention, self).__init__()
         self.qDimension = qDimension
         self.kDimension = kDimension
-        
         self.q = torch.nn.Linear(inputDimension, qDimension)
         self.k = torch.nn.Linear(inputDimension, kDimension)
         self.inputDimension = inputDimension
-        # torch.nn.init.xavier_uniform(self.q.weight)
-        # torch.nn.init.xavier_uniform(self.k.weight)
+
     def forward(self, input):
         input=input.double()
         q=self.q(input)
@@ -48,10 +46,36 @@ class Controller(torch.nn.Module):
 
     def forward(self,input):
         output,self.hidden=self.controller(input.view(1,-1).double(),self.hidden)
+
         output=self.fc(output).squeeze()
         output=torch.softmax(output,dim=0)
         return output
+
+class LstmController(torch.nn.Module):
+    def __init__(self,input,output,num):
+        super().__init__()
+        self.num=num
+        self.init_hidden()
+        self.lstm = nn.LSTM(input, 15, 1, batch_first=True)
+        self.fc1=torch.nn.Linear(15,15)
+        self.fc2 = nn.Linear(15, 15)
         
+
+    def forward(self, x):
+        self.lstm.flatten_parameters()
+        output, self.hidden = self.lstm(x.view(self.num,1,-1), self.hidden)
+        output = torch.nn.functional.relu(self.fc1(output).squeeze(dim=1))
+        output=self.fc2(output)
+        output = torch.nn.functional.softmax(output, dim=1)
+        return output
+        
+    def init_hidden(self):
+        hidden = torch.zeros(1,self.num, 15,requires_grad=False).double()
+        cell = torch.zeros(1, self.num, 15,requires_grad=False).double()
+        self.hidden=hidden,cell
+        
+
+
 class MLPController(torch.nn.Module):
     def __init__(self,input,output):
         super(MLPController,self).__init__()
@@ -60,7 +84,6 @@ class MLPController(torch.nn.Module):
         self.fc2=torch.nn.Linear(output,output)
 
     def forward(self,input):
-        #print(self.fc(input.double()))
         output=nn.Sigmoid()(self.fc(input.double()))
         output=nn.Sigmoid()(self.fc1(output))
         output=self.fc2(output)
@@ -86,7 +109,7 @@ class AgentNetwork(torch.nn.Module):
         xaxis=(x+move)/self.imageDimension[0]
         yaxis=(y+move)/self.imageDimension[1]
 
-    def __init__(self,imageDimension=(64,64,3),qDimension=3,kDimension=3,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center,threshold=0.33,color=True,num=1,render=False):
+    def __init__(self,imageDimension=(64,64,3),qDimension=3,kDimension=3,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center,threshold=0.33,color=True,num=1,render=False,useLstm=True):
         super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.stride = stride
@@ -100,7 +123,11 @@ class AgentNetwork(torch.nn.Module):
         self.xPatches=int(self.imageDimension[0]/self.stride)
         self.nOfPatches = int((self.imageDimension[0]/self.stride)**2)
         self.patchesDim = self.stride**2
-        self.controller=MLPController(self.featuresDimension(),15)
+        self.useLstm=useLstm
+        if self.useLstm==True:
+            self.controller=LstmController(self.featuresDimension(),15,num)
+        else:
+            self.controller=MLPController(self.featuresDimension(),15)
         self.attention=SelfAttention(147,self.qDimension, self.kDimension)
         self.layers.append(self.attention)
         self.layers.append(self.controller)
@@ -147,21 +174,13 @@ class AgentNetwork(torch.nn.Module):
         return features
     
     def getFeautresFromExtractor(self,bestPatches,indices,patchesAttention):
-        
         col=(indices%15).int()
         row=(indices/15).int()
-        
         a=torch.outer(torch.arange(0,self.num),torch.ones(self.firstBests)).reshape(-1).long()
         b=indices.reshape(-1).long()
-        
-        
-        
         selected=self.patches[a,b].reshape(self.num,self.firstBests,-1)
-        
         extracted=self.featureExtractor(selected).reshape(self.num,-1)
-        
         if self.render:
-
             print("row,col")
             print(indices)
             print(row,col)
@@ -170,7 +189,6 @@ class AgentNetwork(torch.nn.Module):
         if self.render:
             print("feaatures: ",features)
         features=torch.cat((features,extracted),1)
-        
         return features
 
     def getFeaturesAndColors(self,bestPatches,indices,patchesAttention):
@@ -241,6 +259,8 @@ class AgentNetwork(torch.nn.Module):
             params.data=dati
             conta+=avanti
         self.double()
+        if self.useLstm:
+            self.controller.init_hidden()
 
 
     def saveModel(self,val):
@@ -256,6 +276,7 @@ class AgentNetwork(torch.nn.Module):
     def removeGrad(self):
         for params in self.parameters():
             params.requires_grad=False
+        torch.autograd.set_grad_enabled(False)
 
 if __name__ == '__main__':
     agent=AgentNetwork(num=100,color=False)
@@ -263,7 +284,7 @@ if __name__ == '__main__':
     print(len(agent.getparameters()))
     i=0
 
-    agent.loadparameters([float(1) for i in range(3021)])
+    agent.loadparameters([float(1) for i in range(32186)])
         
     
     o=agent.getOutput(agent.obsExample)

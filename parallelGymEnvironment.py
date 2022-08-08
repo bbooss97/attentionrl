@@ -80,9 +80,9 @@ class Gymenv1player():
         self.nOfGames=nOfGames
         self.verbose=verbose
         if render:
-            self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False,render_mode="rgb_array")
+            self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False,restrict_themes=True,render_mode="rgb_array")
         else:
-            self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False)
+            self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False,restrict_themes=True)
         
 
 

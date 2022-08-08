@@ -10,7 +10,7 @@ def regularization(params,coeff):
     p=np.array(params)
     regularization= coeff*float(((p**2).sum())**0.5)
     return regularization
-num=10
+num=5
 startagain=False
 agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10,num=num)
 
@@ -24,7 +24,7 @@ else:
     parameters=[float(0)for i in range(parameters)]
 
 
-variance=0.1
+variance=10
 es=cma.CMAEvolutionStrategy(parameters,variance)
 j=0
 whenToCopy=100
@@ -42,12 +42,11 @@ with tf.device('/GPU:0'):
             env=Gymenv1player(agent=agent,maxsteps=250,verbose=False,gameName=game,num=num)
             fitness.append(100-env.play())
         es.tell(generatedParameters,fitness)
-        agent.loadparameters(es.result.xbest)
-        env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num)
-        currentBest=env.play()
+        agent.loadparameters(es.result.xfavorite)
         torch.save(agent.state_dict(), "./current.pt")
+        currentBest=100-es.result.fbest
         print(currentBest)
-        if currentBest>=globalBest:
+        if currentBest>globalBest:
             print("saving current best")
             globalBest=currentBest
             agent.saveModel(str(globalBest))
