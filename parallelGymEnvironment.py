@@ -73,7 +73,7 @@ import random
 class Gymenv1player():
     def __init__(self,gameName="coinrun",num=1,maxsteps=1000,nOfGames=1,agent=None,verbose=False,render=False):
         self.num=num
-        self.lossToStayAlive=.5
+        self.lossToStayAlive=0
         self.render=render
         self.maxsteps=maxsteps
         self.gameName=gameName

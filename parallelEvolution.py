@@ -13,10 +13,10 @@ import wandb
 # artifact_dir = artifact.download()
 
 # wandb.join()
-num=10
-startagain=True
+num=20
+startagain=False 
 agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10,num=num)
-name="starpilot lstm"
+name="cavaflyer lstm"
 run=wandb.init(project='attentionAgent', entity='bbooss97',name=name)
 run.watch(agent)
 time.sleep(5)
@@ -34,14 +34,14 @@ else:
     parameters=[float(0)for i in range(parameters)]
 
 
-variance=20
+variance=1
 es=cma.CMAEvolutionStrategy(parameters,variance)
 j=0
 whenToCopy=100
 
 agent.cuda()
 
-game="starpilot"
+game="caveflyer"
 globalBest=-1000
 start=0
 

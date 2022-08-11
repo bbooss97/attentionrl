@@ -134,7 +134,7 @@ class AgentNetwork(torch.nn.Module):
         self.f=f
         self.obsExample=torch.tensor(np.load("parallelObs.npy"))
         self.removeGrad()
-        self.featureExtractor=FeatureExtractor(49*3,3)
+        self.featureExtractor=FeatureExtractor(49*3,1)
         
 
     def forward(self):
@@ -159,7 +159,7 @@ class AgentNetwork(torch.nn.Module):
         
         if self.render:
             print("dati")
-          
+
             print(features)
 
             pass
@@ -170,6 +170,7 @@ class AgentNetwork(torch.nn.Module):
         row=(indices/15).int()
         if self.render:
             print(row,col)
+            
         features=torch.cat((row*4+4,col*4+4),1)/64
         return features
     
@@ -183,7 +184,15 @@ class AgentNetwork(torch.nn.Module):
         if self.render:
             print("row,col")
             print(indices)
-            print(row,col)
+            r=row.tolist()[0]
+            c=col.tolist()[0]
+            print(r,c)
+            print("\n\n")
+            m=[[0 for i in range(15)]for j in range(15)]
+            for i in range(len(r)):
+                m[r[i]][c[i]]=i+1
+            for i in m:
+                print(i)
         #features=torch.cat((row*4+4,col*4+4),1)/64
         features=torch.cat((row/14,col/14),1)
         if self.render:
@@ -220,7 +229,7 @@ class AgentNetwork(torch.nn.Module):
     def featuresDimension(self):
         if self.color:
             return int(5*self.firstBests)
-        return int(2*self.firstBests+self.firstBests*3)
+        return int(2*self.firstBests+self.firstBests*1)
     def selectAction(self,actions):
 
         selected=torch.argmax(actions,axis=1).reshape(-1)
