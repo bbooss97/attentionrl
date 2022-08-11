@@ -4,13 +4,13 @@ import gym3
 
 
 nameOfParameters="./parameters.pt"
-gameName="caveflyer"
+gameName="starpilot"
 def testAgent():
-    agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10)
+    agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=5)
     agent=agent.loadModel(nameOfParameters)
     agent.render=True
     agent.loadparameters(agent.getparameters())
-    env=Gymenv1player(agent=agent,num=1,maxsteps=1000,verbose=False,gameName=gameName,render=True)
+    env=Gymenv1player(agent=agent,num=1,maxsteps=1000,verbose=False,gameName=gameName,render=True,blockLevel=1)
     env.env=gym3.ViewerWrapper(env.env, info_key="rgb")
     res=env.play()
     print("the result is:" ,res)

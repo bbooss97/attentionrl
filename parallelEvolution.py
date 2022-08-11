@@ -15,7 +15,7 @@ import wandb
 # wandb.join()
 num=20
 startagain=False 
-agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=10,num=num)
+agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=5,num=num)
 name="cavaflyer lstm"
 run=wandb.init(project='attentionAgent', entity='bbooss97',name=name)
 run.watch(agent)
@@ -53,7 +53,7 @@ with tf.device('/GPU:0'):
         fitness=[]
         for i in generatedParameters:
             agent.loadparameters(i)
-            env=Gymenv1player(agent=agent,maxsteps=250,verbose=False,gameName=game,num=num)
+            env=Gymenv1player(agent=agent,maxsteps=250,verbose=False,gameName=game,num=num,blockLevel=num)
             fitness.append(100-env.play())
         es.tell(generatedParameters,fitness)
         agent.loadparameters(es.result.xfavorite)

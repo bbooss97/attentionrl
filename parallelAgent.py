@@ -109,10 +109,11 @@ class AgentNetwork(torch.nn.Module):
         xaxis=(x+move)/self.imageDimension[0]
         yaxis=(y+move)/self.imageDimension[1]
 
-    def __init__(self,imageDimension=(64,64,3),qDimension=3,kDimension=3,nOfPatches=16,stride=4,patchesDim=16,firstBests=8,f=center,threshold=0.33,color=True,num=1,render=False,useLstm=True):
+    def __init__(self,imageDimension=(64,64,3),qDimension=6,kDimension=6,extractorOutput=1,nOfPatches=16,stride=4,patchesDim=16,firstBests=5,f=center,threshold=0.33,color=True,num=1,render=False,useLstm=True):
         super(AgentNetwork,self).__init__()
         self.imageDimension = imageDimension
         self.stride = stride
+        self.extractorOutput = extractorOutput
         self.render=render
         self.num=num
         self.color=color
@@ -134,7 +135,7 @@ class AgentNetwork(torch.nn.Module):
         self.f=f
         self.obsExample=torch.tensor(np.load("parallelObs.npy"))
         self.removeGrad()
-        self.featureExtractor=FeatureExtractor(49*3,1)
+        self.featureExtractor=FeatureExtractor(49*3,self.extractorOutput)
         
 
     def forward(self):
@@ -229,7 +230,7 @@ class AgentNetwork(torch.nn.Module):
     def featuresDimension(self):
         if self.color:
             return int(5*self.firstBests)
-        return int(2*self.firstBests+self.firstBests*1)
+        return int(2*self.firstBests+self.firstBests*self.extractorOutput)
     def selectAction(self,actions):
 
         selected=torch.argmax(actions,axis=1).reshape(-1)
