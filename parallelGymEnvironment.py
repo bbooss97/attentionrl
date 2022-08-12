@@ -83,11 +83,11 @@ class Gymenv1player():
         if render:
             self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False,restrict_themes=True,render_mode="rgb_array")
             if blockLevel>0:
-                self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False,restrict_themes=True,render_mode="rgb_array",start_level=0,num_levels=blockLevel)
+                self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False,restrict_themes=True,render_mode="rgb_array",num_levels=blockLevel)
         else:
             self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False,restrict_themes=True)
             if blockLevel>0:
-                self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False,restrict_themes=True,start_level=0,num_levels=blockLevel)
+                self.env=ProcgenGym3Env(num=num, env_name=gameName,distribution_mode="easy",use_backgrounds=False,restrict_themes=True,num_levels=blockLevel)
 
 
     def play(self):

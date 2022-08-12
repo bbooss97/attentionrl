@@ -41,7 +41,7 @@ whenToCopy=100
 
 agent.cuda()
 
-game="caveflyer"
+game="climber"
 globalBest=-1000
 start=0
 
@@ -53,7 +53,7 @@ with tf.device('/GPU:0'):
         fitness=[]
         for i in generatedParameters:
             agent.loadparameters(i)
-            env=Gymenv1player(agent=agent,maxsteps=250,verbose=False,gameName=game,num=num,blockLevel=num)
+            env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num,blockLevel=num)
             fitness.append(100-env.play())
         es.tell(generatedParameters,fitness)
         agent.loadparameters(es.result.xfavorite)
