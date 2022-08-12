@@ -27,9 +27,9 @@ def train(i,shared_fitness,num,game,agent):
     shared_fitness[i]=100-env.play()
 
 if __name__ == '__main__':
-    warnings.filterwarnings("ignore")
+    # warnings.filterwarnings("ignore")
     num=5
-    num_processes = 2
+    num_processes = 15
     startagain=False 
     agent=AgentNetwork(qDimension=3,kDimension=3,firstBests=8,num=num)
     name="cavaflyer lstm"

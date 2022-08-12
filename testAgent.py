@@ -4,9 +4,9 @@ import gym3
 
 
 nameOfParameters="./parameters.pt"
-gameName="climber"
+gameName="starpilot"
 def testAgent():
-    agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=5)
+    agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=8)
     agent=agent.loadModel(nameOfParameters)
     agent.render=True
     agent.loadparameters(agent.getparameters())

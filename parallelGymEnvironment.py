@@ -36,7 +36,7 @@ from gym3 import types_np
 from procgen import ProcgenGym3Env
 import numpy as np
 import torch
-torch.set_default_tensor_type(torch.cuda.FloatTensor)
+# torch.set_default_tensor_type(torch.cuda.FloatTensor)
 from parallelAgent import AgentNetwork
 
 import random
@@ -102,7 +102,7 @@ class Gymenv1player():
                     a=torch.tensor([4 for i in range(self.num)])
                 else:
                     oss=Gymenv1player.transformObs(obs)
-                    oss=torch.tensor(oss).cuda()
+                    oss=torch.tensor(oss)
                     a=self.agent.getOutput(oss)          
                 a=a.to("cpu").numpy()
                 self.env.act(a)
