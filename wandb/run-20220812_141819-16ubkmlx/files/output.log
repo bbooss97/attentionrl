@@ -1,0 +1,10 @@
+(1,2mirr1)-aCMA-ES (mu_w=1.0,w_1=100%) in dimension 4034 (seed=389492, Fri Aug 12 14:18:26 2022)
+[array([-0.62261   ,  0.77494776, -0.51761018, ...,  0.64115666,
+        1.08225424, -1.88343727]), array([ 1.4778182 ,  0.31460943, -0.40724752, ..., -1.90561551,
+        1.39831554, -0.15993061])]
+Traceback (most recent call last):
+  File "c:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelEvolution.py", line 75, in <module>
+    es.tell(generatedParameters,fitness)
+  File "C:\Users\Andrea\AppData\Local\Programs\Python\Python39\lib\site-packages\cma\evolution_strategy.py", line 2607, in tell
+    raise ValueError('#f-values = %d must equal #solutions = %d'
+ValueError: #f-values = 0 must equal #solutions = 2
