@@ -36,7 +36,7 @@ from gym3 import types_np
 from procgen import ProcgenGym3Env
 import numpy as np
 import torch
-# torch.set_default_tensor_type(torch.cuda.FloatTensor)
+torch.set_default_tensor_type(torch.cuda.FloatTensor)
 from parallelAgent import AgentNetwork
 
 import random

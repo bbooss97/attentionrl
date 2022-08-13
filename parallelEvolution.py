@@ -19,17 +19,17 @@ def regularization(params,coeff):
     p=np.array(params)
     regularization= coeff*float(((p**2).sum())**0.5)
     return regularization
-def train(i,shared_fitness,num,game,agent):
+def train(i,parameters,shared_fitness,num,game,agent):
     # agent=AgentNetwork(qDimension=3,kDimension=3,firstBests=8,num=num)
-    # agent.loadparameters(parameters)
+    agent.loadparameters(parameters)
     # agent.cuda()
     env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num,blockLevel=num)
     shared_fitness[i]=100-env.play()
 
 if __name__ == '__main__':
     # warnings.filterwarnings("ignore")
-    num=5
-    num_processes = 15
+    num=10
+    num_processes = 5
     startagain=False 
     agent=AgentNetwork(qDimension=3,kDimension=3,firstBests=8,num=num)
     name="cavaflyer lstm"
@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
     # agent.cuda()
     # agent.share_memory()
-    game="climber"
+    game="starpilot"
     globalBest=-1000
     start=0
 
@@ -71,8 +71,8 @@ if __name__ == '__main__':
         fitness=[]
         processes = []
         for i in range(len(generatedParameters)):
-            agents[i].loadparameters(generatedParameters[i])
-            p = mp.Process(target=train, args=(i,shared_fitness,num,game,agents[i]))
+            # agents[i].loadparameters(generatedParameters[i])
+            p = mp.Process(target=train, args=(i,generatedParameters[i],shared_fitness,num,game,agents[i]))
             p.start()
             processes.append(p)
         for p in processes:

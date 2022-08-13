@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from torchsummary import summary
 from torch import nn
-# torch.set_default_tensor_type(torch.cuda.FloatTensor)
+torch.set_default_tensor_type(torch.cuda.FloatTensor)
 import random
 import time
 NUM=1
@@ -142,7 +142,7 @@ class AgentNetwork(torch.nn.Module):
         pass
 
     def getOutput(self,input):
-        input.cuda()
+        # input=input.cuda()
         input=input/255
         self.patches=self.getPatches(input,self.stride)
 
