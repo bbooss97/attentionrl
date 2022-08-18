@@ -17,13 +17,22 @@ import pickle
 #dump cmaes execution to load from it if i want to continue
 filename = './outcmaes/es-pickle-dump'
 #number of games an agent plays in a parallel way (batched execution)
-num=1
+
 #continue training from a previous execution
 startagain=False 
+game="caveflyer"
 #agent with his parameters look the parallel agent file
-agent=AgentNetwork(color=False,extractorOutput=3,qDimension=5,kDimension=5,firstBests=20,num=num)
+num=10
+color=False
+extractorOutput=1
+qDimension=3
+kDimension=3
+useLstm=True
+firstBests=5
+agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=num)
 #wandb run
-name="caveflyer lstm"
+name="game={} num={} color={} extractorOutput={} qDimension={} kDimension={} useLstm={} firstBests={}".format(game, num, color, extractorOutput, qDimension, kDimension, useLstm, firstBests)
+
 run=wandb.init(project='attentionAgent', entity='bbooss97',name=name)
 run.watch(agent)
 
@@ -45,7 +54,7 @@ else:
     es=cma.CMAEvolutionStrategy(parameters,variance)
 #put the agent to cuda so that i can evaluate the num games in parallel
 agent.cuda()
-game="caveflyer"
+
 globalBest=-1000
 start=0
 

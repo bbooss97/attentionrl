@@ -15,7 +15,7 @@ nameOfParameters="./parameters.pt"
 gameName="caveflyer"
 def testAgent():
     #create agent as the one used by the parameters
-    agent=AgentNetwork(color=False,extractorOutput=3,qDimension=5,kDimension=5,firstBests=20,num=1)
+    agent=AgentNetwork(color=False,extractorOutput=1,qDimension=3,kDimension=3,firstBests=5,num=1)
     agent=agent.loadModel(nameOfParameters)
     agent.render=True
     #load parameters to network and start a game to test the agent
