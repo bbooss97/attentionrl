@@ -21,7 +21,7 @@ num=1
 #continue training from a previous execution
 startagain=False 
 #agent with his parameters look the parallel agent file
-agent=AgentNetwork(color=False,qDimension=5,kDimension=5,firstBests=20,extractorOutput=1,num=num)
+agent=AgentNetwork(color=False,extractorOutput=3,qDimension=5,kDimension=5,firstBests=20,num=num)
 #wandb run
 name="caveflyer lstm"
 run=wandb.init(project='attentionAgent', entity='bbooss97',name=name)

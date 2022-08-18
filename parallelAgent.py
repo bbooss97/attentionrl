@@ -175,16 +175,27 @@ class AgentNetwork(torch.nn.Module):
         #select the best action in this case the argmax but i could use a probabilistic approach based on the softmaxed output
         output=self.selectAction(actions)
         if self.render:
-            print("dati")
-            print(features)
+            self.drawAttentionMap(indices)
         return output
+
+    def drawAttentionMap(self,indices):
+        col=(indices%15).int()
+        row=(indices/15).int()
+        r=row.tolist()[0]
+        c=col.tolist()[0]
+        m=[[0 for i in range(15)]for j in range(15)]
+        for i in range(len(r)):
+            m[r[i]][c[i]]=i+1
+        for i in m:
+            print()
+            for j in i:
+                print("{:3d}".format(j),end=" ")
+        print("\n\n")
     #get the positions features of the best patches
     def getFeatures(self,bestPatches,indices,patchesAttention):
         #get the col and row indices of the best patches
         col=(indices%15).int()
         row=(indices/15).int()
-        if self.render:
-            print(row,col)
         #get center and normalize it
         features=torch.cat((row*4+4,col*4+4),1)/64
         return features
@@ -199,23 +210,9 @@ class AgentNetwork(torch.nn.Module):
         b=indices.reshape(-1).long()
         selected=self.patches[a,b].reshape(self.num,self.firstBests,-1)
         extracted=self.featureExtractor(selected).reshape(self.num,-1)
-        if self.render:
-            #write the attention grid where i have 0 where the agent doesnt see the i j patch or the attention order if it sees it 1 is max attention
-            print("row,col")
-            print(indices)
-            r=row.tolist()[0]
-            c=col.tolist()[0]
-            print(r,c)
-            print("\n\n")
-            m=[[0 for i in range(15)]for j in range(15)]
-            for i in range(len(r)):
-                m[r[i]][c[i]]=i+1
-            for i in m:
-                print(i)
+        
         #get center and features extracted as input for the controller
         features=torch.cat(((row*4+4)/64,(col*4+4)/64),1)
-        if self.render:
-            print("feaatures: ",features)
         features=torch.cat((features,extracted),1)
         return features
 

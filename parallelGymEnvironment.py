@@ -72,8 +72,6 @@ class Gymenv1player():
             #add games played for every num games
             gamesPlayed+=np.array(first).astype(np.int32)
             step += 1
-            if self.render:
-                print(a)
         if self.verbose:
             print("finito game")
         if self.render:
