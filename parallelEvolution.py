@@ -4,7 +4,6 @@ import cma
 import numpy as np
 from parallelAgent import AgentNetwork
 from parallelGymEnvironment import Gymenv1player
-import tensorflow as tf
 import torch
 import time
 import wandb
