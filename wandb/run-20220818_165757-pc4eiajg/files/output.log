@@ -1,0 +1,37 @@
+
+(15_w,31)-aCMA-ES (mu_w=8.9,w_1=20%) in dimension 9726 (seed=963921, Thu Aug 18 16:58:04 2022)
+mean: 0.9543010752688161
+6.666666666666671
+saving current best
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     31 9.333333333333333e+01 1.0e+00 9.99e-01  1e+00  1e+00 0:33.5
+mean: 0.709677419354847
+6.666666666666671
+    2     62 9.500000000000000e+01 1.0e+00 9.98e-01  1e+00  1e+00 1:05.1
+mean: 0.6451612903225765
+6.666666666666671
+    3     93 9.333333333333333e+01 1.0e+00 9.97e-01  1e+00  1e+00 1:37.2
+mean: 0.8172043010752787
+6.666666666666671
+    4    124 9.333333333333333e+01 1.0e+00 9.96e-01  1e+00  1e+00 2:11.4
+mean: 0.5514592933947853
+6.666666666666671
+    5    155 9.500000000000000e+01 1.0e+00 9.95e-01  1e+00  1e+00 2:43.5
+mean: 1.0645161290322562
+6.666666666666671
+    6    186 9.500000000000000e+01 1.0e+00 9.94e-01  1e+00  1e+00 3:16.1
+mean: 0.9677419354838719
+6.666666666666671
+    7    217 9.333333333333333e+01 1.0e+00 9.93e-01  1e+00  1e+00 3:48.1
+mean: 0.8010752688172005
+6.666666666666671
+    8    248 9.500000000000000e+01 1.0e+00 9.92e-01  1e+00  1e+00 4:19.0
+Traceback (most recent call last):
+  File "c:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelEvolution.py", line 64, in <module>
+    fitness.append(100-env.play())
+  File "c:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelGymEnvironment.py", line 60, in play
+    a=self.agent.getOutput(oss)
+  File "c:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelAgent.py", line 168, in getOutput
+    features=self.getFeaturesAndColors(bestPatches,indices,patchesAttention)
+  File "c:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelAgent.py", line 224, in getFeaturesAndColors
+    def getFeaturesAndColors(self,bestPatches,indices,patchesAttention):

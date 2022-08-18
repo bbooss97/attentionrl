@@ -1,0 +1,45 @@
+2022-08-16 16:52:09,078 INFO    StreamThr :6808 [internal.py:wandb_internal():90] W&B internal server running at pid: 6808, started at: 2022-08-16 16:52:09.077865
+2022-08-16 16:52:09,082 DEBUG   HandlerThread:6808 [handler.py:handle_request():141] handle_request: status
+2022-08-16 16:52:09,086 DEBUG   SenderThread:6808 [sender.py:send_request():316] send_request: status
+2022-08-16 16:52:09,088 INFO    WriterThread:6808 [datastore.py:open_for_write():75] open: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_165209-334cpwbx\run-334cpwbx.wandb
+2022-08-16 16:52:09,088 DEBUG   SenderThread:6808 [sender.py:send():302] send: header
+2022-08-16 16:52:09,252 DEBUG   SenderThread:6808 [sender.py:send():302] send: run
+2022-08-16 16:52:10,310 DEBUG   HandlerThread:6808 [handler.py:handle_request():141] handle_request: check_version
+2022-08-16 16:52:10,312 INFO    SenderThread:6808 [dir_watcher.py:__init__():216] watching files in: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_165209-334cpwbx\files
+2022-08-16 16:52:10,312 INFO    SenderThread:6808 [sender.py:_start_run_threads():913] run started: 334cpwbx with start time 1660661529.077864
+2022-08-16 16:52:10,312 DEBUG   SenderThread:6808 [sender.py:send():302] send: summary
+2022-08-16 16:52:10,312 INFO    SenderThread:6808 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-08-16 16:52:10,313 DEBUG   SenderThread:6808 [sender.py:send_request():316] send_request: check_version
+2022-08-16 16:52:10,956 DEBUG   HandlerThread:6808 [handler.py:handle_request():141] handle_request: run_start
+2022-08-16 16:52:10,972 DEBUG   HandlerThread:6808 [meta.py:__init__():35] meta init
+2022-08-16 16:52:10,972 DEBUG   HandlerThread:6808 [meta.py:__init__():50] meta init done
+2022-08-16 16:52:10,972 DEBUG   HandlerThread:6808 [meta.py:probe():216] probe
+2022-08-16 16:52:11,014 DEBUG   HandlerThread:6808 [meta.py:_setup_git():206] setup git
+2022-08-16 16:52:11,100 DEBUG   HandlerThread:6808 [meta.py:_setup_git():213] setup git done
+2022-08-16 16:52:11,100 DEBUG   HandlerThread:6808 [meta.py:_save_pip():54] save pip
+2022-08-16 16:52:11,101 DEBUG   HandlerThread:6808 [meta.py:_save_pip():68] save pip done
+2022-08-16 16:52:11,101 DEBUG   HandlerThread:6808 [meta.py:probe():254] probe done
+2022-08-16 16:52:11,211 DEBUG   SenderThread:6808 [sender.py:send():302] send: files
+2022-08-16 16:52:11,211 INFO    SenderThread:6808 [sender.py:_save_file():1156] saving file wandb-metadata.json with policy now
+2022-08-16 16:52:11,212 DEBUG   HandlerThread:6808 [handler.py:handle_request():141] handle_request: stop_status
+2022-08-16 16:52:11,213 DEBUG   SenderThread:6808 [sender.py:send_request():316] send_request: stop_status
+2022-08-16 16:52:11,320 INFO    Thread-16 :6808 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_165209-334cpwbx\files\requirements.txt
+2022-08-16 16:52:11,321 INFO    Thread-16 :6808 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_165209-334cpwbx\files\wandb-summary.json
+2022-08-16 16:52:11,321 INFO    Thread-16 :6808 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_165209-334cpwbx\files\wandb-metadata.json
+2022-08-16 16:52:12,083 DEBUG   SenderThread:6808 [sender.py:send():302] send: telemetry
+2022-08-16 16:52:12,083 DEBUG   SenderThread:6808 [sender.py:send():302] send: telemetry
+2022-08-16 16:52:12,966 INFO    Thread-22 :6808 [upload_job.py:push():138] Uploaded file C:\Users\Andrea\AppData\Local\Temp\tmpo2vbh6k4wandb\1zy075rh-wandb-metadata.json
+2022-08-16 16:52:17,355 INFO    Thread-16 :6808 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_165209-334cpwbx\files\output.log
+2022-08-16 16:52:19,367 INFO    Thread-16 :6808 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_165209-334cpwbx\files\output.log
+2022-08-16 16:52:27,097 DEBUG   HandlerThread:6808 [handler.py:handle_request():141] handle_request: stop_status
+2022-08-16 16:52:27,097 DEBUG   SenderThread:6808 [sender.py:send_request():316] send_request: stop_status
+2022-08-16 16:52:41,502 INFO    Thread-16 :6808 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_165209-334cpwbx\files\config.yaml
+2022-08-16 16:52:42,396 DEBUG   SenderThread:6808 [sender.py:send():302] send: stats
+2022-08-16 16:52:42,675 DEBUG   HandlerThread:6808 [handler.py:handle_request():141] handle_request: stop_status
+2022-08-16 16:52:42,675 DEBUG   SenderThread:6808 [sender.py:send_request():316] send_request: stop_status
+2022-08-16 16:52:51,914 DEBUG   HandlerThread:6808 [handler.py:handle_request():141] handle_request: log_artifact
+2022-08-16 16:52:51,915 DEBUG   SenderThread:6808 [sender.py:send_request():316] send_request: log_artifact
+2022-08-16 16:52:51,923 DEBUG   HandlerThread:6808 [handler.py:handle_request():141] handle_request: partial_history
+2022-08-16 16:52:53,589 INFO    Thread-16 :6808 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_165209-334cpwbx\files\output.log
+2022-08-16 16:52:58,345 DEBUG   HandlerThread:6808 [handler.py:handle_request():141] handle_request: stop_status
+2022-08-16 16:53:07,995 INFO    Thread-24 :6808 [upload_job.py:push():96] Uploaded file C:\Users\Andrea\.cache\wandb\artifacts\obj\md5\5f\73a163189c060fbd3c21fe3eb15f22

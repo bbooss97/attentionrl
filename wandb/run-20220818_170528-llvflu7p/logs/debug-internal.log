@@ -1,0 +1,6 @@
+2022-08-18 17:05:28,869 INFO    StreamThr :11320 [internal.py:wandb_internal():90] W&B internal server running at pid: 11320, started at: 2022-08-18 17:05:28.868769
+2022-08-18 17:05:28,873 DEBUG   HandlerThread:11320 [handler.py:handle_request():141] handle_request: status
+2022-08-18 17:05:28,878 DEBUG   SenderThread:11320 [sender.py:send_request():316] send_request: status
+2022-08-18 17:05:28,880 DEBUG   SenderThread:11320 [sender.py:send():302] send: header
+2022-08-18 17:05:28,880 INFO    WriterThread:11320 [datastore.py:open_for_write():75] open: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220818_170528-llvflu7p\run-llvflu7p.wandb
+2022-08-18 17:05:28,923 DEBUG   SenderThread:11320 [sender.py:send():302] send: run

@@ -1,0 +1,32 @@
+2022-08-16 15:39:35,808 INFO    StreamThr :18016 [internal.py:wandb_internal():90] W&B internal server running at pid: 18016, started at: 2022-08-16 15:39:35.807645
+2022-08-16 15:39:35,809 DEBUG   HandlerThread:18016 [handler.py:handle_request():141] handle_request: status
+2022-08-16 15:39:35,811 DEBUG   SenderThread:18016 [sender.py:send_request():316] send_request: status
+2022-08-16 15:39:35,812 DEBUG   SenderThread:18016 [sender.py:send():302] send: header
+2022-08-16 15:39:35,812 INFO    WriterThread:18016 [datastore.py:open_for_write():75] open: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_153935-1rlucewy\run-1rlucewy.wandb
+2022-08-16 15:39:35,989 DEBUG   SenderThread:18016 [sender.py:send():302] send: run
+2022-08-16 15:39:36,504 DEBUG   HandlerThread:18016 [handler.py:handle_request():141] handle_request: check_version
+2022-08-16 15:39:36,505 INFO    SenderThread:18016 [dir_watcher.py:__init__():216] watching files in: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_153935-1rlucewy\files
+2022-08-16 15:39:36,505 INFO    SenderThread:18016 [sender.py:_start_run_threads():913] run started: 1rlucewy with start time 1660657175.807645
+2022-08-16 15:39:36,506 DEBUG   SenderThread:18016 [sender.py:send():302] send: summary
+2022-08-16 15:39:36,506 INFO    SenderThread:18016 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-08-16 15:39:36,506 DEBUG   SenderThread:18016 [sender.py:send_request():316] send_request: check_version
+2022-08-16 15:39:36,643 DEBUG   HandlerThread:18016 [handler.py:handle_request():141] handle_request: run_start
+2022-08-16 15:39:36,660 DEBUG   HandlerThread:18016 [meta.py:__init__():35] meta init
+2022-08-16 15:39:36,660 DEBUG   HandlerThread:18016 [meta.py:__init__():50] meta init done
+2022-08-16 15:39:36,660 DEBUG   HandlerThread:18016 [meta.py:probe():216] probe
+2022-08-16 15:39:36,699 DEBUG   HandlerThread:18016 [meta.py:_setup_git():206] setup git
+2022-08-16 15:39:36,779 DEBUG   HandlerThread:18016 [meta.py:_setup_git():213] setup git done
+2022-08-16 15:39:36,780 DEBUG   HandlerThread:18016 [meta.py:_save_pip():54] save pip
+2022-08-16 15:39:36,781 DEBUG   HandlerThread:18016 [meta.py:_save_pip():68] save pip done
+2022-08-16 15:39:36,781 DEBUG   HandlerThread:18016 [meta.py:probe():254] probe done
+2022-08-16 15:39:36,866 DEBUG   SenderThread:18016 [sender.py:send():302] send: files
+2022-08-16 15:39:36,866 INFO    SenderThread:18016 [sender.py:_save_file():1156] saving file wandb-metadata.json with policy now
+2022-08-16 15:39:37,208 DEBUG   HandlerThread:18016 [handler.py:handle_request():141] handle_request: stop_status
+2022-08-16 15:39:37,209 DEBUG   SenderThread:18016 [sender.py:send_request():316] send_request: stop_status
+2022-08-16 15:39:37,449 DEBUG   SenderThread:18016 [sender.py:send():302] send: telemetry
+2022-08-16 15:39:37,450 DEBUG   SenderThread:18016 [sender.py:send():302] send: telemetry
+2022-08-16 15:39:37,518 INFO    Thread-16 :18016 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_153935-1rlucewy\files\wandb-summary.json
+2022-08-16 15:39:37,519 INFO    Thread-16 :18016 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_153935-1rlucewy\files\wandb-metadata.json
+2022-08-16 15:39:37,519 INFO    Thread-16 :18016 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_153935-1rlucewy\files\requirements.txt
+2022-08-16 15:39:37,573 INFO    Thread-22 :18016 [upload_job.py:push():138] Uploaded file C:\Users\Andrea\AppData\Local\Temp\tmpew24094iwandb\280bmsqh-wandb-metadata.json
+2022-08-16 15:39:38,521 INFO    Thread-16 :18016 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220816_153935-1rlucewy\files\output.log
