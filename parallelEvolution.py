@@ -1,3 +1,5 @@
+#this is the script to train parallel agents 
+
 import cma
 import numpy as np
 from parallelAgent import AgentNetwork
@@ -5,26 +7,28 @@ from parallelGymEnvironment import Gymenv1player
 import tensorflow as tf
 import torch
 import time
-# from pympler.tracker import SummaryTracker
 import wandb
-# import wandb
+import pickle
+
 # run = wandb.init()
 # artifact = run.use_artifact('bbooss97/attentionAgent/model:v6', type='model')
 # artifact_dir = artifact.download()
 
-# wandb.join()
-num=20
+#dump cmaes execution to load from it if i want to continue
+filename = './outcmaes/es-pickle-dump'
+#number of games an agent plays in a parallel way (batched execution)
+num=1
+#continue training from a previous execution
 startagain=False 
-agent=AgentNetwork(color=False,qDimension=3,kDimension=3,firstBests=5,num=num)
-name="cavaflyer lstm"
+#agent with his parameters look the parallel agent file
+agent=AgentNetwork(color=False,qDimension=5,kDimension=5,firstBests=20,extractorOutput=1,num=num)
+#wandb run
+name="caveflyer lstm"
 run=wandb.init(project='attentionAgent', entity='bbooss97',name=name)
 run.watch(agent)
-time.sleep(5)
-def regularization(params,coeff):
-    p=np.array(params)
-    regularization= coeff*float(((p**2).sum())**0.5)
-    return regularization
 
+time.sleep(5)
+#load parameters from the previous best else from scratch
 if startagain:  
     agent=agent.loadModel("./parameters.pt")
     parameters=agent.getparameters()
@@ -32,44 +36,51 @@ if startagain:
 else:
     parameters=len(agent.getparameters())
     parameters=[float(0)for i in range(parameters)]
-
-
+# initial variance of cmaes algorithm
 variance=1
-es=cma.CMAEvolutionStrategy(parameters,variance)
-j=0
-whenToCopy=100
-
+#load previous training if i want to continue from it
+if startagain:
+   es = pickle.load(open(filename, 'rb'))
+else:
+    es=cma.CMAEvolutionStrategy(parameters,variance)
+#put the agent to cuda so that i can evaluate the num games in parallel
 agent.cuda()
-
-game="climber"
+game="caveflyer"
 globalBest=-1000
 start=0
 
-# tracker = SummaryTracker()
-with tf.device('/GPU:0'):
-    while True:
-        start+=1
-        generatedParameters=es.ask()
-        fitness=[]
-        for i in generatedParameters:
-            agent.loadparameters(i)
-            env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num,blockLevel=num)
-            fitness.append(100-env.play())
-        es.tell(generatedParameters,fitness)
-        agent.loadparameters(es.result.xfavorite)
-        torch.save(agent.state_dict(), "./current.pt")
-        currentBest=100-es.result.fbest
-        print(currentBest)
-        if currentBest>globalBest:
-            print("saving current best")
-            artifact = wandb.Artifact('model', type='model',)
-            artifact.add_file('./current.pt')
-            run.log_artifact(artifact)
-            # run.finish()
-            globalBest=currentBest
-            agent.saveModel(str(globalBest))
-        es.disp()
-        run.log({"iteration":start,"globalBest":globalBest})
-        # tracker.print_diff()
+#strat training
+while True:
+    start+=1
+    #generate parameters from cmaes
+    generatedParameters=es.ask()
+    fitness=[]
+    #for every parameters play num games in parallel and take the average raward of the num games
+    for i in generatedParameters:
+        #load the parameters to the agent
+        agent.loadparameters(i)
+        #create vectorized environment and get fitnesses
+        env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num,blockLevel=0)
+        fitness.append(100-env.play())
+    #print mean of all the generated parameters executions
+    mean=100-torch.tensor(fitness).mean()
+    print("mean: {}".format(mean))
+    #send fitnesses to cmaes and load best parameters to save the current agent
+    es.tell(generatedParameters,fitness)
+    agent.loadparameters(es.result.xfavorite)
+    torch.save(agent.state_dict(), "./current.pt")
+    currentBest=100-es.result.fbest
+    print(currentBest)
+    #if i have a record i save the parameters locally and on wandb
+    if currentBest>globalBest:
+        print("saving current best")
+        artifact = wandb.Artifact('model', type='model',)
+        artifact.add_file('./current.pt')
+        run.log_artifact(artifact)
+        globalBest=currentBest
+        agent.saveModel(str(globalBest))
+    #log to wandb and save the execution of cmaes in case i want to continue later
+    es.disp()
+    run.log({"iteration":start,"globalBest":globalBest," mean":mean})
+    open(filename, 'wb').write(es.pickle_dumps())
 
-print(es.result.xbest)
