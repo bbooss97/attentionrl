@@ -12,15 +12,22 @@ import gym3
 
 #get best parameters 
 nameOfParameters="./parameters.pt"
-gameName="caveflyer"
 def testAgent():
     #create agent as the one used by the parameters
-    agent=AgentNetwork(color=False,extractorOutput=1,qDimension=3,kDimension=3,firstBests=5,num=1)
+    color=False
+    num=10
+    game="starpilot"
+    extractorOutput=1
+    qDimension=3
+    kDimension=3
+    useLstm=True
+    firstBests=10
+    agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=1)
     agent=agent.loadModel(nameOfParameters)
     agent.render=True
     #load parameters to network and start a game to test the agent
     agent.loadparameters(agent.getparameters())
-    env=Gymenv1player(agent=agent,num=1,maxsteps=1000,verbose=False,gameName=gameName,render=True,blockLevel=0)
+    env=Gymenv1player(agent=agent,num=1,maxsteps=1000,verbose=False,gameName=game,render=True,blockLevel=0)
     env.env=gym3.ViewerWrapper(env.env, info_key="rgb")
     res=env.play()
     print("the final reward is:" ,res)

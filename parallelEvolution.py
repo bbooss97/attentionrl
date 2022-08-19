@@ -18,16 +18,16 @@ filename = './outcmaes/es-pickle-dump'
 #number of games an agent plays in a parallel way (batched execution)
 
 #continue training from a previous execution
-startagain=False 
-game="caveflyer"
+startagain=True 
 #agent with his parameters look the parallel agent file
 num=10
+game="starpilot"
 color=False
 extractorOutput=1
 qDimension=3
 kDimension=3
 useLstm=True
-firstBests=5
+firstBests=10
 agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=num)
 #wandb run
 name="game={} num={} color={} extractorOutput={} qDimension={} kDimension={} useLstm={} firstBests={}".format(game, num, color, extractorOutput, qDimension, kDimension, useLstm, firstBests)
@@ -86,7 +86,7 @@ while True:
         artifact.add_file('./current.pt')
         run.log_artifact(artifact)
         globalBest=currentBest
-        agent.saveModel(str(globalBest))
+        agent.saveModel("parametersTraining/"+str(globalBest)+" "+name)
     #log to wandb and save the execution of cmaes in case i want to continue later
     es.disp()
     run.log({"iteration":start,"globalBest":globalBest," mean":mean})

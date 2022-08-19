@@ -1,0 +1,303 @@
+import torch
+import numpy as np
+from torchsummary import summary
+from torch import nn
+torch.set_default_tensor_type(torch.cuda.FloatTensor)
+import random
+import time
+NUM=1
+class FeatureExtractor(torch.nn.Module):
+    def __init__(self,x,y):
+        super(FeatureExtractor, self).__init__()
+        self.fc1=torch.nn.Linear(x,5)
+        self.relu=torch.nn.ReLU()
+        self.fc2=torch.nn.Linear(5,y)
+    def forward(self,x):
+        x=x.double()
+        x=self.fc1(x)
+        x=self.relu(x)
+        x=torch.nn.Sigmoid()(self.fc2(x))
+        return x
+
+class SelfAttention(torch.nn.Module):
+    def __init__(self, inputDimension,qDimension,kDimension):
+        super(SelfAttention, self).__init__()
+        self.qDimension = qDimension
+        self.kDimension = kDimension
+        self.q = torch.nn.Linear(inputDimension, qDimension)
+        self.k = torch.nn.Linear(inputDimension, kDimension)
+        self.inputDimension = inputDimension
+
+    def forward(self, input):
+        input=input.double()
+        q=self.q(input)
+        k=self.k(input)
+        attention=torch.einsum('bij,bjk->bik', q, k.reshape(input.shape[0],self.kDimension,225))
+        attention=attention/((input.shape[2])**0.5)
+        attention=torch.softmax(attention,dim=2)
+        return attention
+
+class Controller(torch.nn.Module):
+    def __init__(self,input,output):
+        super(Controller,self).__init__()
+        self.controller=torch.nn.LSTM(input_size=input,hidden_size=15,num_layers=1)
+        self.hidden=(torch.zeros(1,15).double(),torch.zeros(1,15).double())
+        self.fc=torch.nn.Linear(15,output)
+
+    def forward(self,input):
+        output,self.hidden=self.controller(input.view(1,-1).double(),self.hidden)
+
+        output=self.fc(output).squeeze()
+        output=torch.softmax(output,dim=0)
+        return output
+
+class LstmController(torch.nn.Module):
+    def __init__(self,input,output,num):
+        super().__init__()
+        self.num=num
+        self.init_hidden()
+        self.lstm = nn.LSTM(input, 15, 1, batch_first=True)
+        self.fc1=torch.nn.Linear(15,15)
+        self.fc2 = nn.Linear(15, 15)
+        
+
+    def forward(self, x):
+        self.lstm.flatten_parameters()
+        output, self.hidden = self.lstm(x.view(self.num,1,-1), self.hidden)
+        output = torch.nn.functional.relu(self.fc1(output).squeeze(dim=1))
+        output=self.fc2(output)
+        output = torch.nn.functional.softmax(output, dim=1)
+        return output
+        
+    def init_hidden(self):
+        hidden = torch.zeros(1,self.num, 15,requires_grad=False).double()
+        cell = torch.zeros(1, self.num, 15,requires_grad=False).double()
+        self.hidden=hidden,cell
+        
+
+
+class MLPController(torch.nn.Module):
+    def __init__(self,input,output):
+        super(MLPController,self).__init__()
+        self.fc=torch.nn.Linear(input,20)
+        self.fc1=torch.nn.Linear(20,output)
+        self.fc2=torch.nn.Linear(output,output)
+
+    def forward(self,input):
+        output=nn.Sigmoid()(self.fc(input.double()))
+        output=nn.Sigmoid()(self.fc1(output))
+        output=self.fc2(output)
+        output=torch.softmax(output,dim=1)
+        return output
+
+class AgentNetwork(torch.nn.Module):
+    inputDimension=0
+    qDimension=0
+    kDimension=0
+    nOfPatches=0
+    stride=0
+    patchesDim=0
+    layers=[]
+    
+
+    def center(self,x,y,stride):
+        move=stride/2
+        return [(x+move)/self.imageDimension[0],(y+move)/self.imageDimension[1]]
+
+    def positionAndColor(self,x,y,stride,patch):
+        move=stride/2
+        xaxis=(x+move)/self.imageDimension[0]
+        yaxis=(y+move)/self.imageDimension[1]
+
+    def __init__(self,imageDimension=(64,64,3),qDimension=6,kDimension=6,extractorOutput=1,nOfPatches=16,stride=4,patchesDim=16,firstBests=5,f=center,threshold=0.33,color=False,num=1,render=False,useLstm=True):
+        super(AgentNetwork,self).__init__()
+        self.imageDimension = imageDimension
+        self.stride = stride
+        self.extractorOutput = extractorOutput
+        self.render=render
+        self.num=num
+        self.color=color
+        self.threshold = threshold
+        self.firstBests = firstBests
+        self.qDimension = qDimension
+        self.kDimension = kDimension
+        self.xPatches=int(self.imageDimension[0]/self.stride)
+        self.nOfPatches = int((self.imageDimension[0]/self.stride)**2)
+        self.patchesDim = self.stride**2
+        self.useLstm=useLstm
+        if self.useLstm==True:
+            self.controller=LstmController(self.featuresDimension(),15,num)
+        else:
+            self.controller=MLPController(self.featuresDimension(),15)
+        self.attention=SelfAttention(147,self.qDimension, self.kDimension)
+        self.layers.append(self.attention)
+        self.layers.append(self.controller)
+        self.f=f
+        self.obsExample=torch.tensor(np.load("parallelObs.npy"))
+        self.removeGrad()
+        self.featureExtractor=FeatureExtractor(49*3,self.extractorOutput)
+        
+
+    def forward(self):
+        pass
+
+    def getOutput(self,input):
+        # input=input.cuda()
+        input=input/255
+        self.patches=self.getPatches(input,self.stride)
+
+        attention=self.attention(self.patches)
+
+        bestPatches,indices,patchesAttention=self.getBestPatches(attention)
+
+        if self.color:
+            features=self.getFeaturesAndColors(bestPatches,indices,patchesAttention)
+        else:
+            #features=self.getFeatures(bestPatches,indices,patchesAttention)
+            features=self.getFeautresFromExtractor(bestPatches,indices,patchesAttention)
+        actions=self.controller(features)
+        
+        output=self.selectAction(actions)
+        
+        if self.render:
+            print("dati")
+
+            print(features)
+
+            pass
+        return output
+
+    def getFeatures(self,bestPatches,indices,patchesAttention):
+        col=(indices%15).int()
+        row=(indices/15).int()
+        if self.render:
+            print(row,col)
+            
+        features=torch.cat((row*4+4,col*4+4),1)/64
+        return features
+    
+    def getFeautresFromExtractor(self,bestPatches,indices,patchesAttention):
+        col=(indices%15).int()
+        row=(indices/15).int()
+        a=torch.outer(torch.arange(0,self.num),torch.ones(self.firstBests)).reshape(-1).long()
+        b=indices.reshape(-1).long()
+        selected=self.patches[a,b].reshape(self.num,self.firstBests,-1)
+        extracted=self.featureExtractor(selected).reshape(self.num,-1)
+        if self.render:
+            print("row,col")
+            print(indices)
+            r=row.tolist()[0]
+            c=col.tolist()[0]
+            print(r,c)
+            print("\n\n")
+            m=[[0 for i in range(15)]for j in range(15)]
+            for i in range(len(r)):
+                m[r[i]][c[i]]=i+1
+            for i in m:
+                print(i)
+        #features=torch.cat((row*4+4,col*4+4),1)/64
+        features=torch.cat((row/14,col/14),1)
+        if self.render:
+            print("feaatures: ",features)
+        features=torch.cat((features,extracted),1)
+        return features
+
+    def getFeaturesAndColors(self,bestPatches,indices,patchesAttention):
+        indices=indices.tolist()
+        res=[]
+        for i in range(len(indices)):
+            positions=[]
+            for j in range(len(indices[i])):
+                row=int(indices[i][j]/self.imageDimension[0])
+                column=indices[i][j]%self.imageDimension[1]
+                #print(self.patches.shape)
+                color=list(self.patches[i][indices[i][j]].reshape(16,3).mean(axis=0)/255)
+                positions.append((row,column,color))
+            features=[[*self.f(self,row,column,self.stride,),*color] for row,column,color in positions]
+            res.append(features)
+        res=torch.tensor(res).reshape(self.num,-1)
+        return res
+
+
+    def getPatches(self,obs,stride):
+        obs=torch.einsum("abcd->adbc",obs)
+        unfold=nn.Unfold(kernel_size=(7,7),stride=4)
+        obs=unfold(obs)
+        obs=obs.transpose(1,2)
+        # print(obs.shape)
+        return obs
+
+
+    def featuresDimension(self):
+        if self.color:
+            return int(5*self.firstBests)
+        return int(2*self.firstBests+self.firstBests*self.extractorOutput)
+    def selectAction(self,actions):
+
+        selected=torch.argmax(actions,axis=1).reshape(-1)
+        if self.threshold>0:
+            for i in range(selected.shape[0]):
+                if actions[i][selected[i]]<self.threshold:
+                    selected[i]=4
+
+        
+        return selected
+
+
+    def getBestPatches(self,attention):
+        #attention nof patches**2
+        patchesAttention=attention.sum(dim=1)
+        sorted,indices=patchesAttention.sort(descending=True,dim=1)
+        bests=sorted[:,0:self.firstBests]
+        indices=indices[:,0:self.firstBests]
+        return bests,indices,patchesAttention
+
+    def getparameters(self):
+        result=[]
+        for params in self.parameters():
+            a=params.data.reshape(-1)
+            result.append(a)
+        result=torch.concat(result,0).to("cpu").numpy()
+        return result
+
+    def loadparameters(self,parameters):
+        parameters=torch.tensor(parameters).double()
+        conta=0
+        for params in self.parameters():
+            shape=params.data.shape
+            avanti=torch.prod(torch.tensor(shape).to("cpu")).numpy()
+            dati=parameters[conta:conta+avanti].reshape(shape)
+            params.data=dati
+            conta+=avanti
+        self.double()
+        if self.useLstm:
+            self.controller.init_hidden()
+
+
+    def saveModel(self,val):
+        #torch.save(self, "./parameters.pt")
+        torch.save(self.state_dict(), "./"+val+".pt")
+        torch.save(self.state_dict(), "./parameters.pt")
+    def loadModel(self,path):
+        # self=torch.load("./parameters.pt")
+        # self.eval()
+        self.load_state_dict(torch.load(path))
+       # model.eval()
+        return self
+    def removeGrad(self):
+        for params in self.parameters():
+            params.requires_grad=False
+        torch.autograd.set_grad_enabled(False)
+
+if __name__ == '__main__':
+    agent=AgentNetwork(num=100,color=False)
+    
+    print(len(agent.getparameters()))
+    i=0
+
+    agent.loadparameters([float(1) for i in range(32186)])
+        
+    
+    o=agent.getOutput(agent.obsExample)
+    print(o)
+    
