@@ -20,7 +20,7 @@ filename = './outcmaes/es-pickle-dump'
 #continue training from a previous execution
 startagain=True 
 #agent with his parameters look the parallel agent file
-num=10
+num=30
 game="starpilot"
 color=False
 extractorOutput=1

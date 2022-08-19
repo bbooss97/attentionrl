@@ -70,7 +70,14 @@ class Gymenv1player():
             #increase reward for every num games
             reward=reward+np.array(rew)
             #add games played for every num games
-            gamesPlayed+=np.array(first).astype(np.int32)
+            dead=np.array(first).astype(np.int32)
+            gamesPlayed+=dead
+            dead=torch.tensor(dead)
+            indexesOfDead=torch.nonzero(dead).squeeze(1)
+            #reset lstm hidden state if dead
+            if dead.sum(0)>0 and self.agent is not None and self.agent.useLstm:
+                self.agent.controller.hidden[0][:,indexesOfDead,:]=0
+                self.agent.controller.hidden[1][:,indexesOfDead,:]=0
             step += 1
         if self.verbose:
             print("finito game")

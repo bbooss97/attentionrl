@@ -292,8 +292,8 @@ class AgentNetwork(torch.nn.Module):
             params.data=dati
             conta+=avanti
         self.double()
-        if self.useLstm:
-            self.controller.init_hidden()
+        # if self.useLstm:
+        #     self.controller.init_hidden()
 
     #this function allows to save the model to a path
     def saveModel(self,path):
