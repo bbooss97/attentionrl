@@ -83,7 +83,7 @@ class Gymenv1player():
             print("finito game")
         if self.render:
             print(reward/gamesPlayed)
-        self.env.close()
+        
         somma=0
         #calculate the reward
         #for every parallel games(num)
