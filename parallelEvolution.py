@@ -20,7 +20,7 @@ filename = './outcmaes/es-pickle-dump'
 #continue training from a previous execution
 startagain=True 
 #agent with his parameters look the parallel agent file
-num=30
+num=60
 game="starpilot"
 color=False
 extractorOutput=1
@@ -52,7 +52,8 @@ if startagain:
 else:
     es=cma.CMAEvolutionStrategy(parameters,variance)
 #put the agent to cuda so that i can evaluate the num games in parallel
-agent.cuda()
+if torch.cuda.is_available():
+    agent.cuda()
 
 globalBest=-1000
 start=0

@@ -3,7 +3,8 @@
 import torch
 import numpy as np
 from torch import nn
-torch.set_default_tensor_type(torch.cuda.FloatTensor)
+if torch.cuda.is_available():
+    torch.set_default_tensor_type(torch.cuda.FloatTensor)
 
 #in the original paper for every generated parameters there is a container that executes num games and take the average of those
 #i not having at disposal the cloud used the gpu to parallelize the num games 
@@ -96,6 +97,9 @@ class LstmController(torch.nn.Module):
         hidden = torch.zeros(1,self.num, 15,requires_grad=False).double()
         cell = torch.zeros(1, self.num, 15,requires_grad=False).double()
         self.hidden=hidden,cell
+    def resetLstmState(self,indexes):
+        self.hidden[0][:,indexes,:]=0
+        self.hidden[1][:,indexes,:]=0
 
 #this is a mlp controller in case we dont want to use lstm 
 class MLPController(torch.nn.Module):
@@ -273,6 +277,7 @@ class AgentNetwork(torch.nn.Module):
         bests=sorted[:,0:self.firstBests]
         indices=indices[:,0:self.firstBests]
         return bests,indices,patchesAttention
+
     #this function allows to get the parameters of the entire agent network 
     def getparameters(self):
         result=[]
@@ -301,7 +306,10 @@ class AgentNetwork(torch.nn.Module):
         torch.save(self.state_dict(), "./parameters.pt")
     #this function allows to load the model from a path
     def loadModel(self,path):
-        self.load_state_dict(torch.load(path))
+        if torch.cuda.is_available():
+            self.load_state_dict(torch.load(path))
+        else:
+            self.load_state_dict(torch.load(path,map_location=torch.device('cpu')))
         return self
     #this is used to remove the autograd because i dont use it having the cmaes algorithm to optimize the parameters
     #morover i had to add this because otherwise the lstm layer gets a computatioonal graph that continues to increase and in the end saturates the memory

@@ -76,8 +76,9 @@ class Gymenv1player():
             indexesOfDead=torch.nonzero(dead).squeeze(1)
             #reset lstm hidden state if dead
             if dead.sum(0)>0 and self.agent is not None and self.agent.useLstm:
-                self.agent.controller.hidden[0][:,indexesOfDead,:]=0
-                self.agent.controller.hidden[1][:,indexesOfDead,:]=0
+                self.agent.controller.resetLstmState(indexesOfDead)
+                # self.agent.controller.hidden[0][:,indexesOfDead,:]=0
+                # self.agent.controller.hidden[1][:,indexesOfDead,:]=0
             step += 1
         if self.verbose:
             print("finito game")
