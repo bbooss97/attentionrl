@@ -101,6 +101,26 @@ class LstmController(torch.nn.Module):
         self.hidden[0][:,indexes,:]=0
         self.hidden[1][:,indexes,:]=0
 
+
+class AttentionController(torch.nn.Module):
+    def __init__(self,inputDimension,qDimension,kDimension,firstBests,num):
+        super().__init__()
+        self.inputDimension = inputDimension
+        self.firstBests = firstBests
+        self.qDimension = qDimension
+        self.num = num
+        self.kDimension = kDimension
+        featuresForPatches=int(inputDimension/firstBests)
+        # self.selfAttention=SelfAttention(featuresForPatches,qDimension,kDimension)
+        self.multiheadAttention=nn.MultiheadAttention(featuresForPatches, 1,batch_first=True)
+        self.fc=torch.nn.Linear(inputDimension,15)
+    def forward(self,input):
+        input=input.reshape(self.num,self.firstBests,-1)
+        attn_output, attn_output_weights = self.multiheadAttention(input,input,input)
+        attn_output=attn_output.reshape(self.num,-1)
+        output=self.fc(attn_output)
+        return output
+        
 #this is a mlp controller in case we dont want to use lstm 
 class MLPController(torch.nn.Module):
     def __init__(self,input,output):
@@ -120,7 +140,7 @@ class MLPController(torch.nn.Module):
 class AgentNetwork(torch.nn.Module):
 
     
-    def __init__(self,imageDimension=(64,64,3),qDimension=6,kDimension=6,extractorOutput=1,firstBests=5,threshold=0.33,color=False,num=1,render=False,useLstm=True):
+    def __init__(self,imageDimension=(64,64,3),qDimension=6,kDimension=6,extractorOutput=1,firstBests=5,threshold=0.33,color=False,num=1,render=False,useLstm=False,useAttentionController=True):
         super(AgentNetwork,self).__init__()
         #qDimension and kDimension are the dimension of the query and key vectors in the self attention module
         #extractorOutput is the dimension of the output of the feature extractor that automatically detects the features of the patches beyond the positions coordinates
@@ -141,8 +161,11 @@ class AgentNetwork(torch.nn.Module):
         self.firstBests = firstBests
         self.qDimension = qDimension
         self.kDimension = kDimension
+        self.useAttentionController = useAttentionController
         self.useLstm=useLstm
-        if self.useLstm==True:
+        if self.useAttentionController:
+            self.controller=AttentionController(self.featuresDimension(),self.qDimension,self.kDimension,self.firstBests,self.num)
+        elif self.useLstm==True:
             self.controller=LstmController(self.featuresDimension(),15,num)
         else:
             self.controller=MLPController(self.featuresDimension(),15)
@@ -319,7 +342,7 @@ class AgentNetwork(torch.nn.Module):
         torch.autograd.set_grad_enabled(False)
 
 if __name__ == '__main__':
-    agent=AgentNetwork(num=100,extractorOutput=0,color=False,useLstm=True)
+    agent=AgentNetwork(num=100,extractorOutput=1,color=False,useLstm=False)
     numberOfParameters=len(agent.getparameters())
     agent.loadparameters([float(1) for i in range(numberOfParameters)])
     obsExample=torch.tensor(np.load("parallelObs.npy"))
