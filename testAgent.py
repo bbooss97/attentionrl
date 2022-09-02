@@ -11,7 +11,7 @@ import gym3
 # artifact_dir = artifact.download()
 
 #get best parameters 
-nameOfParameters="./parameters.pt"
+nameOfParameters="./current.pt"
 def testAgent():
     #create agent as the one used by the parameters
     color=False
