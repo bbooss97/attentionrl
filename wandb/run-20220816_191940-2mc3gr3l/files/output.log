@@ -1,6 +1,0 @@
-
-(15_w,30)-aCMA-ES (mu_w=8.6,w_1=20%) in dimension 5834 (seed=804734, Tue Aug 16 19:19:47 2022)
-Traceback (most recent call last):
-  File "C:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelEvolution.py", line 59, in <module>
-    print("mean: {}".forma(mean))
-AttributeError: 'str' object has no attribute 'forma'

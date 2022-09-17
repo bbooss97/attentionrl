@@ -1,6 +1,0 @@
-
-(15_w,30)-aCMA-ES (mu_w=8.6,w_1=20%) in dimension 7326 (seed=986853, Thu Aug 18 16:55:24 2022)
-mean: 0.7166666666666686
-5.0
-saving current best
-Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
