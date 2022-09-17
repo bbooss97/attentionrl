@@ -20,17 +20,18 @@ filename = './outcmaes/es-pickle-dump'
 #continue training from a previous execution
 startagain=True 
 #agent with his parameters look the parallel agent file
-num=40
+num=20
 game="starpilot"
 color=False
 extractorOutput=1
 qDimension=3
 kDimension=3
-useLstm=True
+useLstm=False
+useAttentionController=True
 firstBests=10
-agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=num)
+agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=num,useAttentionController=useAttentionController,threshold=0)
 #wandb run
-name="game={} num={} color={} extractorOutput={} qDimension={} kDimension={} useLstm={} firstBests={}".format(game, num, color, extractorOutput, qDimension, kDimension, useLstm, firstBests)
+name="game={} num={} color={} extractorOutput={} qDimension={} kDimension={} useLstm={} firstBests={} useAttentionController={}".format(game, num, color, extractorOutput, qDimension, kDimension, useLstm, firstBests,useAttentionController)
 
 run=wandb.init(project='attentionAgent', entity='bbooss97',name=name)
 run.watch(agent)

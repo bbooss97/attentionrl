@@ -20,9 +20,10 @@ def testAgent():
     extractorOutput=1
     qDimension=3
     kDimension=3
-    useLstm=True
+    useLstm=False
+    useAttentionController=True
     firstBests=10
-    agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=1)
+    agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=1,useAttentionController=useAttentionController)
     agent=agent.loadModel(nameOfParameters)
     agent.render=True
     #load parameters to network and start a game to test the agent

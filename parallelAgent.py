@@ -101,7 +101,10 @@ class LstmController(torch.nn.Module):
         self.hidden[0][:,indexes,:]=0
         self.hidden[1][:,indexes,:]=0
 
-
+#this type of controller is based on attention:
+#it learns from the best patches attention coefficients to weight them and starting from those it will produce the outputs
+#multihead attention is used to produce the outputs
+#it acieves good performances and has not many parameters so its good
 class AttentionController(torch.nn.Module):
     def __init__(self,inputDimension,qDimension,kDimension,firstBests,num):
         super().__init__()
@@ -116,6 +119,7 @@ class AttentionController(torch.nn.Module):
         self.fc=torch.nn.Linear(inputDimension,15)
     def forward(self,input):
         input=input.reshape(self.num,self.firstBests,-1)
+        #produce values starting from queris and keys in multihead attention
         attn_output, attn_output_weights = self.multiheadAttention(input,input,input)
         attn_output=attn_output.reshape(self.num,-1)
         output=self.fc(attn_output)
@@ -342,7 +346,7 @@ class AgentNetwork(torch.nn.Module):
         torch.autograd.set_grad_enabled(False)
 
 if __name__ == '__main__':
-    agent=AgentNetwork(num=100,extractorOutput=1,color=False,useLstm=False)
+    agent=AgentNetwork(num=100,extractorOutput=1,color=False,useLstm=False,useAttentionController=True)
     numberOfParameters=len(agent.getparameters())
     agent.loadparameters([float(1) for i in range(numberOfParameters)])
     obsExample=torch.tensor(np.load("parallelObs.npy"))
