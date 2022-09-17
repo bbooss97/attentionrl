@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelEvolution.py", line 42, in <module>
+    agent=agent.loadModel("./parameters.pt")
+  File "C:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelAgent.py", line 333, in loadModel
+    self.load_state_dict(torch.load(path))
+  File "C:\Users\Andrea\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\nn\modules\module.py", line 1497, in load_state_dict
+    raise RuntimeError('Error(s) in loading state_dict for {}:\n\t{}'.format(
+RuntimeError: Error(s) in loading state_dict for AgentNetwork:
+	Missing key(s) in state_dict: "controller.multiheadAttention.in_proj_weight", "controller.multiheadAttention.in_proj_bias", "controller.multiheadAttention.out_proj.weight", "controller.multiheadAttention.out_proj.bias", "controller.fc.weight", "controller.fc.bias".
+	Unexpected key(s) in state_dict: "controller.lstm.weight_ih_l0", "controller.lstm.weight_hh_l0", "controller.lstm.bias_ih_l0", "controller.lstm.bias_hh_l0", "controller.fc1.weight", "controller.fc1.bias", "controller.fc2.weight", "controller.fc2.bias".

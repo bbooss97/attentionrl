@@ -1,0 +1,409 @@
+2022-09-02 09:50:07,915 INFO    StreamThr :5716 [internal.py:wandb_internal():90] W&B internal server running at pid: 5716, started at: 2022-09-02 09:50:07.914137
+2022-09-02 09:50:07,916 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: status
+2022-09-02 09:50:07,919 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: status
+2022-09-02 09:50:07,920 INFO    WriterThread:5716 [datastore.py:open_for_write():75] open: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\run-241b6nqg.wandb
+2022-09-02 09:50:07,921 DEBUG   SenderThread:5716 [sender.py:send():302] send: header
+2022-09-02 09:50:07,964 DEBUG   SenderThread:5716 [sender.py:send():302] send: run
+2022-09-02 09:50:08,818 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: check_version
+2022-09-02 09:50:08,819 INFO    SenderThread:5716 [dir_watcher.py:__init__():216] watching files in: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files
+2022-09-02 09:50:08,820 INFO    SenderThread:5716 [sender.py:_start_run_threads():913] run started: 241b6nqg with start time 1662105007.914136
+2022-09-02 09:50:08,820 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:50:08,820 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:50:08,820 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: check_version
+2022-09-02 09:50:09,280 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: run_start
+2022-09-02 09:50:09,296 DEBUG   HandlerThread:5716 [meta.py:__init__():35] meta init
+2022-09-02 09:50:09,296 DEBUG   HandlerThread:5716 [meta.py:__init__():50] meta init done
+2022-09-02 09:50:09,296 DEBUG   HandlerThread:5716 [meta.py:probe():216] probe
+2022-09-02 09:50:09,327 DEBUG   HandlerThread:5716 [meta.py:_setup_git():206] setup git
+2022-09-02 09:50:09,407 DEBUG   HandlerThread:5716 [meta.py:_setup_git():213] setup git done
+2022-09-02 09:50:09,407 DEBUG   HandlerThread:5716 [meta.py:_save_pip():54] save pip
+2022-09-02 09:50:09,408 DEBUG   HandlerThread:5716 [meta.py:_save_pip():68] save pip done
+2022-09-02 09:50:09,408 DEBUG   HandlerThread:5716 [meta.py:probe():254] probe done
+2022-09-02 09:50:09,494 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:50:09,494 DEBUG   SenderThread:5716 [sender.py:send():302] send: files
+2022-09-02 09:50:09,494 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-metadata.json with policy now
+2022-09-02 09:50:09,495 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:50:09,832 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-metadata.json
+2022-09-02 09:50:09,832 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:50:09,833 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\requirements.txt
+2022-09-02 09:50:09,859 DEBUG   SenderThread:5716 [sender.py:send():302] send: telemetry
+2022-09-02 09:50:09,859 DEBUG   SenderThread:5716 [sender.py:send():302] send: telemetry
+2022-09-02 09:50:10,339 INFO    Thread-22 :5716 [upload_job.py:push():138] Uploaded file C:\Users\Andrea\AppData\Local\Temp\tmpg1oxe764wandb\18bnpvly-wandb-metadata.json
+2022-09-02 09:50:14,866 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:50:16,875 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:50:24,870 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:50:24,870 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:50:39,035 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\config.yaml
+2022-09-02 09:50:40,128 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:50:40,128 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:50:40,732 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:50:55,447 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:50:55,447 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:51:10,687 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:51:10,687 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:51:14,332 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:51:25,942 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:51:25,942 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:51:33,810 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: log_artifact
+2022-09-02 09:51:33,810 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: log_artifact
+2022-09-02 09:51:33,823 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:51:35,471 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:51:35,822 INFO    Thread-24 :5716 [upload_job.py:push():96] Uploaded file C:\Users\Andrea\.cache\wandb\artifacts\obj\md5\ec\de60fbc6b33b3ce72628354343d9e4
+2022-09-02 09:51:37,236 INFO    SenderThread:5716 [sender.py:send_request_log_artifact():1207] logged artifact model - {'id': 'QXJ0aWZhY3Q6MTgzNTIyMjUz', 'digest': 'd441d809d148b09fcb18c02a46dd3b48', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjI1NDU3MzUy', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MTgyNTQ3MDEz', 'versionIndex': 419}}, 'version': 'latest'}
+2022-09-02 09:51:37,236 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:51:37,236 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:51:37,237 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:51:37,477 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:51:39,483 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:51:41,193 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:51:41,193 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:51:47,839 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:51:56,512 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:51:56,512 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:52:11,831 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:52:11,831 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:52:15,073 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:52:15,074 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:52:15,074 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:52:15,075 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:52:15,699 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:52:15,699 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:52:21,529 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:52:27,081 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:52:27,081 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:52:42,319 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:52:42,320 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:52:55,226 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:52:57,026 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: log_artifact
+2022-09-02 09:52:57,026 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: log_artifact
+2022-09-02 09:52:57,038 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:52:57,752 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:52:57,990 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:52:59,510 INFO    Thread-26 :5716 [upload_job.py:push():96] Uploaded file C:\Users\Andrea\.cache\wandb\artifacts\obj\md5\15\10bd0d0a8b41809a97ecf90bc2377d
+2022-09-02 09:53:01,538 INFO    SenderThread:5716 [sender.py:send_request_log_artifact():1207] logged artifact model - {'id': 'QXJ0aWZhY3Q6MTgzNTIyNTU0', 'digest': 'dcab17af3f7e0794a024cf45d1c043fa', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjI1NDU3MzUy', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MTgzNTIyMjUz', 'versionIndex': 420}}, 'version': 'latest'}
+2022-09-02 09:53:01,539 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:53:01,539 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:53:01,540 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:53:01,540 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:53:02,005 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:53:04,019 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:53:17,000 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:53:17,000 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:53:28,919 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:53:32,524 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:53:32,524 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:53:39,099 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: log_artifact
+2022-09-02 09:53:39,099 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: log_artifact
+2022-09-02 09:53:39,120 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:53:40,281 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:53:41,442 INFO    Thread-28 :5716 [upload_job.py:push():96] Uploaded file C:\Users\Andrea\.cache\wandb\artifacts\obj\md5\cb\143874313c561d4b0d9cd0652b5792
+2022-09-02 09:53:42,917 INFO    SenderThread:5716 [sender.py:send_request_log_artifact():1207] logged artifact model - {'id': 'QXJ0aWZhY3Q6MTgzNTIyNzI4', 'digest': '9a0097197a3966abced7c1336e255753', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjI1NDU3MzUy', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MTgzNTIyNTU0', 'versionIndex': 421}}, 'version': 'latest'}
+2022-09-02 09:53:42,917 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:53:42,918 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:53:42,918 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:53:43,298 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:53:44,304 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:53:47,836 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:53:47,836 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:54:02,639 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:54:03,150 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:54:03,150 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:54:18,383 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:54:18,383 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:54:20,456 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:54:20,457 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:54:20,457 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:54:20,457 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:54:20,504 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:54:22,523 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:54:33,892 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:54:33,892 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:54:36,459 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:54:49,149 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:54:49,149 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:55:02,026 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:55:02,026 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:55:02,026 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:55:02,027 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:55:02,766 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:55:04,398 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:55:04,398 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:55:04,781 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:55:10,117 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:55:19,661 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:55:19,661 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:55:35,337 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:55:35,337 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:55:43,693 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:55:43,693 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:55:43,693 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:55:43,694 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:55:43,763 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:55:44,149 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:55:44,149 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:55:50,645 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:55:50,645 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:56:06,149 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:56:06,149 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:56:17,461 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:56:21,480 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:56:21,480 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:56:25,489 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:56:25,489 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:56:25,489 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:56:25,490 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:56:26,418 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:56:26,418 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:56:37,110 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:56:37,110 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:56:53,793 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:56:55,319 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:56:55,320 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:57:10,615 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:57:10,615 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:57:11,887 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:57:11,887 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:57:11,887 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:57:11,888 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:57:12,585 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:57:13,592 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:57:25,872 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:57:25,872 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:57:40,344 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:57:45,894 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:57:45,894 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:57:53,919 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:57:53,919 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:57:53,919 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:57:53,920 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:57:54,010 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:57:56,034 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:58:01,134 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:58:01,134 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:58:01,135 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:58:16,361 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:58:16,361 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:58:31,640 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:58:31,640 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:58:34,927 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:58:35,576 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:58:35,577 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:58:35,577 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:58:35,577 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:58:36,305 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:58:38,318 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:58:46,903 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:58:46,903 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:59:02,141 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:59:02,141 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:59:08,725 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:59:17,330 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 09:59:17,330 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 09:59:17,331 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 09:59:17,331 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 09:59:17,395 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:59:17,395 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:59:17,569 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 09:59:18,569 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 09:59:32,701 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:59:32,701 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:59:42,541 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 09:59:47,956 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 09:59:47,956 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 09:59:59,391 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: log_artifact
+2022-09-02 09:59:59,391 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: log_artifact
+2022-09-02 09:59:59,419 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:00:00,844 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:00:01,099 INFO    Thread-30 :5716 [upload_job.py:push():96] Uploaded file C:\Users\Andrea\.cache\wandb\artifacts\obj\md5\22\5c4902aecda3b4cd173d1e8935c329
+2022-09-02 10:00:02,189 INFO    SenderThread:5716 [sender.py:send_request_log_artifact():1207] logged artifact model - {'id': 'QXJ0aWZhY3Q6MTgzNTI0MzYx', 'digest': '88a3e504c69eadd58d16c7e653d9c8bb', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjI1NDU3MzUy', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MTgzNTIyNzI4', 'versionIndex': 422}}, 'version': 'latest'}
+2022-09-02 10:00:02,189 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:00:02,189 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:00:02,190 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:00:02,853 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:00:02,854 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:00:03,189 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:00:03,189 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:00:16,321 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:00:18,457 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:00:18,457 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:00:33,699 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:00:33,699 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:00:41,096 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:00:41,097 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:00:41,097 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:00:41,105 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:00:41,105 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:00:43,121 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:00:48,920 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:00:48,920 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:00:50,118 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:01:04,170 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:01:04,170 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:01:19,408 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:01:19,408 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:01:22,800 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:01:22,800 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:01:22,801 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:01:22,802 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:01:23,365 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:01:23,913 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:01:25,378 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:01:34,643 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:01:34,643 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:01:49,886 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:01:49,886 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:01:57,712 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:02:05,136 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:02:05,136 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:02:06,620 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: log_artifact
+2022-09-02 10:02:06,621 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: log_artifact
+2022-09-02 10:02:06,646 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:02:07,641 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:02:08,224 INFO    Thread-32 :5716 [upload_job.py:push():96] Uploaded file C:\Users\Andrea\.cache\wandb\artifacts\obj\md5\a5\aba30df11006b8c3dceb5316adf34d
+2022-09-02 10:02:09,510 INFO    SenderThread:5716 [sender.py:send_request_log_artifact():1207] logged artifact model - {'id': 'QXJ0aWZhY3Q6MTgzNTI1MDA3', 'digest': '39bc8af5f656d7e6db0d1eedf39a8513', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjI1NDU3MzUy', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MTgzNTI0MzYx', 'versionIndex': 423}}, 'version': 'latest'}
+2022-09-02 10:02:09,511 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:02:09,511 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:02:09,511 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:02:09,656 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:02:11,671 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:02:20,380 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:02:20,380 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:02:31,508 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:02:35,641 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:02:35,641 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:02:48,544 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:02:48,544 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:02:48,544 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:02:48,545 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:02:48,904 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:02:49,905 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:02:50,939 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:02:50,939 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:03:05,280 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:03:06,203 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:03:06,204 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:03:21,431 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:03:21,431 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:03:30,650 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: log_artifact
+2022-09-02 10:03:30,650 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: log_artifact
+2022-09-02 10:03:30,673 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:03:32,160 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:03:32,376 INFO    Thread-34 :5716 [upload_job.py:push():96] Uploaded file C:\Users\Andrea\.cache\wandb\artifacts\obj\md5\54\986ace6aaa16df77955c2c69384aad
+2022-09-02 10:03:33,571 INFO    SenderThread:5716 [sender.py:send_request_log_artifact():1207] logged artifact model - {'id': 'QXJ0aWZhY3Q6MTgzNTI1MzUy', 'digest': '548617df15ccadef26ed95a792dca4aa', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjI1NDU3MzUy', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MTgzNTI1MDA3', 'versionIndex': 424}}, 'version': 'latest'}
+2022-09-02 10:03:33,571 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:03:33,572 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:03:33,573 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:03:34,168 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:03:36,183 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:03:36,695 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:03:36,695 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:03:39,031 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:03:51,921 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:03:51,921 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:04:07,174 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:04:07,174 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:04:12,620 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:04:12,620 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:04:12,620 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:04:12,621 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:04:12,863 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:04:13,415 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:04:14,422 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:04:22,409 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:04:22,409 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:04:37,730 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:04:37,730 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:04:46,663 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:04:53,038 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:04:53,038 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:04:54,464 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:04:54,464 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:04:54,464 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:04:54,465 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:04:54,683 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:04:56,705 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:05:09,379 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:05:09,379 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:05:20,399 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:05:24,645 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:05:24,645 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:05:39,418 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:05:39,419 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:05:39,419 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:05:39,420 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:05:39,994 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:05:39,995 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:05:40,011 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:05:41,023 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:05:54,161 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:05:55,310 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:05:55,310 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:06:10,550 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:06:10,550 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:06:23,858 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:06:23,859 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:06:23,859 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:06:23,859 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:06:24,318 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:06:25,328 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:06:25,791 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:06:25,792 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:06:27,884 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:06:41,098 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:06:41,098 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:06:56,351 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:06:56,351 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:07:01,685 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:07:08,477 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:07:08,478 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:07:08,478 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:07:08,479 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:07:08,585 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:07:09,596 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:07:11,611 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:07:11,611 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:07:27,091 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:07:27,092 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:07:35,431 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:07:42,408 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:07:42,408 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:07:53,967 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: log_artifact
+2022-09-02 10:07:53,968 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: log_artifact
+2022-09-02 10:07:53,992 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:07:55,918 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:07:56,501 INFO    Thread-36 :5716 [upload_job.py:push():96] Uploaded file C:\Users\Andrea\.cache\wandb\artifacts\obj\md5\fd\bfd2e30e88552962c479ff85968799
+2022-09-02 10:07:58,177 INFO    SenderThread:5716 [sender.py:send_request_log_artifact():1207] logged artifact model - {'id': 'QXJ0aWZhY3Q6MTgzNTI2NDI0', 'digest': 'bc6168ffdc728272c20fdb7c00b7f47d', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjI1NDU3MzUy', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MTgzNTI1MzUy', 'versionIndex': 425}}, 'version': 'latest'}
+2022-09-02 10:07:58,178 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:07:58,178 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:07:58,179 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:07:58,342 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:07:58,342 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:07:58,931 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:07:59,939 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:08:09,187 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:08:13,719 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:08:13,719 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:08:29,402 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:08:29,402 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:08:36,602 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:08:36,602 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:08:36,602 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:08:36,603 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:08:37,154 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:08:38,161 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:08:42,974 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:08:44,648 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:08:44,648 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:08:59,908 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:08:59,908 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:09:15,207 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:09:15,207 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
+2022-09-02 10:09:16,773 DEBUG   SenderThread:5716 [sender.py:send():302] send: stats
+2022-09-02 10:09:18,554 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-02 10:09:18,554 DEBUG   SenderThread:5716 [sender.py:send():302] send: history
+2022-09-02 10:09:18,554 DEBUG   SenderThread:5716 [sender.py:send():302] send: summary
+2022-09-02 10:09:18,555 INFO    SenderThread:5716 [sender.py:_save_file():1156] saving file wandb-summary.json with policy end
+2022-09-02 10:09:19,420 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\wandb-summary.json
+2022-09-02 10:09:20,427 INFO    Thread-16 :5716 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\Andrea\Desktop\attentionrl\attentionrl\wandb\run-20220902_095007-241b6nqg\files\output.log
+2022-09-02 10:09:30,710 DEBUG   HandlerThread:5716 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-02 10:09:30,710 DEBUG   SenderThread:5716 [sender.py:send_request():316] send_request: stop_status
