@@ -1,5 +1,0 @@
-
-(15_w,30)-aCMA-ES (mu_w=8.6,w_1=20%) in dimension 6146 (seed=1021721, Mon Aug  8 19:46:24 2022)
-1.9766666666666595
-saving current best
-wandb: WARNING wandb.run.join() is deprecated, please use wandb.run.finish().

@@ -1,8 +1,0 @@
-
-(15_w,30)-aCMA-ES (mu_w=8.6,w_1=20%) in dimension 6146 (seed=1053008, Mon Aug  8 19:45:04 2022)
-2.11666666666666
-saving current best
-Traceback (most recent call last):
-  File "c:\Users\Andrea\Desktop\attentionrl\attentionrl\parallelEvolution.py", line 64, in <module>
-    artifact = wandb.Artifact('model', type='model',)
-AttributeError: 'Run' object has no attribute 'Artifact'
