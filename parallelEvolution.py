@@ -18,7 +18,7 @@ filename = './outcmaes/es-pickle-dump'
 #number of games an agent plays in a parallel way (batched execution)
 
 #continue training from a previous execution
-startagain=True 
+startagain=True
 #agent with his parameters look the parallel agent file
 num=20
 game="starpilot"
@@ -26,8 +26,8 @@ color=False
 extractorOutput=1
 qDimension=3
 kDimension=3
-useLstm=False
-useAttentionController=True
+useLstm=True
+useAttentionController=False
 firstBests=10
 agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=num,useAttentionController=useAttentionController,threshold=0)
 #wandb run
@@ -70,7 +70,7 @@ while True:
         #load the parameters to the agent
         agent.loadparameters(i)
         #create vectorized environment and get fitnesses
-        env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num,blockLevel=0)
+        env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num,blockLevel=0,lossToStayAlive=5)
         fitness.append(100-env.play())
     #print mean of all the generated parameters executions
     mean=100-torch.tensor(fitness).mean()

@@ -11,7 +11,8 @@ import gym3
 # artifact_dir = artifact.download()
 
 #get best parameters 
-nameOfParameters="./current.pt"
+# nameOfParameters="./parametersTesting/record.pt"
+nameOfParameters="./parameters.pt"
 def testAgent():
     #create agent as the one used by the parameters
     color=False
@@ -20,8 +21,8 @@ def testAgent():
     extractorOutput=1
     qDimension=3
     kDimension=3
-    useLstm=False
-    useAttentionController=True
+    useLstm=True
+    useAttentionController=False
     firstBests=10
     agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=1,useAttentionController=useAttentionController)
     agent=agent.loadModel(nameOfParameters)

@@ -1,5 +1,5 @@
 #this contains the parallel agent used to play the game in the vectorized environment
-
+import os
 import torch
 import numpy as np
 from torch import nn
@@ -144,7 +144,7 @@ class MLPController(torch.nn.Module):
 class AgentNetwork(torch.nn.Module):
 
     
-    def __init__(self,imageDimension=(64,64,3),qDimension=6,kDimension=6,extractorOutput=1,firstBests=5,threshold=0.33,color=False,num=1,render=False,useLstm=False,useAttentionController=True):
+    def __init__(self,imageDimension=(64,64,3),qDimension=6,kDimension=6,extractorOutput=1,firstBests=5,threshold=0.33,color=False,num=1,render=False,useLstm=True,useAttentionController=False):
         super(AgentNetwork,self).__init__()
         #qDimension and kDimension are the dimension of the query and key vectors in the self attention module
         #extractorOutput is the dimension of the output of the feature extractor that automatically detects the features of the patches beyond the positions coordinates
@@ -210,6 +210,11 @@ class AgentNetwork(torch.nn.Module):
         return output
 
     def drawAttentionMap(self,indices):
+        #clear screen and primnt attention map
+        if os.name=='nt':
+            os.system('cls')
+        else:
+            os.system('clear')
         col=(indices%15).int()
         row=(indices/15).int()
         r=row.tolist()[0]

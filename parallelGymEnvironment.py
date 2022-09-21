@@ -9,10 +9,10 @@ import random
 # torch.set_default_tensor_type(torch.cuda.FloatTensor)
 
 class Gymenv1player():
-    def __init__(self,gameName="coinrun",num=1,maxsteps=1000,agent=None,verbose=False,render=False,blockLevel=0):
+    def __init__(self,gameName="coinrun",num=1,maxsteps=1000,agent=None,verbose=False,render=False,blockLevel=0,lossToStayAlive=0):
         self.num=num
         #used to penalize deaths linearly
-        self.lossToStayAlive=0
+        self.lossToStayAlive=lossToStayAlive
         #if i want to render the environment
         self.render=render
         #number of steps for every game(all of the num games )
