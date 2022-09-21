@@ -70,7 +70,7 @@ while True:
         #load the parameters to the agent
         agent.loadparameters(i)
         #create vectorized environment and get fitnesses
-        env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num,blockLevel=0,lossToStayAlive=5)
+        env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num,blockLevel=0,lossToStayAlive=0)
         fitness.append(100-env.play())
     #print mean of all the generated parameters executions
     mean=100-torch.tensor(fitness).mean()

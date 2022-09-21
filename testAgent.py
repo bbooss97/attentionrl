@@ -12,6 +12,7 @@ parser.add_argument("--color", help="use color features and the position for the
 parser.add_argument("--extractedFeatures", help="use the features extracted and the position as input for the controller",action="store_true")
 parser.add_argument("--position", help="use just the position for the controller",action="store_true")
 parser.add_argument("--attention", help="use the attention controller",action="store_true")
+parser.add_argument("--deathPenalization", help="use the network trained with a penality on deaths",action="store_true")
 args=parser.parse_args()
 
 #to do start from artifact instead of local agent
@@ -24,12 +25,12 @@ args=parser.parse_args()
 # #get best parameters 
 # # nameOfParameters="./parametersTesting/record.pt"
 # nameOfParameters="./parameters.pt"
-def testAgent(args):
+def testAgent(args,testing=False):
     attention=args.attention
     color=args.color
     extractedFeatures=args.extractedFeatures
     position=args.position
-
+    deathPenalization=args.deathPenalization
     #create agent and the settings to use the network based on how it was trained
     if attention:
         color=False
@@ -71,6 +72,16 @@ def testAgent(args):
         useAttentionController=False
         firstBests=10
         nameOfParameters="./parametersTesting/JUST THE POSITION CONTROLLER 12.27333333333334 game=starpilot num=20 color=False extractorOutput=0 qDimension=4 kDimension=4 useLstm=True firstBests=10.pt"
+    elif deathPenalization:
+        color=False
+        game="starpilot"
+        extractorOutput=1
+        qDimension=3
+        kDimension=3
+        useLstm=True
+        useAttentionController=False
+        firstBests=10
+        nameOfParameters="./parametersTesting/DEATHS PENALIZATION -7.133333333333326 game=starpilot num=20 color=False extractorOutput=1 qDimension=3 kDimension=3 useLstm=True firstBests=10 useAttentionController=False.pt"
     else:
         #default is using extracted features and lstm
         color=False
@@ -82,6 +93,20 @@ def testAgent(args):
         useAttentionController=False
         firstBests=10
         nameOfParameters="./parametersTesting/record.pt"
+
+    #use this part just for me to test
+    if testing:
+        color=False
+        game="starpilot"
+        extractorOutput=1
+        qDimension=3
+        kDimension=3
+        useLstm=True
+        useAttentionController=False
+        firstBests=10
+        nameOfParameters="./parametersTesting/record.pt"
+
+
     #create the agent
     #load the agent with the settings and the weights
     agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=1,useAttentionController=useAttentionController)
@@ -96,4 +121,4 @@ def testAgent(args):
 
 
 if __name__ == '__main__':
-    testAgent(args)
+    testAgent(args,testing=True)
