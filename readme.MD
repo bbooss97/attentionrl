@@ -34,6 +34,9 @@ The parameters containing the weights can be selected .
 selecting parametes.pt the best global network is selected, with current.pt the current generation best network is selected, otherwise one could select from the paramters training or testing folder the parameters to use. In those paraeters in the title there is the encoding of all the settings used that have to be setted in the test agent script.
 
 In the console while the agent is playing we can see where the agent is paying attention.
+![Alt text](./resources/starpilot.png "Starpilot game")
+![Alt text](./resources/attention.png "Attention")
+
 0 means it is not paying attention to the patch , 1 is the most important patch, 2 is the second most important patch and so on.
 
 # running the agent pretrained
