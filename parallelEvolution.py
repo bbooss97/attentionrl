@@ -9,18 +9,16 @@ import time
 import wandb
 import pickle
 
-# run = wandb.init()
-# artifact = run.use_artifact('bbooss97/attentionAgent/model:v6', type='model')
-# artifact_dir = artifact.download()
-
 #dump cmaes execution to load from it if i want to continue
 filename = './outcmaes/es-pickle-dump'
 #number of games an agent plays in a parallel way (batched execution)
-
-#continue training from a previous execution
-startagain=True
-#agent with his parameters look the parallel agent file
 num=20
+#use wandb to log the results (and to restore the artifact todo)
+useWandb=False
+#continue training from a previous execution
+startagain=False
+#agent with his parameters look the parallel agent file
+
 game="starpilot"
 color=False
 extractorOutput=1
@@ -32,9 +30,10 @@ firstBests=10
 agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=num,useAttentionController=useAttentionController,threshold=0)
 #wandb run
 name="game={} num={} color={} extractorOutput={} qDimension={} kDimension={} useLstm={} firstBests={} useAttentionController={}".format(game, num, color, extractorOutput, qDimension, kDimension, useLstm, firstBests,useAttentionController)
-
-run=wandb.init(project='attentionAgent', entity='bbooss97',name=name)
-run.watch(agent)
+if useWandb:
+    #change project name thats me
+    run=wandb.init(project='attentionAgent', entity='bbooss97',name=name)
+    run.watch(agent)
 
 time.sleep(5)
 #load parameters from the previous best else from scratch
@@ -84,13 +83,15 @@ while True:
     #if i have a record i save the parameters locally and on wandb
     if currentBest>globalBest:
         print("saving current best")
-        artifact = wandb.Artifact('model', type='model',)
-        artifact.add_file('./current.pt')
-        run.log_artifact(artifact)
+        if useWandb:
+            artifact = wandb.Artifact('model', type='model',)
+            artifact.add_file('./current.pt')
+            run.log_artifact(artifact)
         globalBest=currentBest
         agent.saveModel("parametersTraining/"+str(globalBest)+" "+name)
     #log to wandb and save the execution of cmaes in case i want to continue later
     es.disp()
-    run.log({"iteration":start,"globalBest":globalBest," mean":mean})
+    if useWandb:
+        run.log({"iteration":start,"globalBest":globalBest," mean":mean})
     open(filename, 'wb').write(es.pickle_dumps())
 
