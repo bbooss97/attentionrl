@@ -37,4 +37,8 @@ or add the args:
 
 the default controller is the lstm but the attentin one uses the attention controller.
 
-
+# different version of the project 
+in this folder there is the version with the environment not vectorized (its slower because it doesnt work in parallel with the gpu),
+and there is the parallel evolution where the agent can be trained in parallel with multiprocessing.
+with my gtx 1060 with 3gb of dram its not useful but maybe with 12 gb of dram it could be useful.
+i added this just in case but some things have to be changed.
