@@ -12,6 +12,14 @@ The attention mechanism is the one described by the paper but i tested different
 The features that the agent sees from the patches with the most importance can be personalized and could be merged together having a little bit of everything. They can be personalized with :
 the simple coordinates of the patch ,the color of the patch(mean of rgb channels) or they can be automatically detected with a feature extractor module that is a neural network ,also this could be changed.
 
+
+# dependencies
+install procgen cmaes and pytorch pickle wandb argparse
+pip install procgen
+pip install cma
+
+the other commands can be found on the internet.
+
 # training an agent
 To train the agent with the cmaes algorithm refer to the parallelEvolution.py script.
 There the game can be changed, the type of network too, the features too, death penality too and so on.
