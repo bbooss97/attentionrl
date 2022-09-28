@@ -2,6 +2,9 @@
 This project is the reimplementation of the attention agent from the paper "Neuroevolution of self interpretable agents" by Google.
 This agent operates on the vectorized procgen gym environment and has been trained to play the starpilot game but can be trained to play all the games of the procgen environment.
 
+# a demo of the agent playing the startpilot game
+the demo can be found at the following youtube link: 
+https://youtu.be/RvH9VFQngG4
 # environment
 The vectorized enviroment allows to play multiple games in parallel so the agent will not output a single action as output but one action for each environment and take as a reward the mean of the rewards minus a death loss that can be personalized to penalize deaths. So everything is batched starting from the input images that the agent sees till the output.
 
