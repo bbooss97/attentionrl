@@ -16,7 +16,7 @@
 
 \twocolumn[
 %%% STUDENTS: FILL IN WITH YOUR OWN INFORMATION
-\dlaititle{Neuroevolution of self interpretable agents)}
+\dlaititle{Neuroevolution of self interpretable agents}
 
 \begin{center}\today\end{center}
 
@@ -36,7 +36,7 @@
 
 \section{Abstract}
 %
-This project aims to investigate the benefits of attention in reinforcement learning to see that also having a reduced view of the environment and simpler models we can create agents able to play procgen games.
+This project aims to investigate the benefits of attention in reinforcement learning to see that also having a reduced view of the environment and simpler models we can create agents able to play procgen games\cite{procgen}.
 The code of the project can be found at this link:
 \url{https://github.com/bbooss97/attentionrl}.
 A demo of the agent playing the starpilot game can be found here:
@@ -56,7 +56,7 @@ The idea is to divide the input in patches and select just the most important on
 
 \section{Structure of the network}
 The structure of the network that is used is divided in 3 parts: 
-a patch selection phase in which we select the most important patches, a patch features extraction phase in which from those patches we get features that will be used by the controller , and a controller that is the part of the network that will produce an action starting from the features of the previous step.
+a patch selection phase in which we select the most important patches, a patch features extraction phase in which from those patches we get features that will be used by the controller , and a controller that is the part of the network that will produce an action starting from the features of the previous step.\cite{{neuroevolution}}
 
 % ------------------------------------------------------------------------------
 \begin{figure}[h]
@@ -82,11 +82,11 @@ In the original paper the normalized position of the patches is used. I also use
 The controller is the module that is in charge of selecting an action to be performed in the environment given the features extracted from the most important patches.Different types of controllers with different structures and dimensions were tested. I tried a simple multilayer perceptron,an lstm controller,and an attention controller.The lstm perceptron uses 15 neurons as hidden state that is used to keep track of what the agent was doing before the current moment, while the attention controller uses multihead attention to learn the attention coefficients to give different importance to different parts of the features given at input.
 
 \section{Benefits of attention}
-The attention mechanism is useful in this project because it allows to reduce the number of parameters to train. Having the self attention map we can derive from it the patches that are the most "voted" by all the others and thus we can infer that those will be the most important ones to perform an action,discarding all the other features that are not important for the task.
+The attention mechanism\cite{attention} is useful in this project because it allows to reduce the number of parameters to train. Having the self attention map we can derive from it the patches that are the most "voted" by all the others and thus we can infer that those will be the most important ones to perform an action,discarding all the other features that are not important for the task.
 
 \section{Training the network}
 The problem with using attention to retrieve the best patches(sorted) is that the network is not differentiable so we have to resort to genetic algorithms.
-The genetic algorithm used is called cma-es covariance matrix adaptation evolution strategy.
+The genetic algorithm used is called cma-es covariance matrix adaptation evolution strategy\cite{cmaes}.
 
 \section{Idea confired sperimentally}
 Sperientally i tested the network on different games of the procgen environment and i focused especially in training it on the starpilot game even though it performs with good performances in other games.The network is able to play the game and without taking too much time it learns how to perform actions in the environment to maximize the reward.It starts by learning that the first thing to do is to move backwards to diminish the probability of being hit and than learns to move up and down on the left edge to destroy as many  objects as possible.If left training it eventually starts to dodge some bullets but never in a human level.It could eventually reach human or superhuman level but i don't know if the time it would take is long or if the network is not big enough to learn to play in that way. 
@@ -134,64 +134,10 @@ Using a big population slows a lot the training time so i left the algorithm opt
 
 
 
-\section{Report structure}
-
-There is no mandatory structure to adopt, but a typical report should look as follows. 1) An \textbf{introduction} section where the problem is presented, and the overall proposed approach is briefly described; 2) a \textbf{related work} section; 3) a \textbf{method} section, where the main methodology used for the project is described; 4) experimental \textbf{results} (qualitative, quantitative, or both); 5) \textbf{discussion and conclusions}.
-
-% ------------------------------------------------------------------------------
-\section{Using \LaTeX}\label{sec:latex}
-
-If this is your first time using \LaTeX, here are a few common instructions that you may find useful. Please read this while looking at the source code.
-
-\paragraph*{Formulas.}
-You can write formulas inline, such as $x^2$, or you can put them in their own environment, for example:
-%
-\begin{equation}\label{eq:dirichlet}
-\lambda_i = \int_\mathcal{X} \langle \nabla \phi_i(x), \nabla \phi_i(x) \rangle dx \,.
-\end{equation}
-
-You can also refer to formulas without having to write their equation number by hand, such as Equation~\eqref{eq:dirichlet}.
-
-\paragraph*{Figures.}
-You can and are encouraged to include figures. See an example with Figure~\ref{fig:torus}.
-
-\begin{figure}[t]
-    \centering
-    \begin{overpic}[width=0.99\linewidth]{./torus.png}
-    \put(-1, 21){\color{blue}\footnotesize $\mathcal{M}_2$ }
-    \put(13, 12){\color{red}\footnotesize $\mathcal{M}_1$ }
-    \put(93, 30){\footnotesize $\mathcal{Z}$ }
-    \put(79, 26){\scriptsize $z_2$ }
-    \put(88, 26){\scriptsize $z_1$ }
-    \end{overpic}
-    \caption{In the figure caption, you can write what you want including formulas, e.g. $\mathcal{X} \subset \mathbb{R}^3$. Notice that in this figure, we added mathematical symbols on top of the image by using the overpic command.}
-    \label{fig:torus}
-\end{figure}
-
-\paragraph*{Table.}
-Tables can be used to report quantitative results, here is one random example:
-
-\begin{table}[h!]
-\caption{Performance comparison.}
-\label{tab:results}
-\begin{center}
-\begin{small}
-\begin{tabular}{p{0.16\linewidth} | ccccc}
-\toprule
-& \multirow{2}{0.1\linewidth}{$\beta$ VAE}& \multirow{2}{0.1\linewidth}{DCI Dis.}& \multirow{2}{0.1\linewidth}{MIG}& \multirow{2}{0.1\linewidth}{MIG-PCA}& \multirow{2}{0.1\linewidth}{MIG-KM}\\
-\#factors \\
-\midrule
-One      & 100\% & \textbf{99.0\%} &  63.7\% & 73.5\% &  69.2\%  \\
-Variable & 98.9\% & 94.9\% & 62.3\% &  70.5\%& \textbf{66.9\%} \\
-\bottomrule
-\end{tabular}
-\end{small}
-\end{center}
-\vspace{-0.5cm}
-\end{table}
 
 \paragraph*{Bibliography.}
-This is an example bibliographic reference \cite{anderson2008end}. If you want to add more, you must edit the file ``references.bib''.
+Those are the bibliographic references:
+
 
 
 \bibliography{references.bib}
