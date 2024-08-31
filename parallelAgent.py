@@ -348,7 +348,7 @@ class AgentNetwork(torch.nn.Module):
     def removeGrad(self):
         for params in self.parameters():
             params.requires_grad=False
-        torch.autograd.set_grad_enabled(False)
+        # torch.autograd.set_grad_enabled(False)
 
 if __name__ == '__main__':
     agent=AgentNetwork(num=100,extractorOutput=1,color=False,useLstm=False,useAttentionController=True)

@@ -54,13 +54,13 @@ for iteration in range(num_iterations):
     actual_q_values = 100 - env.play()  # Assuming higher is better
 
     # Predict Q-values using meta-network
-    agent_weights = torch.tensor(agent.getparameters())
+    agent_weights = torch.tensor(agent.getparameters(),requires_grad=True)
     if torch.cuda.is_available():
         agent_weights = agent_weights.cuda()
     predicted_q_value = meta_network(agent_weights)
 
     # Train meta-network
-    loss = mse_loss(predicted_q_value, torch.tensor([actual_q_values]).float().cuda())
+    loss = mse_loss(predicted_q_value, torch.tensor([actual_q_values]).double().cuda())
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
