@@ -58,7 +58,7 @@ for iteration in range(num_iterations):
         agent_weights = agent_weights.cuda()
 
     # Perform multiple updates manually
-    num_updates = 50  # You can adjust this number
+    num_updates = 10  # You can adjust this number
     for _ in range(num_updates):
         predicted_q_value = meta_network(agent_weights)
 
