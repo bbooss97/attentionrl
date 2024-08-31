@@ -47,28 +47,45 @@ if use_wandb:
     wandb.watch(agent)
     wandb.watch(meta_network)
 
-# Training loop
 for iteration in range(num_iterations):
     # Collect actual Q-values
-    env = Gymenv1player(agent=agent, maxsteps=500, verbose=False, gameName=game, num=num_parallel)
-    actual_q_values =  - env.play()  # Assuming higher is better
+    env = Gymenv1player(agent=agent, maxsteps=1000, verbose=False, gameName=game, num=num_parallel)
+    actual_q_values = -env.play()  # Assuming higher is better
 
     # Predict Q-values using meta-network
-    agent_weights = torch.tensor(agent.getparameters(),requires_grad=True)
+    agent_weights = torch.tensor(agent.getparameters(), requires_grad=True)
     if torch.cuda.is_available():
         agent_weights = agent_weights.cuda()
-    predicted_q_value = meta_network(agent_weights)
 
-    # Train meta-network
-    loss = mse_loss(predicted_q_value, torch.tensor([actual_q_values]).double().cuda())
+    # Perform multiple updates manually
+    num_updates = 20  # You can adjust this number
+    for _ in range(num_updates):
+        predicted_q_value = meta_network(agent_weights)
+
+        # Calculate loss
+        loss = mse_loss(predicted_q_value, torch.tensor([actual_q_values]).double().cuda())
+        
+        # Manually calculate gradients
+        loss.backward()
+        
+        # Manually update weights
+        with torch.no_grad():
+            agent_weights = agent_weights - learning_rate * agent_weights.grad
+        
+        # Reset gradients for next iteration
+        agent_weights.requires_grad = True
+        if agent_weights.grad is not None:
+            agent_weights.grad.zero_()
+
+    # Load the final updated weights into the agent
+    agent.loadparameters(agent_weights.cpu().detach().numpy())
+
+    # Optionally, update the meta-network parameters
     optimizer.zero_grad()
-    loss.backward()
+    final_predicted_q_value = meta_network(agent_weights)
+    final_loss = mse_loss(final_predicted_q_value, torch.tensor([actual_q_values]).double().cuda())
+    final_loss.backward()
     optimizer.step()
-
-    # Update agent weights
-    updated_weights = agent_weights - learning_rate * agent_weights.grad
-    agent.loadparameters(updated_weights.cpu().detach().numpy())
-
     # Logging
     print(f"Iteration {iteration}: Actual Q-value: {actual_q_values}, Predicted Q-value: {predicted_q_value.item()}, Loss: {loss.item()}")
     if use_wandb:
