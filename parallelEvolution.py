@@ -25,12 +25,12 @@ class MetaNetwork(nn.Module):
 # Hyperparameters
 num_parallel = 20
 game = "starpilot"
-learning_rate = 1e-4
+learning_rate = 1e-2
 num_iterations = 1000
 meta_batch_size = 32
 
 # Initialize agent and meta-network
-agent = AgentNetwork(color=False, useLstm=True, extractorOutput=1, qDimension=3, kDimension=3, firstBests=10, num=num_parallel, useAttentionController=False, threshold=0)
+agent = AgentNetwork(color=False, useLstm=False, extractorOutput=1, qDimension=3, kDimension=3, firstBests=10, num=num_parallel, useAttentionController=True, threshold=0)
 meta_network = MetaNetwork(input_size=len(agent.getparameters()))
 
 if torch.cuda.is_available():
