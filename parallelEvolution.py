@@ -51,7 +51,7 @@ if use_wandb:
 for iteration in range(num_iterations):
     # Collect actual Q-values
     env = Gymenv1player(agent=agent, maxsteps=500, verbose=False, gameName=game, num=num_parallel)
-    actual_q_values = 100 - env.play()  # Assuming higher is better
+    actual_q_values =  - env.play()  # Assuming higher is better
 
     # Predict Q-values using meta-network
     agent_weights = torch.tensor(agent.getparameters(),requires_grad=True)
