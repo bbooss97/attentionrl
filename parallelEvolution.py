@@ -23,9 +23,9 @@ class MetaNetwork(nn.Module):
         return self.fc3(x)
 
 # Hyperparameters
-num_parallel = 20
+num_parallel = 50
 game = "starpilot"
-learning_rate = 1e-2
+learning_rate = 1e-3
 num_iterations = 1000
 meta_batch_size = 32
 
@@ -58,7 +58,7 @@ for iteration in range(num_iterations):
         agent_weights = agent_weights.cuda()
 
     # Perform multiple updates manually
-    num_updates = 20  # You can adjust this number
+    num_updates = 50  # You can adjust this number
     for _ in range(num_updates):
         predicted_q_value = meta_network(agent_weights)
 
