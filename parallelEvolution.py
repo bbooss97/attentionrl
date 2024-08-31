@@ -1,97 +1,89 @@
-#this is the script to train parallel agents 
-
-import cma
-import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
 from parallelAgent import AgentNetwork
 from parallelGymEnvironment import Gymenv1player
-import torch
-import time
 import wandb
-import pickle
+import time
 
-#dump cmaes execution to load from it if i want to continue
-filename = './outcmaes/es-pickle-dump'
-#number of games an agent plays in a parallel way (batched execution)
-num=20
-#use wandb to log the results (and to restore the artifact todo)
-useWandb=False
-#continue training from a previous execution
-startagain=False
-#agent with his parameters look the parallel agent file
+# Meta-network to predict Q-values
+class MetaNetwork(nn.Module):
+    def __init__(self, input_size, hidden_size=256):
+        super(MetaNetwork, self).__init__()
+        self.fc1 = nn.Linear(input_size, hidden_size)
+        self.fc2 = nn.Linear(hidden_size, hidden_size)
+        self.fc3 = nn.Linear(hidden_size, 1)  # Output is a single Q-value
 
-game="starpilot"
-color=False
-extractorOutput=1
-qDimension=3
-kDimension=3
-useLstm=True
-useAttentionController=False
-firstBests=10
-agent=AgentNetwork(color=color,useLstm=useLstm,extractorOutput=extractorOutput,qDimension=qDimension,kDimension=kDimension,firstBests=firstBests,num=num,useAttentionController=useAttentionController,threshold=0)
-#wandb run
-name="game={} num={} color={} extractorOutput={} qDimension={} kDimension={} useLstm={} firstBests={} useAttentionController={}".format(game, num, color, extractorOutput, qDimension, kDimension, useLstm, firstBests,useAttentionController)
-if useWandb:
-    #change project name thats me
-    run=wandb.init(project='attentionAgent', entity='bbooss97',name=name)
-    run.watch(agent)
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        return self.fc3(x)
 
-time.sleep(5)
-#load parameters from the previous best else from scratch
-if startagain:  
-    agent=agent.loadModel("./parameters.pt")
-    parameters=agent.getparameters()
-    parameters=[float(i) for i in parameters]
-else:
-    parameters=len(agent.getparameters())
-    parameters=[float(0)for i in range(parameters)]
-# initial variance of cmaes algorithm
-variance=1
-#load previous training if i want to continue from it
-if startagain:
-   es = pickle.load(open(filename, 'rb'))
-else:
-    es=cma.CMAEvolutionStrategy(parameters,variance)
-#put the agent to cuda so that i can evaluate the num games in parallel
+# Hyperparameters
+num_parallel = 20
+game = "starpilot"
+learning_rate = 1e-4
+num_iterations = 1000
+meta_batch_size = 32
+
+# Initialize agent and meta-network
+agent = AgentNetwork(color=False, useLstm=True, extractorOutput=1, qDimension=3, kDimension=3, firstBests=10, num=num_parallel, useAttentionController=False, threshold=0)
+meta_network = MetaNetwork(input_size=len(agent.getparameters()))
+
 if torch.cuda.is_available():
     agent.cuda()
+    meta_network.cuda()
 
-globalBest=-1000
-start=0
+optimizer = optim.Adam(meta_network.parameters(), lr=learning_rate)
+mse_loss = nn.MSELoss()
 
-#strat training
-while True:
-    start+=1
-    #generate parameters from cmaes
-    generatedParameters=es.ask()
-    fitness=[]
-    #for every parameters play num games in parallel and take the average raward of the num games
-    for i in generatedParameters:
-        #load the parameters to the agent
-        agent.loadparameters(i)
-        #create vectorized environment and get fitnesses
-        env=Gymenv1player(agent=agent,maxsteps=500,verbose=False,gameName=game,num=num,blockLevel=0,lossToStayAlive=0)
-        fitness.append(100-env.play())
-    #print mean of all the generated parameters executions
-    mean=100-torch.tensor(fitness).mean()
-    print("mean: {}".format(mean))
-    #send fitnesses to cmaes and load best parameters to save the current agent
-    es.tell(generatedParameters,fitness)
-    agent.loadparameters(es.result.xfavorite)
-    torch.save(agent.state_dict(), "./current.pt")
-    currentBest=100-es.result.fbest
-    print(currentBest)
-    #if i have a record i save the parameters locally and on wandb
-    if currentBest>globalBest:
-        print("saving current best")
-        if useWandb:
-            artifact = wandb.Artifact('model', type='model',)
-            artifact.add_file('./current.pt')
-            run.log_artifact(artifact)
-        globalBest=currentBest
-        agent.saveModel("parametersTraining/"+str(globalBest)+" "+name)
-    #log to wandb and save the execution of cmaes in case i want to continue later
-    es.disp()
-    if useWandb:
-        run.log({"iteration":start,"globalBest":globalBest," mean":mean})
-    open(filename, 'wb').write(es.pickle_dumps())
+# Initialize WandB
+use_wandb = False
+if use_wandb:
+    wandb.init(project='meta_learning_rl', entity='your_entity_here', name='meta_learning_run')
+    wandb.watch(agent)
+    wandb.watch(meta_network)
 
+# Training loop
+for iteration in range(num_iterations):
+    # Collect actual Q-values
+    env = Gymenv1player(agent=agent, maxsteps=500, verbose=False, gameName=game, num=num_parallel)
+    actual_q_values = 100 - env.play()  # Assuming higher is better
+
+    # Predict Q-values using meta-network
+    agent_weights = torch.tensor(agent.getparameters()).float()
+    if torch.cuda.is_available():
+        agent_weights = agent_weights.cuda()
+    predicted_q_value = meta_network(agent_weights)
+
+    # Train meta-network
+    loss = mse_loss(predicted_q_value, torch.tensor([actual_q_values]).float().cuda())
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+    # Update agent weights
+    updated_weights = agent_weights - learning_rate * agent_weights.grad
+    agent.loadparameters(updated_weights.cpu().detach().numpy())
+
+    # Logging
+    print(f"Iteration {iteration}: Actual Q-value: {actual_q_values}, Predicted Q-value: {predicted_q_value.item()}, Loss: {loss.item()}")
+    if use_wandb:
+        wandb.log({
+            "iteration": iteration,
+            "actual_q_value": actual_q_values,
+            "predicted_q_value": predicted_q_value.item(),
+            "loss": loss.item()
+        })
+
+    # Save model periodically
+    if iteration % 100 == 0:
+        torch.save(agent.state_dict(), f"./agent_checkpoint_{iteration}.pt")
+        torch.save(meta_network.state_dict(), f"./meta_network_checkpoint_{iteration}.pt")
+        if use_wandb:
+            artifact = wandb.Artifact('model', type='model')
+            artifact.add_file(f"./agent_checkpoint_{iteration}.pt")
+            artifact.add_file(f"./meta_network_checkpoint_{iteration}.pt")
+            wandb.log_artifact(artifact)
+
+print("Training complete!")
