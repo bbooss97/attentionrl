@@ -4,7 +4,7 @@ import torch
 import numpy as np
 from torch import nn
 if torch.cuda.is_available():
-    torch.set_default_tensor_type(torch.cuda.FloatTensor)
+    torch.set_default_tensor_type(torch.cuda.DoubleTensor)
 
 #in the original paper for every generated parameters there is a container that executes num games and take the average of those
 #i not having at disposal the cloud used the gpu to parallelize the num games 

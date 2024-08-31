@@ -5,6 +5,9 @@ from parallelAgent import AgentNetwork
 from parallelGymEnvironment import Gymenv1player
 import wandb
 import time
+if torch.cuda.is_available():
+    torch.set_default_tensor_type(torch.cuda.DoubleTensor)
+
 
 # Meta-network to predict Q-values
 class MetaNetwork(nn.Module):
@@ -51,7 +54,7 @@ for iteration in range(num_iterations):
     actual_q_values = 100 - env.play()  # Assuming higher is better
 
     # Predict Q-values using meta-network
-    agent_weights = torch.tensor(agent.getparameters()).float()
+    agent_weights = torch.tensor(agent.getparameters())
     if torch.cuda.is_available():
         agent_weights = agent_weights.cuda()
     predicted_q_value = meta_network(agent_weights)

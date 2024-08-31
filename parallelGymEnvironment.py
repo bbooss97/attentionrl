@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from parallelAgent import AgentNetwork
 import random
-# torch.set_default_tensor_type(torch.cuda.FloatTensor)
+torch.set_default_tensor_type(torch.cuda.DoubleTensor)
 
 class Gymenv1player():
     def __init__(self,gameName="coinrun",num=1,maxsteps=1000,agent=None,verbose=False,render=False,blockLevel=0,lossToStayAlive=0):
