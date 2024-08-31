@@ -23,7 +23,7 @@ class MetaNetwork(nn.Module):
         return self.fc3(x)
 
 # Hyperparameters
-num_parallel = 10
+num_parallel = 50
 game = "starpilot"
 learning_rate = 1e-3
 num_iterations = 100000000
@@ -51,7 +51,7 @@ if use_wandb:
 for iteration in range(num_iterations):
     # Collect actual Q-values
     env = Gymenv1player(agent=agent, maxsteps=1000, verbose=False, gameName=game, num=num_parallel)
-    actual_q_values = -env.play()*100  # Assuming higher is better
+    actual_q_values = -env.play()  # Assuming higher is better
 
     # Predict Q-values using meta-network
     agent_weights = torch.tensor(agent.getparameters(), requires_grad=True)
@@ -68,8 +68,7 @@ for iteration in range(num_iterations):
     optimparams= optim.Adam([agent_weights], lr=1e-3)
 
     # Perform multiple updates manually
-    num_updates = 1000  # You can adjust this number
-    for i in range(num_updates):
+    while True:
         predicted_q_value = meta_network(agent_weights)
         
         # Manually calculate gradients
@@ -78,6 +77,8 @@ for iteration in range(num_iterations):
         # Manually update weights
         optimparams.step()
         optimparams.zero_grad()
+        if predicted_q_value < initial_predicted_q_value - 1:
+            break
         
     # Load the final updated weights into the agent
     agent.loadparameters(agent_weights.cpu().detach().numpy())
