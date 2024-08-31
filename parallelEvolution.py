@@ -23,9 +23,9 @@ class MetaNetwork(nn.Module):
         return self.fc3(x)
 
 # Hyperparameters
-num_parallel = 20
+num_parallel = 10
 game = "starpilot"
-learning_rate = 1e-2
+learning_rate = 1e-3
 num_iterations = 100000000
 meta_batch_size = 32
 
@@ -57,20 +57,23 @@ for iteration in range(num_iterations):
     agent_weights = torch.tensor(agent.getparameters(), requires_grad=True)
     if torch.cuda.is_available():
         agent_weights = agent_weights.cuda()
+    optimizer.zero_grad()
+    predicted_q_value = meta_network(agent_weights)
+    initial_predicted_q_value = predicted_q_value
+    loss = mse_loss(predicted_q_value, torch.tensor([actual_q_values]).double().cuda())
+    loss.backward()
+    optimizer.step()
+    optimizer.zero_grad()
+
     optimparams= optim.Adam([agent_weights], lr=1e-3)
 
     # Perform multiple updates manually
     num_updates = 1000  # You can adjust this number
     for i in range(num_updates):
         predicted_q_value = meta_network(agent_weights)
-        if i==0:
-            initial_predicted_q_value=predicted_q_value
-
-        # Calculate loss
-        loss = mse_loss(predicted_q_value, torch.tensor([actual_q_values]).double().cuda())
         
         # Manually calculate gradients
-        loss.backward()
+        predicted_q_value.backward()
         
         # Manually update weights
         optimparams.step()
@@ -80,11 +83,7 @@ for iteration in range(num_iterations):
     agent.loadparameters(agent_weights.cpu().detach().numpy())
 
     # Optionally, update the meta-network parameters
-    optimizer.zero_grad()
-    final_predicted_q_value = meta_network(agent_weights)
-    final_loss = mse_loss(final_predicted_q_value, torch.tensor([actual_q_values]).double().cuda())
-    final_loss.backward()
-    optimizer.step()
+    
     # Logging
     print(f"Iteration {iteration}: Actual Q-value: {actual_q_values}, Predicted Q-value: {initial_predicted_q_value.item()}, Loss: {loss.item()} it learns this new value: {predicted_q_value.item()}")
     if use_wandb:
