@@ -77,7 +77,7 @@ for iteration in range(num_iterations):
         # Manually update weights
         optimparams.step()
         optimparams.zero_grad()
-        if predicted_q_value < initial_predicted_q_value - 1:
+        if predicted_q_value < actual_q_values - 1:
             break
         
     # Load the final updated weights into the agent
