@@ -57,13 +57,18 @@ for iteration in range(num_iterations):
     agent_weights = torch.tensor(agent.getparameters(), requires_grad=True)
     if torch.cuda.is_available():
         agent_weights = agent_weights.cuda()
-    optimizer.zero_grad()
-    predicted_q_value = meta_network(agent_weights)
-    initial_predicted_q_value = predicted_q_value
-    loss = mse_loss(predicted_q_value, torch.tensor([actual_q_values]).double().cuda())
-    loss.backward()
-    optimizer.step()
-    optimizer.zero_grad()
+    i=0
+    while True:
+        i+=1
+        optimizer.zero_grad()
+        predicted_q_value = meta_network(agent_weights)
+        initial_predicted_q_value = predicted_q_value
+        loss = mse_loss(predicted_q_value, torch.tensor([actual_q_values]).double().cuda())
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+        if loss < 10:
+            break
 
     optimparams= optim.Adam([agent_weights], lr=1e-3)
 
