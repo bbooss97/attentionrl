@@ -23,7 +23,7 @@ class MetaNetwork(nn.Module):
         return self.fc3(x)
 
 # Hyperparameters
-num_parallel = 10
+num_parallel = 50
 game = "starpilot"
 learning_rate = 1e-3
 num_iterations = 100000000
@@ -67,7 +67,7 @@ for iteration in range(num_iterations):
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()
-        if loss < 5:
+        if loss < 10:
             break
 
     optimparams= optim.Adam([agent_weights], lr=1e-3)
@@ -83,7 +83,7 @@ for iteration in range(num_iterations):
         # Manually update weights
         optimparams.step()
         optimparams.zero_grad()
-        if predicted_q_value < initial_predicted_q_value :
+        if predicted_q_value < initial_predicted_q_value -50:
             break
         
     # Load the final updated weights into the agent
