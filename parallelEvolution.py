@@ -23,7 +23,7 @@ class MetaNetwork(nn.Module):
         return self.fc3(x)
 
 # Hyperparameters
-num_parallel = 50
+num_parallel = 10
 game = "starpilot"
 learning_rate = 1e-3
 num_iterations = 100000000
@@ -50,7 +50,7 @@ if use_wandb:
 
 for iteration in range(num_iterations):
     # Collect actual Q-values
-    env = Gymenv1player(agent=agent, maxsteps=1000, verbose=False, gameName=game, num=num_parallel)
+    env = Gymenv1player(agent=agent, maxsteps=500, verbose=False, gameName=game, num=num_parallel)
     actual_q_values = -env.play()*100  # Assuming higher is better
 
     # Predict Q-values using meta-network
@@ -69,6 +69,7 @@ for iteration in range(num_iterations):
 
     # Perform multiple updates manually
     while True:
+        optimparams.zero_grad()
         predicted_q_value = meta_network(agent_weights)
         
         # Manually calculate gradients
