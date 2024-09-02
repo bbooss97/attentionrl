@@ -25,7 +25,7 @@ class MetaNetwork(nn.Module):
 # Hyperparameters
 num_parallel = 50
 game = "starpilot"
-learning_rate = 1e-3
+learning_rate = 1e-4
 num_iterations = 100000000
 meta_batch_size = 32
 
@@ -70,7 +70,7 @@ for iteration in range(num_iterations):
         if loss < 10:
             break
 
-    optimparams= optim.Adam([agent_weights], lr=1e-3)
+    optimparams= optim.Adam([agent_weights], lr=learning_rate)
 
     # Perform multiple updates manually
     while True:
