@@ -67,7 +67,7 @@ for iteration in range(num_iterations):
         loss.backward()
         optimizer.step()
         optimizer.zero_grad()
-        if loss < 10:
+        if loss < 5:
             break
 
     optimparams= optim.Adam([agent_weights], lr=1e-3)
